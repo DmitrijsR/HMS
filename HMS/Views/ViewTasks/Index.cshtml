@@ -21,11 +21,12 @@
         $('.btn-delete').click(function (event) {
             var td = $(event.target).parent();
             var row = td.parent();
+            
             $.post("/ViewTasks/Delete", { ID: row.attr('data-id') }, function (data) {
                 if (data.deleted) {
                     row.remove();
                     $('span#num-items').text(function (index, value) { return --value; });
-                    $('span#items-status').text($('span#num-items-txt').text() + " " + $('span#num-items').text())
+                    $('span#items-status').text($('span#num-items-txt').text() + " " + $('span#num-items').text());
                     
                 }
             }, 'json');
@@ -34,6 +35,7 @@
         $('.btn-report').click(function (event) {
             var td = $(event.target).parent();
             var row = td.parent();
+
             var url = "/Report";
             var dialog = $('<div style="display:none"></div>').appendTo('body');
             
@@ -44,8 +46,31 @@
                             dialog.remove();
                         }
                     });
+                    dialog.dialog("option", "minWidth", 650);
                 }
             );
+        });
+
+        $('td.clickable').click(function (event) {
+            var td = $(event.target);
+            var row = td.parent();
+
+            var id = row.attr('data-id') || row.parent().attr('data-id');
+
+            var url = "/TaskDetails";
+            var dialog = $('<div style="display:none"></div>').appendTo('body');
+
+            dialog.load(url, { ID: id },
+                function (responseText, textStatus, XMLHttpRequest) {
+                    dialog.dialog({
+                        close: function (event, ui) {
+                            dialog.remove();
+                        }
+                    });
+                    dialog.dialog("option", "minWidth", 650);
+                }
+            );
+
         });
 
         $('.glyphicon-remove-circle').css('cursor', 'pointer');
@@ -85,13 +110,13 @@
     if (tt.Patient_Surname == null) { Patient = ""; } else { Patient = tt.Patient_Surname + " " + tt.Patient_Name + " (" + tt.Patient_Department + ")"; }
 
     <tr data-id="@tt.ID" data-deletable="@tt.Deletable">
-        <td>@tt.Priority</td>
-        <td><b>@tt.Title</b><br /><small>@Patient</small></td>
-        <td>@tt.Instructions</td>
-        <td>@tt.Status</td>
-        <td>@tt.TimeCreated</td>
-        <td>@tt.TimeUpdated </td>
-        <td>@Responsible</td>
+        <td class="clickable">@tt.Priority</td>
+        <td class="clickable"><b>@tt.Title</b><br /><small>@Patient</small></td>
+        <td class="clickable">@tt.Instructions</td>
+        <td class="clickable">@tt.Status</td>
+        <td class="clickable">@tt.TimeCreated</td>
+        <td class="clickable">@tt.TimeUpdated </td>
+        <td class="clickable">@Responsible</td>
         <td><button class="btn-default btn btn-report" style="padding: 2px 8px;"><span class="glyphicon glyphicon-comment"></span></button> <button class="btn-default btn btn-delete" style="padding: 2px 8px;"><span class="glyphicon glyphicon-remove-circle"></span></button></td>
     </tr>
 }

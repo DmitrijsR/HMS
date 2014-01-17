@@ -36,9 +36,9 @@
 </head>
 <body>
     <div class="container body-content">
-        @using (Html.BeginForm("Add", "Report", FormMethod.Post, new { @class = "form-horizontal" }))
+@using (Html.BeginForm("Add", "Report", FormMethod.Post, new { @class = "form-horizontal" }))
         {
-            <fieldset>
+        <fieldset>
                 <legend>@ViewData.Model.Dictionary["%Report_Label_Task"] @ViewData.Model.Details.ID</legend>
                 
                 <div class="form-group hidden">
@@ -104,7 +104,7 @@
                     <button type="submit" class="btn">Submit</button>
                 </div>
             </fieldset>
-        }
+}
     </div>
 
     <script>

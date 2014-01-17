@@ -1,0 +1,120 @@
+﻿@using HMS.Models;
+@model ToDoList
+
+@{
+    // local control variables
+    var selected = "";
+    
+    // Dictionary variables
+    ViewBag.Title = ViewData.Model.Dictionary["%CreateToDo_Title"];
+    
+    //NavBar Items
+    ViewBag.AddBtn = ViewData.Model.Dictionary["%NavBar_Add"];
+}
+
+@section Scripts {
+<script>
+    $('div.tasktype').click(function (event) {
+        var disabled = (event.target.getAttribute("data-hasinstr") == "False") ? "disabled" : "";
+        
+        $('div#taskList').append(
+            "<div class=\"taskitem\">" +
+                "<span class=\"glyphicon glyphicon-remove-circle\"></span>&nbsp;" +
+                $(event.target).text() + "<input name=\"Tasks[-1].TaskID\" type=\"hidden\" value=\"" + event.target.getAttribute("data-id") + "\">" +
+                "&nbsp;<input name=\"Tasks[-1].Value\" type=\"text\" size=20 " + disabled + ">&nbsp;" +
+            "</div>"
+        );
+
+        $('select.importance-template').clone().attr('class', 'importance').appendTo('div.taskitem:last');
+        $('select.notificationType-template').clone().attr('class', 'notificationType').appendTo('div.taskitem:last');
+        
+        $('.glyphicon-remove-circle').click(function (event) { $($(event.target).parent()).remove(); });
+        $('.glyphicon-remove-circle').css('cursor', 'pointer');
+        $('.glyphicon-remove-circle').css('font-size', '1.2em');
+    });
+
+    $('div.tasktype').hover(function () { $(this).css({ fontWeight: "bold" }); }, function () { $(this).css({ fontWeight: "normal" }); });
+    $('div.tasktype').css('cursor', 'pointer');
+    
+    $("form").submit(function (event) {
+        var counter = 0;
+
+        $('div.taskitem').each(function ()
+        {
+            $(this).children().attr("name", function (i, attr)
+            {
+                var new_value = attr || '';
+                return (new_value == '') ? undefined : attr.replace('-1', counter);
+            });
+            counter++;
+        });
+    });
+</script>
+}
+
+<div class="hidden">
+    <select class="importance-template" name="Tasks[-1].Importance" data-val="true" data-val-number="The field Priority must be a number." data-val-required="The Priority field is required.">
+        @foreach (SelectListItem pt in ViewData.Model.PriorityTypes)
+        {
+            if (@pt.Value.Equals("2")) { selected = "selected"; } else { selected = ""; }
+
+            <option value="@pt.Value" @selected>@pt.Text</option>
+        }
+    </select>
+
+    <select class="notificationType-template" name="Tasks[-1].NotificationType" data-val="true" data-val-number="The field NotificationType must be a number." data-val-required="The NotificationType field is required.">
+        @foreach (SelectListItem nt in ViewData.Model.NotificationTypes)
+        {
+            if (@nt.Value.Equals("2")) { selected = "selected"; } else { selected = ""; }
+
+            <option value="@nt.Value" @selected>@nt.Text</option>
+        }
+    </select>
+
+</div>
+
+@{
+// change construct to using @Html.BeginForm
+}
+<form action="/CreateToDo/Create" method="post" class="form-horizontal" style="margin-top: 2em">
+    <div class="row"><!--R1-->
+        <div class="col-sm-8"> <!--R1.C1-->
+            <div class="row"> <!--R1.C1.R1-->
+                <div class="col-sm-12"> <!--R1.C1.R1.C1-->
+                    <div class="form-group">
+                        <label>@ViewData.Model.Dictionary["%CreateToDo_PatientLabel"]</label>
+                        @Html.DropDownListFor(
+                            x => Model.PatientID,
+                            Model.Patients
+                        )
+                    </div>
+                </div>
+            </div>
+            <div class="row"> <!--R1.C1.R2-->
+                <div class="col-sm-12"><!--R1.C1.R2.C1-->                    
+                    <div class="form-group" id="taskList">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4"><!--R1.C2-->
+            <div class="row"><!--R1.C2.R1-->
+                <div class="col-sm-12"><!--R1.C2.R1.C1-->
+                    <ul>
+                        @foreach (ToDoList.TaskType tt in ViewData.Model.TaskTypes)
+                        {
+                            <li><div class="tasktype" data-id="@tt.id" data-hasinstr="@tt.HasInstr">@tt.Text</div></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="row"><!--R1.C2.R2-->
+                <div class="col-sm-12"><!--R1.C2.R2.C1-->
+                    <div class="form-group">
+                        <button class="btn-default btn pull-right" type="submit">@ViewData.Model.Dictionary["%CreateToDo_SubmitBtn"]</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,12 @@
+﻿@using HMS.Models;
+@model DictionaryModel
+
+@{
+    // Dictionary variables
+    ViewBag.Title = ViewData.Model.Dictionary["%CreateToDo_IllegalInput_Title"];
+
+    //NavBar Items
+    ViewBag.AddBtn = ViewData.Model.Dictionary["%NavBar_Add"];
+}
+
+<p style="color: red">@ViewData.Model.Dictionary["%CreateToDo_IllegalInput_Msg"]</p>

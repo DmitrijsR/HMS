@@ -165,12 +165,14 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CreateToDoController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\ViewTasksController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\DefaultModelBinderWithHtmlValidation.cs" />
+    <Compile Include="App_Code\DefaultModelBinderWithHtmlValidation.cs" />
     <Compile Include="Models\DB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -186,6 +188,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Dictionary.cs" />
     <Compile Include="Models\F_Dictionary_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
@@ -201,11 +204,20 @@
     <Compile Include="Models\F_TaskTypes_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\F_ViewTasks_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HMSUser.cs" />
+    <Compile Include="Models\ItemID.cs" />
+    <Compile Include="Models\TaskDetails.cs" />
     <Compile Include="Models\ToDoList.cs" />
+    <Compile Include="Models\ViewTasksList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Account\" />
+    <Folder Include="Views\Report\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

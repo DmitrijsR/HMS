@@ -62,6 +62,32 @@
             </CollectionType>
           </ReturnType>
         </Function>
+        <Function Name="F_ViewTasks" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Language" Type="nchar" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="ID" Type="int" />
+                <Property Name="Title" Type="nvarchar(max)" />
+                <Property Name="Patient_Name" Type="nvarchar(max)" />
+                <Property Name="Patient_Surname" Type="nvarchar(max)" />
+                <Property Name="Patient_Department" Type="nvarchar(max)" />
+                <Property Name="Priority" Type="nvarchar(max)" />
+                <Property Name="Instructions" Type="nvarchar(max)" />
+                <Property Name="Status" Type="nvarchar(max)" />
+                <Property Name="Creator_Name" Type="nvarchar(max)" />
+                <Property Name="Creator_Surname" Type="nvarchar(max)" />
+                <Property Name="Creator_Department" Type="nvarchar(max)" />
+                <Property Name="TimeCreated" Type="datetime2" Precision="7" />
+                <Property Name="TimeUpdated" Type="datetime2" Precision="7" />
+                <Property Name="Responsible_Name" Type="nvarchar(max)" />
+                <Property Name="Responsible_Surname" Type="nvarchar(max)" />
+                <Property Name="Responsible_Department" Type="nvarchar(max)" />
+                <Property Name="Deletable" Type="bit" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
         <Function Name="SP_Tasks_Add" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TypeID" Type="int" Mode="In" />
           <Parameter Name="PatientID" Type="int" Mode="In" />
@@ -69,6 +95,9 @@
           <Parameter Name="Instr" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="Creator_ID" Type="int" Mode="In" />
           <Parameter Name="NewTaskID" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="SP_Tasks_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TaskID" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="HMSModelsStoreContainer" />
       </Schema>
@@ -99,6 +128,25 @@
           <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="HasInstr" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </ComplexType>
+        <ComplexType Name="F_ViewTasks_Result">
+          <Property Name="ID" Type="Int32" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Patient_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Patient_Surname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Patient_Department" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Priority" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Instructions" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Creator_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Creator_Surname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Creator_Department" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TimeCreated" Type="DateTime" />
+          <Property Name="TimeUpdated" Type="DateTime" />
+          <Property Name="Responsible_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Responsible_Surname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Responsible_Department" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Deletable" Type="Boolean" />
+        </ComplexType>
         <EntityContainer Name="DBDataContext" annotation:LazyLoadingEnabled="true">
           <FunctionImport Name="F_Dictionary" ReturnType="Collection(HMS.Models.F_Dictionary_Result)" IsComposable="true">
             <Parameter Name="Language" Mode="In" Type="String" />
@@ -113,13 +161,19 @@
           <FunctionImport Name="F_TaskTypes" ReturnType="Collection(HMS.Models.F_TaskTypes_Result)" IsComposable="true">
             <Parameter Name="Language" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="SP_Tasks_Add">
+          <FunctionImport Name="F_ViewTasks" ReturnType="Collection(HMS.Models.F_ViewTasks_Result)" IsComposable="true">
+            <Parameter Name="Language" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Tasks_Add" ReturnType="Collection(Int32)">
             <Parameter Name="TypeID" Mode="In" Type="Int32" />
             <Parameter Name="PatientID" Mode="In" Type="Int32" />
             <Parameter Name="PriorityID" Mode="In" Type="Int32" />
             <Parameter Name="Instr" Mode="In" Type="String" />
             <Parameter Name="Creator_ID" Mode="In" Type="Int32" />
             <Parameter Name="NewTaskID" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Tasks_Delete" ReturnType="Collection(Int32)">
+            <Parameter Name="TaskID" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
       </Schema>
@@ -171,7 +225,31 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="HMS.Models.Store.F_ViewTasks" FunctionImportName="F_ViewTasks">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HMS.Models.F_ViewTasks_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Patient_Name" ColumnName="Patient_Name" />
+                <ScalarProperty Name="Patient_Surname" ColumnName="Patient_Surname" />
+                <ScalarProperty Name="Patient_Department" ColumnName="Patient_Department" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="Instructions" ColumnName="Instructions" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Creator_Name" ColumnName="Creator_Name" />
+                <ScalarProperty Name="Creator_Surname" ColumnName="Creator_Surname" />
+                <ScalarProperty Name="Creator_Department" ColumnName="Creator_Department" />
+                <ScalarProperty Name="TimeCreated" ColumnName="TimeCreated" />
+                <ScalarProperty Name="TimeUpdated" ColumnName="TimeUpdated" />
+                <ScalarProperty Name="Responsible_Name" ColumnName="Responsible_Name" />
+                <ScalarProperty Name="Responsible_Surname" ColumnName="Responsible_Surname" />
+                <ScalarProperty Name="Responsible_Department" ColumnName="Responsible_Department" />
+                <ScalarProperty Name="Deletable" ColumnName="Deletable" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_Tasks_Add" FunctionName="HMS.Models.Store.SP_Tasks_Add" />
+          <FunctionImportMapping FunctionImportName="SP_Tasks_Delete" FunctionName="HMS.Models.Store.SP_Tasks_Delete" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

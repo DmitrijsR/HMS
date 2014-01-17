@@ -1,5 +1,89 @@
-﻿@{
-    ViewBag.Title = "View Tasks";
+﻿@using HMS.Models;
+@model ViewTasksList
+
+@{
+    //local variables
+    var Patient = "Patient1";
+    var Responsible = "";
+    
+    // Dictionary variables
+    ViewBag.Title = ViewData.Model.Dictionary["%ViewTasks_Title"];
+    
+
+    //NavBar Items
+    ViewBag.AddBtn = ViewData.Model.Dictionary["%NavBar_Add"];
+    ViewBag.NumItems_Text = ViewData.Model.Dictionary["%NavBar_NumItems_Msg"];
+    ViewBag.NumItems = @ViewData.Model.Tasks.Count();
 }
 
+@section Scripts {
+    <script>
+        $('.btn-delete').click(function (event) {
+            var td = $(event.target).parent();
+            var row = td.parent();
+            $.post("/ViewTasks/Delete", { ID: row.attr('data-id') }, function (data) {
+                if (data.deleted) {
+                    row.remove();
+                    $('span#num-items').text(function (index, value) { return --value; });
+                    $('span#items-status').text($('span#num-items-txt').text() + " " + $('span#num-items').text())
+                    
+                }
+            }, 'json');
+        });
 
+        $('.btn-report').click(function (event) {
+            var td = $(event.target).parent();
+            var row = td.parent();
+            $.post("/Report/Add", { ID: row.attr('data-id') }, function (data) {
+                
+            }, 'json');
+        });
+        $('.glyphicon-remove-circle').css('cursor', 'pointer');
+        $('.glyphicon-remove-circle').css('font-size', '1.2em');
+        $('.btn-delete').each(function () {
+            var td = $(this).parent();
+            var row = td.parent();
+
+            if (row.attr('data-deletable') == "False") { $(this).prop('disabled', true); }
+        });
+
+        $('.glyphicon-comment').click(function (event) { $($(event.target).parent()).remove(); });
+        $('.glyphicon-comment').css('cursor', 'pointer');
+        $('.glyphicon-comment').css('font-size', '1.2em');
+
+
+    </script>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@ViewData.Model.Dictionary["%ViewTasks_Table_Priority"]</th>
+            <th>@ViewData.Model.Dictionary["%ViewTasks_Table_Title"]</th>
+            <th>@ViewData.Model.Dictionary["%ViewTasks_Table_Instructions"]</th>
+            <th>@ViewData.Model.Dictionary["%ViewTasks_Table_Status"]</th>
+            <th>@ViewData.Model.Dictionary["%ViewTasks_Table_Created"]</th>
+            <th>@ViewData.Model.Dictionary["%ViewTasks_Table_LstUpdated"]</th>
+            <th>@ViewData.Model.Dictionary["%ViewTasks_Table_Responsible"]</th>
+            <th>@ViewData.Model.Dictionary["%ViewTasks_Table_Actions"]</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (ViewTasksList.TaskItem tt in ViewData.Model.Tasks)
+{
+    if (tt.Responsible_Surname == null) { Responsible = "None"; } else { Responsible = tt.Responsible_Surname + " " + tt.Responsible_Name + " (" + tt.Responsible_Department + ")"; }
+    if (tt.Patient_Surname == null) { Patient = ""; } else { Patient = tt.Patient_Surname + " " + tt.Patient_Name + " (" + tt.Patient_Department + ")"; }
+
+    <tr data-id="@tt.ID" data-deletable="@tt.Deletable">
+        <td>@tt.Priority</td>
+        <td><b>@tt.Title</b><br /><small>@Patient</small></td>
+        <td>@tt.Instructions</td>
+        <td>@tt.Status</td>
+        <td>@tt.TimeCreated</td>
+        <td>@tt.TimeUpdated </td>
+        <td>@Responsible</td>
+        <td><button class="btn-default btn btn-report" style="padding: 2px 8px;"><span class="glyphicon glyphicon-comment"></span></button> <button class="btn-default btn btn-delete" style="padding: 2px 8px;"><span class="glyphicon glyphicon-remove-circle"></span></button></td>
+    </tr>
+}
+    </tbody>
+</table>

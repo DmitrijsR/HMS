@@ -74,7 +74,17 @@ namespace HMS.Models
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_TaskTypes_Result>("[DBDataContext].[F_TaskTypes](@Language)", languageParameter);
         }
     
-        public virtual int SP_Tasks_Add(Nullable<int> typeID, Nullable<int> patientID, Nullable<int> priorityID, string instr, Nullable<int> creator_ID, ObjectParameter newTaskID)
+        [DbFunction("DBDataContext", "F_ViewTasks")]
+        public virtual IQueryable<F_ViewTasks_Result> F_ViewTasks(string language)
+        {
+            var languageParameter = language != null ?
+                new ObjectParameter("Language", language) :
+                new ObjectParameter("Language", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_ViewTasks_Result>("[DBDataContext].[F_ViewTasks](@Language)", languageParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> SP_Tasks_Add(Nullable<int> typeID, Nullable<int> patientID, Nullable<int> priorityID, string instr, Nullable<int> creator_ID, ObjectParameter newTaskID)
         {
             var typeIDParameter = typeID.HasValue ?
                 new ObjectParameter("TypeID", typeID) :
@@ -96,7 +106,16 @@ namespace HMS.Models
                 new ObjectParameter("Creator_ID", creator_ID) :
                 new ObjectParameter("Creator_ID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_Tasks_Add", typeIDParameter, patientIDParameter, priorityIDParameter, instrParameter, creator_IDParameter, newTaskID);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Tasks_Add", typeIDParameter, patientIDParameter, priorityIDParameter, instrParameter, creator_IDParameter, newTaskID);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> SP_Tasks_Delete(Nullable<int> taskID)
+        {
+            var taskIDParameter = taskID.HasValue ?
+                new ObjectParameter("TaskID", taskID) :
+                new ObjectParameter("TaskID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Tasks_Delete", taskIDParameter);
         }
     }
 }

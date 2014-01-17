@@ -17,6 +17,9 @@
                     <span class="icon-bar"></span>
                 </button>
                 @Html.ActionLink("HMS", "Index", "ViewTasks", null, new { @class = "navbar-brand" })
+                <span id="num-items-txt" class="hidden">@ViewBag.NumItems_Text</span>
+                <span id="num-items" class="hidden">@ViewBag.NumItems</span>
+                <span id="items-status" class="navbar-text">@ViewBag.NumItems_Text @ViewBag.NumItems</span>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">

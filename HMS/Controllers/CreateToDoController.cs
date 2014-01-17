@@ -60,16 +60,27 @@ namespace HMS
                     {
                         var output = new ObjectParameter("NewTaskID", typeof(int));
                         //change 1 to insert current user id
-                        DB.SP_Tasks_Add(ti.TaskID, model.PatientID, ti.Importance, ti.Value, 1, output);
+                        int? result = DB.SP_Tasks_Add(ti.TaskID, model.PatientID, ti.Importance, ti.Value, HMSUser.GetMockUserID(), output).First();
 
-                        // Add notification rules using output.Value
+                        if (result.HasValue && result == 0)
+                        {
+                            // Insert successful => Add notification rules using output.Value
+
+                        }
                     }
                 }
 
                 return RedirectToAction("Index", "ViewTasks");
             }
-            
-            return View("Create");
+
+            var Error_model = new DictionaryModel();
+
+            using (var DB = new DBDataContext())
+            {
+                Error_model.Dictionary = DB.F_Dictionary("En").ToDictionary(k => k.Tag, v => v.Text);
+            }
+
+            return View("Create", Error_model);
         }
 	}
 }

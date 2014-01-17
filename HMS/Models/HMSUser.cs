@@ -9,9 +9,20 @@ namespace HMS.Models
     {
         public Int32 ID { get; set; }
 
-        public static Int32 GetMockUserID()
+        public static Int32 GetUserID()
         {
             return 1;
+        }
+
+        public static Roles GetRole()
+        {
+            return Roles.Doctor;
+        }
+
+        public enum Roles {
+            Doctor = 1,
+            HeadNurse = 2,
+            Nurse = 3
         }
     }
 }

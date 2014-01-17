@@ -1,4 +1,4 @@
-﻿@model System.Web.Mvc.HandleErrorInfo
+﻿@model HMS.Models.DictionaryModel
 @{
     Layout = null;
 }
@@ -7,12 +7,13 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Error</title>
+    <title>@ViewBag.Title</title>
 </head>
 <body>
     <hgroup>
-        <h1 class="text-danger">Error.</h1>
-        <h2 class="text-danger">An error occurred while processing your request.</h2>
+        @RenderBody()
+        <h1 class="text-danger">@ViewBag.Error</h1>
+        <h2 class="text-danger">@ViewBag.Error_Msg</h2>
     </hgroup>
 </body>
 </html>

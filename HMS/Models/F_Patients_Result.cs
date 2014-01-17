@@ -16,6 +16,7 @@ namespace HMS.Models
         public Nullable<int> ID { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
+        public string SocialNr { get; set; }
         public string Department { get; set; }
     }
 }

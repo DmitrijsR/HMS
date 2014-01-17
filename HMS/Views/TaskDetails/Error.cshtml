@@ -1,0 +1,11 @@
+﻿@using HMS.Models
+@model DictionaryModel
+@{
+    Layout = "~/Views/Shared/Error.cshtml";
+}
+@{
+    // Dictionary variables
+    ViewBag.Title = ViewData.Model.Dictionary["%Error_Title"];
+    ViewBag.Error = ViewData.Model.Dictionary["%Error_Title"];
+    ViewBag.Error_Msg = ViewData.Model.Dictionary["%Error_Msg"];
+}

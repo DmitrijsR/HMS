@@ -64,6 +64,16 @@ namespace HMS.Models
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_PriorityTypes_Result>("[DBDataContext].[F_PriorityTypes](@Language)", languageParameter);
         }
     
+        [DbFunction("DBDataContext", "F_StatusTypes")]
+        public virtual IQueryable<F_StatusTypes_Result> F_StatusTypes(string language)
+        {
+            var languageParameter = language != null ?
+                new ObjectParameter("Language", language) :
+                new ObjectParameter("Language", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_StatusTypes_Result>("[DBDataContext].[F_StatusTypes](@Language)", languageParameter);
+        }
+    
         [DbFunction("DBDataContext", "F_TaskTypes")]
         public virtual IQueryable<F_TaskTypes_Result> F_TaskTypes(string language)
         {
@@ -72,6 +82,20 @@ namespace HMS.Models
                 new ObjectParameter("Language", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_TaskTypes_Result>("[DBDataContext].[F_TaskTypes](@Language)", languageParameter);
+        }
+    
+        [DbFunction("DBDataContext", "F_ViewTaskDetails")]
+        public virtual IQueryable<F_ViewTaskDetails_Result> F_ViewTaskDetails(Nullable<int> taskID, string language)
+        {
+            var taskIDParameter = taskID.HasValue ?
+                new ObjectParameter("TaskID", taskID) :
+                new ObjectParameter("TaskID", typeof(int));
+    
+            var languageParameter = language != null ?
+                new ObjectParameter("Language", language) :
+                new ObjectParameter("Language", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_ViewTaskDetails_Result>("[DBDataContext].[F_ViewTaskDetails](@TaskID, @Language)", taskIDParameter, languageParameter);
         }
     
         [DbFunction("DBDataContext", "F_ViewTasks")]
@@ -116,6 +140,27 @@ namespace HMS.Models
                 new ObjectParameter("TaskID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Tasks_Delete", taskIDParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> SP_Tasks_Report(Nullable<int> taskID, Nullable<int> statusID, string attachment, string comment)
+        {
+            var taskIDParameter = taskID.HasValue ?
+                new ObjectParameter("TaskID", taskID) :
+                new ObjectParameter("TaskID", typeof(int));
+    
+            var statusIDParameter = statusID.HasValue ?
+                new ObjectParameter("StatusID", statusID) :
+                new ObjectParameter("StatusID", typeof(int));
+    
+            var attachmentParameter = attachment != null ?
+                new ObjectParameter("Attachment", attachment) :
+                new ObjectParameter("Attachment", typeof(string));
+    
+            var commentParameter = comment != null ?
+                new ObjectParameter("Comment", comment) :
+                new ObjectParameter("Comment", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Tasks_Report", taskIDParameter, statusIDParameter, attachmentParameter, commentParameter);
         }
     }
 }

@@ -34,10 +34,20 @@
         $('.btn-report').click(function (event) {
             var td = $(event.target).parent();
             var row = td.parent();
-            $.post("/Report/Add", { ID: row.attr('data-id') }, function (data) {
-                
-            }, 'json');
+            var url = "/Report";
+            var dialog = $('<div style="display:none"></div>').appendTo('body');
+            
+            dialog.load(url, { ID: row.attr('data-id') },
+                function (responseText, textStatus, XMLHttpRequest) {
+                    dialog.dialog({
+                        close: function (event, ui) {
+                            dialog.remove();
+                        }
+                    });
+                }
+            );
         });
+
         $('.glyphicon-remove-circle').css('cursor', 'pointer');
         $('.glyphicon-remove-circle').css('font-size', '1.2em');
         $('.btn-delete').each(function () {

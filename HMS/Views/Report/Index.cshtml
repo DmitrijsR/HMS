@@ -1,0 +1,118 @@
+﻿@using HMS.Models;
+@model TaskDetails
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData.Model.Dictionary["%Report_Title"] - Hospital Management System</title>
+
+    <style>
+        .btn-file {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-file input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            font-size: 999px;
+            text-align: right;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            background: red;
+            cursor: inherit;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container body-content">
+        @using (Html.BeginForm("Add", "Report", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            <fieldset>
+                <legend>@ViewData.Model.Dictionary["%Report_Label_Task"] @ViewData.Model.Details.ID</legend>
+                
+                <div class="form-group hidden">
+                    <div class="controls">
+                        <input type="hidden" name="Task_ID" value="@ViewData.Model.Details.ID" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-2">@ViewData.Model.Dictionary["%Report_Label_Title"]</label>
+                    <div class="controls">
+                        <p class="form-control-static">@ViewData.Model.Details.Title</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-2">@ViewData.Model.Dictionary["%Report_Label_Instructions"]</label>
+                    <div class="controls">
+                        <p class="form-control-static">@ViewData.Model.Details.Instructions</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-2">@ViewData.Model.Dictionary["%Report_Label_Patient"]</label>
+                    <div class="controls">
+                        <p class="form-control-static">@ViewData.Model.Details.Patient_Name @ViewData.Model.Details.Patient_Surname (@ViewData.Model.Details.Patient_Department)</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-2">@ViewData.Model.Dictionary["%Report_Label_Created"]</label>
+                    <div class="controls">
+                        <p class="form-control-static">@ViewData.Model.Details.TimeCreated</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-2">@ViewData.Model.Dictionary["%Report_Label_Modified"]</label>
+                    <div class="controls">
+                        <p class="form-control-static">@ViewData.Model.Details.TimeUpdated</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-2">@ViewData.Model.Dictionary["%Report_Label_Status"]</label>
+                    <div class="controls">
+                        <p class="form-control-static">@Html.DropDownListFor(x => Model.Details.Status_ID, Model.StatusTypes)</p>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="controls">
+                        <textarea name="comment" class="form-control" id="textarea" rows="5"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <span class="btn btn-default btn-file"><span class="glyphicon glyphicon-paperclip"></span><input type="file" name="attachment"></span>  <span id="file-path"></span>
+                </div>
+
+                <div class="control-group">
+                    <div class="controls">
+                        <label class="checkbox"><input type="checkbox" name="IsEmergency"> @ViewData.Model.Dictionary["%Report_Label_Emergency"]</label>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn">Submit</button>
+                </div>
+            </fieldset>
+        }
+    </div>
+
+    <script>
+        $('input[type="file"]').change(function () {
+            var filename = this.value.match(/[^\\\/]+$/, '')[0];
+            $('#file-path').text(filename);
+        });
+    </script>
+
+</body>
+</html>

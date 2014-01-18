@@ -1,109 +1,83 @@
 ﻿@using HMS.Models;
 @model TaskDetails
-
 @{
     Layout = null;
 
     var Responsible = "";
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewData.Model.Dictionary["%TaskDetails_Title"] - Hospital Management System</title>
-</head>
-<body>
-    <div class="container body-content">
-        @using (Html.BeginForm("Index", "TaskEditor", FormMethod.Post, new { @class = "form-horizontal" }))
-        {
-            if (@ViewData.Model.Details.Responsible_Surname == null) { Responsible = "None"; } else { Responsible = @ViewData.Model.Details.Responsible_Surname + " " + @ViewData.Model.Details.Responsible_Name + " (" + @ViewData.Model.Details.Responsible_Department + ")"; }
-            <fieldset>
-                <legend>@ViewData.Model.Dictionary["%Report_Label_Task"] @ViewData.Model.Details.ID</legend>
+@using (Html.BeginForm("Index", "TaskEditor", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    if (@ViewData.Model.Details.Responsible_Surname == null) { Responsible = "None"; } else { Responsible = @ViewData.Model.Details.Responsible_Surname + " " + @ViewData.Model.Details.Responsible_Name + " (" + @ViewData.Model.Details.Responsible_Department + ")"; }
+    <fieldset>
+        <legend>@ViewData.Model.Dictionary["%Report_Label_Task"] @ViewData.Model.Details.ID</legend>
 
-                <div class="row">
-                    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-xs-12">
+                <input type="hidden" name="Task_ID" value="@ViewData.Model.Details.ID" />
+            </div>
+        </div>
 
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <input type="hidden" name="Task_ID" value="@ViewData.Model.Details.ID" />
-                            </div>
-                        </div>
+        <div class="row">
+            <div class="col-xs-12"><label class="control-label">@ViewData.Model.Dictionary["%TaskDetails_PatientDetails"]</label></div>
+        </div>
 
-                        <div class="row">
-                            <div class="col-xs-12"><label class="control-label">@ViewData.Model.Dictionary["%TaskDetails_PatientDetails"]</label></div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-xs-3">@ViewData.Model.Dictionary["%TaskDetails_Patient_Fname"]</div>
-                            <div class="col-xs-3">@ViewData.Model.Details.Patient_Name</div>
-                            <div class="col-xs-3">@ViewData.Model.Dictionary["%TaskDetails_Patient_Lname"]</div>
-                            <div class="col-xs-3">@ViewData.Model.Details.Patient_Surname</div>
-                        </div>
+        <div class="row">
+            <div class="col-xs-3"><label><small>@ViewData.Model.Dictionary["%TaskDetails_Patient_Fname"]</small></label></div>
+            <div class="col-xs-3">@ViewData.Model.Details.Patient_Name</div>
+            <div class="col-xs-3"><label><small>@ViewData.Model.Dictionary["%TaskDetails_Patient_Lname"]</small></label></div>
+            <div class="col-xs-3">@ViewData.Model.Details.Patient_Surname</div>
+        </div>
 
-                        <div class="row">
-                            <div class="col-xs-3">@ViewData.Model.Dictionary["%TaskDetails_Patient_SocialNr"]</div>
-                            <div class="col-xs-3">@ViewData.Model.Details.Patient_SocialNr</div>
-                            <div class="col-xs-3">@ViewData.Model.Dictionary["%TaskDetails_Patient_Department"]</div>
-                            <div class="col-xs-3">@ViewData.Model.Details.Patient_Department</div>
-                        </div>
+        <div class="row">
+            <div class="col-xs-3"><label><small>@ViewData.Model.Dictionary["%TaskDetails_Patient_SocialNr"]</small></label></div>
+            <div class="col-xs-3">@ViewData.Model.Details.Patient_SocialNr</div>
+            <div class="col-xs-3"><label><small>@ViewData.Model.Dictionary["%TaskDetails_Patient_Department"]</small></label></div>
+            <div class="col-xs-3">@ViewData.Model.Details.Patient_Department</div>
+        </div>
 
-                        <div class="row">
-                            <div class="col-xs-9"><label class="control-label">@ViewData.Model.Dictionary["%TaskDetails_Title"]</label></div>
-                            <div class="col-xs-3"><button class="btn-default btn btn-editor" style="padding: 2px 8px;"><span class="glyphicon glyphicon-cog"></span></button></div>
-                        </div>
+        <div class="row">
+            <div class="col-xs-9"><label class="control-label">@ViewData.Model.Dictionary["%TaskDetails_Title"]</label></div>
+            <div class="col-xs-3"><button class="btn-default btn btn-editor" style="padding: 2px 8px;"><span class="glyphicon glyphicon-cog"></span></button></div>
+        </div>
 
-                        <div class="row">
-                            <div class="col-xs-3">@ViewData.Model.Dictionary["%Report_Label_Title"]</div>
-                            <div class="col-xs-9">@ViewData.Model.Details.Title</div>
-                        </div>
+        <div class="row">
+            <div class="col-xs-3"><label><small>@ViewData.Model.Dictionary["%Report_Label_Title"]</small></label></div>
+            <div class="col-xs-9">@ViewData.Model.Details.Title</div>
+        </div>
 
-                        <div class="row">
-                            <div class="col-xs-3">@ViewData.Model.Dictionary["%Report_Label_Instructions"]</div>
-                            <div id="instructions" class="col-xs-9">@ViewData.Model.Details.Instructions</div>
-                        </div>
+        <div class="row">
+            <div class="col-xs-3"><label><small>@ViewData.Model.Dictionary["%Report_Label_Instructions"]</small></label></div>
+            <div id="instructions" class="col-xs-9">@ViewData.Model.Details.Instructions</div>
+        </div>
 
-                        <div class="row">
-                            <div class="col-xs-3">@ViewData.Model.Dictionary["%Report_Label_Status"]</div>
-                            <div class="col-xs-9">@ViewData.Model.Details.Status</div>
-                        </div>
+        <div class="row">
+            <div class="col-xs-3"><label><small>@ViewData.Model.Dictionary["%Report_Label_Status"]</small></label></div>
+            <div class="col-xs-9">@ViewData.Model.Details.Status</div>
+        </div>
 
-                        <div class="row">
-                            <div class="col-xs-3">@ViewData.Model.Dictionary["%Report_Label_Created"]</div>
-                            <div class="col-xs-9">@ViewData.Model.Details.TimeCreated</div>
-                        </div>
+        <div class="row">
+            <div class="col-xs-3"><label><small>@ViewData.Model.Dictionary["%Report_Label_Created"]</small></label></div>
+            <div class="col-xs-9">@ViewData.Model.Details.TimeCreated</div>
+        </div>
 
-                        <div class="row">
-                            <div class="col-xs-3">@ViewData.Model.Dictionary["%Report_Label_Modified"]</div>
-                            <div class="col-xs-9">@ViewData.Model.Details.TimeUpdated</div>
-                        </div>
-                        
-                        
-                        <div class="row">
-                            <div class="col-xs-3">@ViewData.Model.Dictionary["%TaskDetails_Responsible"]</div>
-                            <div class="col-xs-9">@Responsible</div>
-                        </div>
-                        
-                    </div>
-                </div>
-            </fieldset>
-        }
-    </div>
+        <div class="row">
+            <div class="col-xs-3"><label><small>@ViewData.Model.Dictionary["%Report_Label_Modified"]</small></label></div>
+            <div class="col-xs-9">@ViewData.Model.Details.TimeUpdated</div>
+        </div>
 
-    <script>
-        $('input[type="file"]').change(function () {
-            var filename = this.value.match(/[^\\\/]+$/, '')[0];
-            $('#file-path').text(filename);
-        });
+        <div class="row">
+            <div class="col-xs-3"><label><small>@ViewData.Model.Dictionary["%TaskDetails_Responsible"]</small></label></div>
+            <div class="col-xs-9">@Responsible</div>
+        </div>
+    </fieldset>
+}
 
-        $('.btn-editor').click(function (event) {
-            event.preventDefault();
+<script>
+    $('.btn-editor').click(function (event) {
+        event.preventDefault();
 
-            $(event.target).remove();
-            $('div#instruction').html('<input type="text" name="Instructions" />');
-        });
-    </script>
-
-</body>
-</html>
+        $(event.target).remove();
+        $('div#instruction').html('<input type="text" name="Instructions" />');
+    });
+</script>

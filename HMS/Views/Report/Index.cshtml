@@ -1,118 +1,93 @@
 ﻿@using HMS.Models;
 @model TaskDetails
-
 @{
     Layout = null;
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewData.Model.Dictionary["%Report_Title"] - Hospital Management System</title>
+<style>
+    .btn-file {
+        position: relative;
+        overflow: hidden;
+    }
 
-    <style>
-        .btn-file {
-            position: relative;
-            overflow: hidden;
-        }
+    .btn-file input[type=file] {
+        position: absolute;
+        top: 0;
+        right: 0;
+        min-width: 100%;
+        min-height: 100%;
+        font-size: 999px;
+        text-align: right;
+        filter: alpha(opacity=0);
+        opacity: 0;
+        background: red;
+        cursor: inherit;
+        display: block;
+    }
+</style>
 
-        .btn-file input[type=file] {
-            position: absolute;
-            top: 0;
-            right: 0;
-            min-width: 100%;
-            min-height: 100%;
-            font-size: 999px;
-            text-align: right;
-            filter: alpha(opacity=0);
-            opacity: 0;
-            background: red;
-            cursor: inherit;
-            display: block;
-        }
-    </style>
-</head>
-<body>
-    <div class="container body-content">
 @using (Html.BeginForm("Add", "Report", FormMethod.Post, new { @class = "form-horizontal" }))
-        {
-        <fieldset>
-                <legend>@ViewData.Model.Dictionary["%Report_Label_Task"] @ViewData.Model.Details.ID</legend>
+{
+    <fieldset>
+        <legend>@ViewData.Model.Dictionary["%Report_Label_Task"] @ViewData.Model.Details.ID</legend>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <input type="hidden" name="Task_ID" value="@ViewData.Model.Details.ID" />
+            </div>
+        </div>
                 
-                <div class="form-group hidden">
-                    <div class="controls">
-                        <input type="hidden" name="Task_ID" value="@ViewData.Model.Details.ID" />
-                    </div>
-                </div>
+        <div class="row">
+            <div class="form-label"><label><small>@ViewData.Model.Dictionary["%Report_Label_Title"]</small></label></div>
+            <div class="form-details">@ViewData.Model.Details.Title</div>
+        </div>
 
-                <div class="form-group">
-                    <label class="control-label col-xs-2">@ViewData.Model.Dictionary["%Report_Label_Title"]</label>
-                    <div class="controls">
-                        <p class="form-control-static">@ViewData.Model.Details.Title</p>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-xs-2">@ViewData.Model.Dictionary["%Report_Label_Instructions"]</label>
-                    <div class="controls">
-                        <p class="form-control-static">@ViewData.Model.Details.Instructions</p>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-xs-2">@ViewData.Model.Dictionary["%Report_Label_Patient"]</label>
-                    <div class="controls">
-                        <p class="form-control-static">@ViewData.Model.Details.Patient_Name @ViewData.Model.Details.Patient_Surname (@ViewData.Model.Details.Patient_Department)</p>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-xs-2">@ViewData.Model.Dictionary["%Report_Label_Created"]</label>
-                    <div class="controls">
-                        <p class="form-control-static">@ViewData.Model.Details.TimeCreated</p>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-xs-2">@ViewData.Model.Dictionary["%Report_Label_Modified"]</label>
-                    <div class="controls">
-                        <p class="form-control-static">@ViewData.Model.Details.TimeUpdated</p>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-xs-2">@ViewData.Model.Dictionary["%Report_Label_Status"]</label>
-                    <div class="controls">
-                        <p class="form-control-static">@Html.DropDownListFor(x => Model.Details.Status_ID, Model.StatusTypes)</p>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="controls">
-                        <textarea name="comment" class="form-control" id="textarea" rows="5"></textarea>
-                    </div>
-                </div>
+        <div class="row">
+            <div class="form-label"><label><small>@ViewData.Model.Dictionary["%Report_Label_Instructions"]</small></label></div>
+            <div class="form-details">@ViewData.Model.Details.Instructions</div>
+        </div>
 
-                <div class="form-group">
-                    <span class="btn btn-default btn-file"><span class="glyphicon glyphicon-paperclip"></span><input type="file" name="attachment"></span>  <span id="file-path"></span>
-                </div>
+        <div class="row">
+            <div class="form-label"><label><small>@ViewData.Model.Dictionary["%Report_Label_Patient"]</small></label></div>
+            <div class="form-details">@ViewData.Model.Details.Patient_Name @ViewData.Model.Details.Patient_Surname (@ViewData.Model.Details.Patient_Department)</div>
+        </div>
 
-                <div class="control-group">
-                    <div class="controls">
-                        <label class="checkbox"><input type="checkbox" name="IsEmergency"> @ViewData.Model.Dictionary["%Report_Label_Emergency"]</label>
-                    </div>
-                </div>
+        <div class="row">
+            <div class="form-label"><label><small>@ViewData.Model.Dictionary["%Report_Label_Created"]</small></label></div>
+            <div class="form-details">@ViewData.Model.Details.TimeCreated</div>
+        </div>
 
-                <div class="form-actions">
-                    <button type="submit" class="btn">Submit</button>
-                </div>
-            </fieldset>
+        <div class="row">
+            <div class="form-label"><label><small>@ViewData.Model.Dictionary["%Report_Label_Modified"]</small></label></div>
+            <div class="form-details">@ViewData.Model.Details.TimeUpdated</div>
+        </div>
+
+        <div class="row form-group">
+            <div class="form-label"><label><small>@ViewData.Model.Dictionary["%Report_Label_Status"]</small></label></div>
+            <div class="form-details">@Html.DropDownListFor(x => Model.Details.Status_ID, Model.StatusTypes)</div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-xs-12"><textarea name="comment" class="form-control" rows="5"></textarea></div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12"><span class="btn btn-default btn-file"><span class="glyphicon glyphicon-paperclip"></span><input type="file" name="attachment"></span>  <span id="file-path" style="color: #0000c9"></span></div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-xs-6"><label class="checkbox"><input type="checkbox" name="IsEmergency"> @ViewData.Model.Dictionary["%Report_Label_Emergency"]</label></div>
+            <div class="col-xs-6"><button type="submit" class="btn pull-right">Submit</button></div>
+        </div>
+    </fieldset>
 }
-    </div>
 
-    <script>
-        $('input[type="file"]').change(function () {
-            var filename = this.value.match(/[^\\\/]+$/, '')[0];
-            $('#file-path').text(filename);
-        });
-    </script>
+<script>
+    $('input[type="file"]').change(function () {
+        var filename = this.value.match(/[^\\\/]+$/, '')[0];
+        $('#file-path').text(filename);
+    });
 
-</body>
-</html>
+    $('.form-label').addClass('col-xs-4').addClass('text-right');
+    $('.form-details').addClass('col-xs-8');
+</script>

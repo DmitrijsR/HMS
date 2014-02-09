@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace HMS.Controllers
 {
+    [Authorize]
     public class TaskDetailsController : Controller
     {
         //

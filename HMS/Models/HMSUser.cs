@@ -11,6 +11,12 @@ namespace HMS.Models
         public string Username{ get; set; }
         public string Password { get; set; }
 
+        public Dictionary<string, string> Dictionary { get; set; }
+
+
+
+
+
         public static Int32 GetUserID()
         {
             return 1;

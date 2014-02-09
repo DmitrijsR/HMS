@@ -27,14 +27,20 @@ namespace HMS.Controllers
         }
 
         public ActionResult Login()
-        {     
-            return View();
+        {
+            var model = new HMSUser();
+            using (var DB = new DBDataContext())
+            {
+                model.Dictionary = DB.F_Dictionary("En").ToDictionary(k => k.Tag, v => v.Text);
+            }
+            return View(model);
         }
 
         [AllowAnonymous]
         [HttpPost]
         public ActionResult Login(HMSUser model, string returnUrl)
         {
+            
             if (ModelState.IsValid)
             {
                 if (MembershipService.ValidateUser(model.Username, model.Password))
@@ -46,7 +52,26 @@ namespace HMS.Controllers
             }
             // If we got this far, something failed, redisplay form
             ModelState.AddModelError("", "The user name or password provided is incorrect.");
-            return View(model);
+            return RedirectToAction("Login", "Account");
+        }
+
+        public ActionResult Logout()
+        {          
+            FormsAuthentication.SignOut();
+            Session.Abandon();
+
+            // clear authentication cookie
+            HttpCookie cookie1 = new HttpCookie(FormsAuthentication.FormsCookieName, "");
+            cookie1.Expires = DateTime.Now.AddYears(-1);
+            Response.Cookies.Add(cookie1);
+
+            // clear session cookie (not necessary for your current problem but i would recommend you do it anyway)
+            HttpCookie cookie2 = new HttpCookie("ASP.NET_SessionId", "");
+            cookie2.Expires = DateTime.Now.AddYears(-1);
+            Response.Cookies.Add(cookie2);
+
+            FormsAuthentication.RedirectToLoginPage();
+            return RedirectToAction("Login", "Account");
         }
 
         private ActionResult RedirectToLocal(string returnUrl)

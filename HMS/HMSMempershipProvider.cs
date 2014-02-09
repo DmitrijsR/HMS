@@ -151,7 +151,7 @@ namespace HMS
 
         public override bool ValidateUser(string username, string password)
         {
-            if (string.IsNullOrEmpty(password.Trim()) || string.IsNullOrEmpty(username.Trim()))
+            if (string.IsNullOrEmpty(password) || string.IsNullOrEmpty(username))
                 return false;
 
             string hash = FormsAuthentication.HashPasswordForStoringInConfigFile(password.Trim(), "md5");

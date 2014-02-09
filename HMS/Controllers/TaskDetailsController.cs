@@ -11,6 +11,7 @@ namespace HMS.Controllers
     {
         //
         // GET: /TaskDetails/
+        [Authorize (Roles="Doctor")]
         public ActionResult Index(ItemID RecordID)
         {
             if (ModelState.IsValid)

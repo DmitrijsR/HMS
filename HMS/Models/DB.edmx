@@ -4,7 +4,319 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="HMS.Models.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="HMS.Models.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Departments">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Department" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Dictionaries">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Tag" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Language_ID" Type="int" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NotificationTypes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="PatientAdmission">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Patient_ID" Type="int" Nullable="false" />
+          <Property Name="Department_ID" Type="int" Nullable="false" />
+          <Property Name="Date_From" Type="date" Nullable="false" />
+          <Property Name="Date_Till" Type="date" />
+        </EntityType>
+        <EntityType Name="Patients">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SocialNr" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Personnel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SocialNr" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Position_ID" Type="int" Nullable="false" />
+          <Property Name="Department_ID" Type="int" Nullable="false" />
+          <Property Name="Password" Type="nvarchar(max)" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HMS.dbo.PersonnelRole' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="PersonnelRole">
+          <Key>
+            <PropertyRef Name="RoleID" />
+            <PropertyRef Name="PersonnelID" />
+          </Key>
+          <Property Name="RoleID" Type="tinyint" Nullable="false" />
+          <Property Name="PersonnelID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Positions">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Position" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PriorityTypes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Reports">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Task_ID" Type="int" Nullable="false" />
+          <Property Name="Status_ID" Type="int" Nullable="false" />
+          <Property Name="TimeAdded" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="Attachment" Type="nvarchar(max)" />
+          <Property Name="Comment" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="tinyint" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Statuses">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SupportedLanguages">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Language" Type="nchar" MaxLength="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tasks">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type_ID" Type="int" Nullable="false" />
+          <Property Name="Patient_ID" Type="int" Nullable="false" />
+          <Property Name="Priority_ID" Type="int" Nullable="false" />
+          <Property Name="Instructions" Type="nvarchar(max)" />
+          <Property Name="Status_ID" Type="int" Nullable="false" />
+          <Property Name="Creator_ID" Type="int" Nullable="false" />
+          <Property Name="TimeCreated" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="Responsible_ID" Type="int" />
+          <Property Name="TimeUpdated" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TaskTypes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="HasInstr" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Personnel__Perso__4CA06362">
+          <End Role="Personnel" Type="Self.Personnel" Multiplicity="1" />
+          <End Role="PersonnelRole" Type="Self.PersonnelRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personnel">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PersonnelRole">
+              <PropertyRef Name="PersonnelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Personnel__RoleI__4D94879B">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="PersonnelRole" Type="Self.PersonnelRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonnelRole">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dictionaries_SupportedLanguages">
+          <End Role="SupportedLanguages" Type="Self.SupportedLanguages" Multiplicity="1" />
+          <End Role="Dictionaries" Type="Self.Dictionaries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SupportedLanguages">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Dictionaries">
+              <PropertyRef Name="Language_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PatientAdmission_Departments">
+          <End Role="Departments" Type="Self.Departments" Multiplicity="1" />
+          <End Role="PatientAdmission" Type="Self.PatientAdmission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PatientAdmission">
+              <PropertyRef Name="Department_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PatientAdmission_Patients">
+          <End Role="Patients" Type="Self.Patients" Multiplicity="1" />
+          <End Role="PatientAdmission" Type="Self.PatientAdmission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patients">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PatientAdmission">
+              <PropertyRef Name="Patient_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Personnel_Departments">
+          <End Role="Departments" Type="Self.Departments" Multiplicity="1" />
+          <End Role="Personnel" Type="Self.Personnel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Personnel">
+              <PropertyRef Name="Department_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Personnel_Positions">
+          <End Role="Positions" Type="Self.Positions" Multiplicity="1" />
+          <End Role="Personnel" Type="Self.Personnel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Positions">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Personnel">
+              <PropertyRef Name="Position_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reports_Tasks">
+          <End Role="Statuses" Type="Self.Statuses" Multiplicity="1" />
+          <End Role="Reports" Type="Self.Reports" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Statuses">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Reports">
+              <PropertyRef Name="Status_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Patients">
+          <End Role="Patients" Type="Self.Patients" Multiplicity="1" />
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patients">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="Patient_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Personnel_Creator">
+          <End Role="Personnel" Type="Self.Personnel" Multiplicity="1" />
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personnel">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="Creator_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Personnel_Responsible">
+          <End Role="Personnel" Type="Self.Personnel" Multiplicity="0..1" />
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personnel">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="Responsible_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_PriorityTypes">
+          <End Role="PriorityTypes" Type="Self.PriorityTypes" Multiplicity="1" />
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PriorityTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="Priority_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Statuses">
+          <End Role="Statuses" Type="Self.Statuses" Multiplicity="1" />
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Statuses">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="Status_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_TaskTypes">
+          <End Role="TaskTypes" Type="Self.TaskTypes" Multiplicity="1" />
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="Type_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="F_Authenticate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="F_Dictionary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Language" Type="nchar" Mode="In" />
           <ReturnType>
@@ -74,6 +386,13 @@
             </CollectionType>
           </ReturnType>
         </Function>
+        <Function Name="F_TranslateTo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar(max)">
+          <Parameter Name="Language" Type="nchar" Mode="In" />
+          <Parameter Name="Tag" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="F_ValidateLanguage" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="bit">
+          <Parameter Name="Language" Type="nchar" Mode="In" />
+        </Function>
         <Function Name="F_ViewTaskDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TaskID" Type="int" Mode="In" />
           <Parameter Name="Language" Type="nchar" Mode="In" />
@@ -126,6 +445,14 @@
             </CollectionType>
           </ReturnType>
         </Function>
+        <Function Name="SP_Authenticate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+          <Parameter Name="IsAuthenticated" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="SP_GetRoles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserName" Type="nvarchar(max)" Mode="In" />
+        </Function>
         <Function Name="SP_Tasks_Add" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TypeID" Type="int" Mode="In" />
           <Parameter Name="PatientID" Type="int" Mode="In" />
@@ -143,9 +470,85 @@
           <Parameter Name="Attachment" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="Comment" Type="nvarchar(max)" Mode="In" />
         </Function>
-        <EntityContainer Name="HMSModelsStoreContainer" />
-      </Schema>
-    </edmx:StorageModels>
+        <EntityContainer Name="HMSModelsStoreContainer">
+          <EntitySet Name="Departments" EntityType="Self.Departments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Dictionaries" EntityType="Self.Dictionaries" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NotificationTypes" EntityType="Self.NotificationTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PatientAdmission" EntityType="Self.PatientAdmission" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Patients" EntityType="Self.Patients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Personnel" EntityType="Self.Personnel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Positions" EntityType="Self.Positions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PriorityTypes" EntityType="Self.PriorityTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reports" EntityType="Self.Reports" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Statuses" EntityType="Self.Statuses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SupportedLanguages" EntityType="Self.SupportedLanguages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TaskTypes" EntityType="Self.TaskTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonnelRole" EntityType="Self.PersonnelRole" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [PersonnelRole].[RoleID] AS [RoleID], 
+    [PersonnelRole].[PersonnelID] AS [PersonnelID]
+    FROM [dbo].[PersonnelRole] AS [PersonnelRole]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__Personnel__Perso__4CA06362" Association="Self.FK__Personnel__Perso__4CA06362">
+            <End Role="Personnel" EntitySet="Personnel" />
+            <End Role="PersonnelRole" EntitySet="PersonnelRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Personnel__RoleI__4D94879B" Association="Self.FK__Personnel__RoleI__4D94879B">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="PersonnelRole" EntitySet="PersonnelRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dictionaries_SupportedLanguages" Association="Self.FK_Dictionaries_SupportedLanguages">
+            <End Role="SupportedLanguages" EntitySet="SupportedLanguages" />
+            <End Role="Dictionaries" EntitySet="Dictionaries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PatientAdmission_Departments" Association="Self.FK_PatientAdmission_Departments">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="PatientAdmission" EntitySet="PatientAdmission" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PatientAdmission_Patients" Association="Self.FK_PatientAdmission_Patients">
+            <End Role="Patients" EntitySet="Patients" />
+            <End Role="PatientAdmission" EntitySet="PatientAdmission" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personnel_Departments" Association="Self.FK_Personnel_Departments">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="Personnel" EntitySet="Personnel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personnel_Positions" Association="Self.FK_Personnel_Positions">
+            <End Role="Positions" EntitySet="Positions" />
+            <End Role="Personnel" EntitySet="Personnel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reports_Tasks" Association="Self.FK_Reports_Tasks">
+            <End Role="Statuses" EntitySet="Statuses" />
+            <End Role="Reports" EntitySet="Reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Patients" Association="Self.FK_Tasks_Patients">
+            <End Role="Patients" EntitySet="Patients" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Personnel_Creator" Association="Self.FK_Tasks_Personnel_Creator">
+            <End Role="Personnel" EntitySet="Personnel" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Personnel_Responsible" Association="Self.FK_Tasks_Personnel_Responsible">
+            <End Role="Personnel" EntitySet="Personnel" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_PriorityTypes" Association="Self.FK_Tasks_PriorityTypes">
+            <End Role="PriorityTypes" EntitySet="PriorityTypes" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Statuses" Association="Self.FK_Tasks_Statuses">
+            <End Role="Statuses" EntitySet="Statuses" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_TaskTypes" Association="Self.FK_Tasks_TaskTypes">
+            <End Role="TaskTypes" EntitySet="TaskTypes" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="HMS.Models" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -216,27 +619,27 @@
         </ComplexType>
         <EntityContainer Name="DBDataContext" annotation:LazyLoadingEnabled="true">
           <FunctionImport Name="F_Dictionary" ReturnType="Collection(HMS.Models.F_Dictionary_Result)" IsComposable="true">
-            <Parameter Name="Language" Mode="In" Type="String" />
+          <Parameter Name="Language" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="F_NotificationTypes" ReturnType="Collection(HMS.Models.F_NotificationTypes_Result)" IsComposable="true">
-            <Parameter Name="Language" Mode="In" Type="String" />
+          <Parameter Name="Language" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="F_Patients" ReturnType="Collection(HMS.Models.F_Patients_Result)" IsComposable="true" />
           <FunctionImport Name="F_PriorityTypes" ReturnType="Collection(HMS.Models.F_PriorityTypes_Result)" IsComposable="true">
-            <Parameter Name="Language" Mode="In" Type="String" />
+          <Parameter Name="Language" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="F_StatusTypes" ReturnType="Collection(HMS.Models.F_StatusTypes_Result)" IsComposable="true">
-            <Parameter Name="Language" Mode="In" Type="String" />
+          <Parameter Name="Language" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="F_TaskTypes" ReturnType="Collection(HMS.Models.F_TaskTypes_Result)" IsComposable="true">
-            <Parameter Name="Language" Mode="In" Type="String" />
+          <Parameter Name="Language" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="F_ViewTaskDetails" ReturnType="Collection(HMS.Models.F_ViewTaskDetails_Result)" IsComposable="true">
             <Parameter Name="TaskID" Mode="In" Type="Int32" />
             <Parameter Name="Language" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="F_ViewTasks" ReturnType="Collection(HMS.Models.F_ViewTasks_Result)" IsComposable="true">
-            <Parameter Name="Language" Mode="In" Type="String" />
+          <Parameter Name="Language" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_Tasks_Add" ReturnType="Collection(Int32)">
             <Parameter Name="TypeID" Mode="In" Type="Int32" />
@@ -247,7 +650,7 @@
             <Parameter Name="NewTaskID" Mode="InOut" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_Tasks_Delete" ReturnType="Collection(Int32)">
-            <Parameter Name="TaskID" Mode="In" Type="Int32" />
+          <Parameter Name="TaskID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_Tasks_Report" ReturnType="Collection(Int32)">
             <Parameter Name="TaskID" Mode="In" Type="Int32" />
@@ -255,7 +658,385 @@
             <Parameter Name="Attachment" Mode="In" Type="String" />
             <Parameter Name="Comment" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="Departments" EntityType="HMS.Models.Departments" />
+          <EntitySet Name="Dictionaries" EntityType="HMS.Models.Dictionaries" />
+          <EntitySet Name="NotificationTypes" EntityType="HMS.Models.NotificationTypes" />
+          <EntitySet Name="PatientAdmission" EntityType="HMS.Models.PatientAdmission" />
+          <EntitySet Name="Patients" EntityType="HMS.Models.Patients" />
+          <EntitySet Name="Personnel" EntityType="HMS.Models.Personnel" />
+          <EntitySet Name="Positions" EntityType="HMS.Models.Positions" />
+          <EntitySet Name="PriorityTypes" EntityType="HMS.Models.PriorityTypes" />
+          <EntitySet Name="Reports" EntityType="HMS.Models.Reports" />
+          <EntitySet Name="Roles" EntityType="HMS.Models.Roles" />
+          <EntitySet Name="Statuses" EntityType="HMS.Models.Statuses" />
+          <EntitySet Name="SupportedLanguages" EntityType="HMS.Models.SupportedLanguages" />
+          <EntitySet Name="Tasks" EntityType="HMS.Models.Tasks" />
+          <EntitySet Name="TaskTypes" EntityType="HMS.Models.TaskTypes" />
+          <AssociationSet Name="FK_PatientAdmission_Departments" Association="HMS.Models.FK_PatientAdmission_Departments">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="PatientAdmission" EntitySet="PatientAdmission" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personnel_Departments" Association="HMS.Models.FK_Personnel_Departments">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="Personnel" EntitySet="Personnel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dictionaries_SupportedLanguages" Association="HMS.Models.FK_Dictionaries_SupportedLanguages">
+            <End Role="SupportedLanguages" EntitySet="SupportedLanguages" />
+            <End Role="Dictionaries" EntitySet="Dictionaries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PatientAdmission_Patients" Association="HMS.Models.FK_PatientAdmission_Patients">
+            <End Role="Patients" EntitySet="Patients" />
+            <End Role="PatientAdmission" EntitySet="PatientAdmission" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Patients" Association="HMS.Models.FK_Tasks_Patients">
+            <End Role="Patients" EntitySet="Patients" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personnel_Positions" Association="HMS.Models.FK_Personnel_Positions">
+            <End Role="Positions" EntitySet="Positions" />
+            <End Role="Personnel" EntitySet="Personnel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Personnel_Creator" Association="HMS.Models.FK_Tasks_Personnel_Creator">
+            <End Role="Personnel" EntitySet="Personnel" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Personnel_Responsible" Association="HMS.Models.FK_Tasks_Personnel_Responsible">
+            <End Role="Personnel" EntitySet="Personnel" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_PriorityTypes" Association="HMS.Models.FK_Tasks_PriorityTypes">
+            <End Role="PriorityTypes" EntitySet="PriorityTypes" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reports_Tasks" Association="HMS.Models.FK_Reports_Tasks">
+            <End Role="Statuses" EntitySet="Statuses" />
+            <End Role="Reports" EntitySet="Reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Statuses" Association="HMS.Models.FK_Tasks_Statuses">
+            <End Role="Statuses" EntitySet="Statuses" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_TaskTypes" Association="HMS.Models.FK_Tasks_TaskTypes">
+            <End Role="TaskTypes" EntitySet="TaskTypes" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="PersonnelRole" Association="HMS.Models.PersonnelRole">
+            <End Role="Personnel" EntitySet="Personnel" />
+            <End Role="Roles" EntitySet="Roles" />
+          </AssociationSet>
+          <FunctionImport Name="SP_Authenticate" ReturnType="Collection(Int32)">
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="IsAuthenticated" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GetRoles" ReturnType="Collection(String)">
+          <Parameter Name="UserName" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
+        <EntityType Name="Departments">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Department" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PatientAdmission" Relationship="HMS.Models.FK_PatientAdmission_Departments" FromRole="Departments" ToRole="PatientAdmission" />
+          <NavigationProperty Name="Personnel" Relationship="HMS.Models.FK_Personnel_Departments" FromRole="Departments" ToRole="Personnel" />
+        </EntityType>
+        <EntityType Name="Dictionaries">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tag" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Language_ID" Type="Int32" Nullable="false" />
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SupportedLanguages" Relationship="HMS.Models.FK_Dictionaries_SupportedLanguages" FromRole="Dictionaries" ToRole="SupportedLanguages" />
+        </EntityType>
+        <EntityType Name="NotificationTypes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PatientAdmission">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Patient_ID" Type="Int32" Nullable="false" />
+          <Property Name="Department_ID" Type="Int32" Nullable="false" />
+          <Property Name="Date_From" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Date_Till" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Departments" Relationship="HMS.Models.FK_PatientAdmission_Departments" FromRole="PatientAdmission" ToRole="Departments" />
+          <NavigationProperty Name="Patients" Relationship="HMS.Models.FK_PatientAdmission_Patients" FromRole="PatientAdmission" ToRole="Patients" />
+        </EntityType>
+        <EntityType Name="Patients">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SocialNr" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PatientAdmission" Relationship="HMS.Models.FK_PatientAdmission_Patients" FromRole="Patients" ToRole="PatientAdmission" />
+          <NavigationProperty Name="Tasks" Relationship="HMS.Models.FK_Tasks_Patients" FromRole="Patients" ToRole="Tasks" />
+        </EntityType>
+        <EntityType Name="Personnel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SocialNr" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Position_ID" Type="Int32" Nullable="false" />
+          <Property Name="Department_ID" Type="Int32" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Departments" Relationship="HMS.Models.FK_Personnel_Departments" FromRole="Personnel" ToRole="Departments" />
+          <NavigationProperty Name="Positions" Relationship="HMS.Models.FK_Personnel_Positions" FromRole="Personnel" ToRole="Positions" />
+          <NavigationProperty Name="Tasks" Relationship="HMS.Models.FK_Tasks_Personnel_Creator" FromRole="Personnel" ToRole="Tasks" />
+          <NavigationProperty Name="Tasks1" Relationship="HMS.Models.FK_Tasks_Personnel_Responsible" FromRole="Personnel" ToRole="Tasks" />
+          <NavigationProperty Name="Roles" Relationship="HMS.Models.PersonnelRole" FromRole="Personnel" ToRole="Roles" />
+        </EntityType>
+        <EntityType Name="Positions">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Position" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Personnel" Relationship="HMS.Models.FK_Personnel_Positions" FromRole="Positions" ToRole="Personnel" />
+        </EntityType>
+        <EntityType Name="PriorityTypes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Tasks" Relationship="HMS.Models.FK_Tasks_PriorityTypes" FromRole="PriorityTypes" ToRole="Tasks" />
+        </EntityType>
+        <EntityType Name="Reports">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Task_ID" Type="Int32" Nullable="false" />
+          <Property Name="Status_ID" Type="Int32" Nullable="false" />
+          <Property Name="TimeAdded" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="Attachment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Statuses" Relationship="HMS.Models.FK_Reports_Tasks" FromRole="Reports" ToRole="Statuses" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Byte" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Personnel" Relationship="HMS.Models.PersonnelRole" FromRole="Roles" ToRole="Personnel" />
+        </EntityType>
+        <EntityType Name="Statuses">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Reports" Relationship="HMS.Models.FK_Reports_Tasks" FromRole="Statuses" ToRole="Reports" />
+          <NavigationProperty Name="Tasks" Relationship="HMS.Models.FK_Tasks_Statuses" FromRole="Statuses" ToRole="Tasks" />
+        </EntityType>
+        <EntityType Name="SupportedLanguages">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Language" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Dictionaries" Relationship="HMS.Models.FK_Dictionaries_SupportedLanguages" FromRole="SupportedLanguages" ToRole="Dictionaries" />
+        </EntityType>
+        <EntityType Name="Tasks">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type_ID" Type="Int32" Nullable="false" />
+          <Property Name="Patient_ID" Type="Int32" Nullable="false" />
+          <Property Name="Priority_ID" Type="Int32" Nullable="false" />
+          <Property Name="Instructions" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status_ID" Type="Int32" Nullable="false" />
+          <Property Name="Creator_ID" Type="Int32" Nullable="false" />
+          <Property Name="TimeCreated" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="Responsible_ID" Type="Int32" />
+          <Property Name="TimeUpdated" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Patients" Relationship="HMS.Models.FK_Tasks_Patients" FromRole="Tasks" ToRole="Patients" />
+          <NavigationProperty Name="Personnel" Relationship="HMS.Models.FK_Tasks_Personnel_Creator" FromRole="Tasks" ToRole="Personnel" />
+          <NavigationProperty Name="Personnel1" Relationship="HMS.Models.FK_Tasks_Personnel_Responsible" FromRole="Tasks" ToRole="Personnel" />
+          <NavigationProperty Name="PriorityTypes" Relationship="HMS.Models.FK_Tasks_PriorityTypes" FromRole="Tasks" ToRole="PriorityTypes" />
+          <NavigationProperty Name="Statuses" Relationship="HMS.Models.FK_Tasks_Statuses" FromRole="Tasks" ToRole="Statuses" />
+          <NavigationProperty Name="TaskTypes" Relationship="HMS.Models.FK_Tasks_TaskTypes" FromRole="Tasks" ToRole="TaskTypes" />
+        </EntityType>
+        <EntityType Name="TaskTypes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HasInstr" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Tasks" Relationship="HMS.Models.FK_Tasks_TaskTypes" FromRole="TaskTypes" ToRole="Tasks" />
+        </EntityType>
+        <Association Name="FK_PatientAdmission_Departments">
+          <End Type="HMS.Models.Departments" Role="Departments" Multiplicity="1" />
+          <End Type="HMS.Models.PatientAdmission" Role="PatientAdmission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PatientAdmission">
+              <PropertyRef Name="Department_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Personnel_Departments">
+          <End Type="HMS.Models.Departments" Role="Departments" Multiplicity="1" />
+          <End Type="HMS.Models.Personnel" Role="Personnel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Personnel">
+              <PropertyRef Name="Department_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dictionaries_SupportedLanguages">
+          <End Type="HMS.Models.SupportedLanguages" Role="SupportedLanguages" Multiplicity="1" />
+          <End Type="HMS.Models.Dictionaries" Role="Dictionaries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SupportedLanguages">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Dictionaries">
+              <PropertyRef Name="Language_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PatientAdmission_Patients">
+          <End Type="HMS.Models.Patients" Role="Patients" Multiplicity="1" />
+          <End Type="HMS.Models.PatientAdmission" Role="PatientAdmission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patients">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PatientAdmission">
+              <PropertyRef Name="Patient_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Patients">
+          <End Type="HMS.Models.Patients" Role="Patients" Multiplicity="1" />
+          <End Type="HMS.Models.Tasks" Role="Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patients">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="Patient_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Personnel_Positions">
+          <End Type="HMS.Models.Positions" Role="Positions" Multiplicity="1" />
+          <End Type="HMS.Models.Personnel" Role="Personnel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Positions">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Personnel">
+              <PropertyRef Name="Position_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Personnel_Creator">
+          <End Type="HMS.Models.Personnel" Role="Personnel" Multiplicity="1" />
+          <End Type="HMS.Models.Tasks" Role="Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personnel">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="Creator_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Personnel_Responsible">
+          <End Type="HMS.Models.Personnel" Role="Personnel" Multiplicity="0..1" />
+          <End Type="HMS.Models.Tasks" Role="Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personnel">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="Responsible_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_PriorityTypes">
+          <End Type="HMS.Models.PriorityTypes" Role="PriorityTypes" Multiplicity="1" />
+          <End Type="HMS.Models.Tasks" Role="Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PriorityTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="Priority_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reports_Tasks">
+          <End Type="HMS.Models.Statuses" Role="Statuses" Multiplicity="1" />
+          <End Type="HMS.Models.Reports" Role="Reports" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Statuses">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Reports">
+              <PropertyRef Name="Status_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Statuses">
+          <End Type="HMS.Models.Statuses" Role="Statuses" Multiplicity="1" />
+          <End Type="HMS.Models.Tasks" Role="Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Statuses">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="Status_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_TaskTypes">
+          <End Type="HMS.Models.TaskTypes" Role="TaskTypes" Multiplicity="1" />
+          <End Type="HMS.Models.Tasks" Role="Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="Type_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PersonnelRole">
+          <End Type="HMS.Models.Personnel" Role="Personnel" Multiplicity="*" />
+          <End Type="HMS.Models.Roles" Role="Roles" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -362,6 +1143,160 @@
           <FunctionImportMapping FunctionImportName="SP_Tasks_Add" FunctionName="HMS.Models.Store.SP_Tasks_Add" />
           <FunctionImportMapping FunctionImportName="SP_Tasks_Delete" FunctionName="HMS.Models.Store.SP_Tasks_Delete" />
           <FunctionImportMapping FunctionImportName="SP_Tasks_Report" FunctionName="HMS.Models.Store.SP_Tasks_Report" />
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="HMS.Models.Departments">
+              <MappingFragment StoreEntitySet="Departments">
+                <ScalarProperty Name="Department" ColumnName="Department" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Dictionaries">
+            <EntityTypeMapping TypeName="HMS.Models.Dictionaries">
+              <MappingFragment StoreEntitySet="Dictionaries">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Language_ID" ColumnName="Language_ID" />
+                <ScalarProperty Name="Tag" ColumnName="Tag" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NotificationTypes">
+            <EntityTypeMapping TypeName="HMS.Models.NotificationTypes">
+              <MappingFragment StoreEntitySet="NotificationTypes">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PatientAdmission">
+            <EntityTypeMapping TypeName="HMS.Models.PatientAdmission">
+              <MappingFragment StoreEntitySet="PatientAdmission">
+                <ScalarProperty Name="Date_Till" ColumnName="Date_Till" />
+                <ScalarProperty Name="Date_From" ColumnName="Date_From" />
+                <ScalarProperty Name="Department_ID" ColumnName="Department_ID" />
+                <ScalarProperty Name="Patient_ID" ColumnName="Patient_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Patients">
+            <EntityTypeMapping TypeName="HMS.Models.Patients">
+              <MappingFragment StoreEntitySet="Patients">
+                <ScalarProperty Name="SocialNr" ColumnName="SocialNr" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Personnel">
+            <EntityTypeMapping TypeName="HMS.Models.Personnel">
+              <MappingFragment StoreEntitySet="Personnel">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Department_ID" ColumnName="Department_ID" />
+                <ScalarProperty Name="Position_ID" ColumnName="Position_ID" />
+                <ScalarProperty Name="SocialNr" ColumnName="SocialNr" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Positions">
+            <EntityTypeMapping TypeName="HMS.Models.Positions">
+              <MappingFragment StoreEntitySet="Positions">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PriorityTypes">
+            <EntityTypeMapping TypeName="HMS.Models.PriorityTypes">
+              <MappingFragment StoreEntitySet="PriorityTypes">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reports">
+            <EntityTypeMapping TypeName="HMS.Models.Reports">
+              <MappingFragment StoreEntitySet="Reports">
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Attachment" ColumnName="Attachment" />
+                <ScalarProperty Name="TimeAdded" ColumnName="TimeAdded" />
+                <ScalarProperty Name="Status_ID" ColumnName="Status_ID" />
+                <ScalarProperty Name="Task_ID" ColumnName="Task_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="HMS.Models.Roles">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Statuses">
+            <EntityTypeMapping TypeName="HMS.Models.Statuses">
+              <MappingFragment StoreEntitySet="Statuses">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SupportedLanguages">
+            <EntityTypeMapping TypeName="HMS.Models.SupportedLanguages">
+              <MappingFragment StoreEntitySet="SupportedLanguages">
+                <ScalarProperty Name="Language" ColumnName="Language" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tasks">
+            <EntityTypeMapping TypeName="HMS.Models.Tasks">
+              <MappingFragment StoreEntitySet="Tasks">
+                <ScalarProperty Name="TimeUpdated" ColumnName="TimeUpdated" />
+                <ScalarProperty Name="Responsible_ID" ColumnName="Responsible_ID" />
+                <ScalarProperty Name="TimeCreated" ColumnName="TimeCreated" />
+                <ScalarProperty Name="Creator_ID" ColumnName="Creator_ID" />
+                <ScalarProperty Name="Status_ID" ColumnName="Status_ID" />
+                <ScalarProperty Name="Instructions" ColumnName="Instructions" />
+                <ScalarProperty Name="Priority_ID" ColumnName="Priority_ID" />
+                <ScalarProperty Name="Patient_ID" ColumnName="Patient_ID" />
+                <ScalarProperty Name="Type_ID" ColumnName="Type_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaskTypes">
+            <EntityTypeMapping TypeName="HMS.Models.TaskTypes">
+              <MappingFragment StoreEntitySet="TaskTypes">
+                <ScalarProperty Name="HasInstr" ColumnName="HasInstr" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="PersonnelRole" TypeName="HMS.Models.PersonnelRole" StoreEntitySet="PersonnelRole">
+            <EndProperty Name="Roles">
+              <ScalarProperty Name="Id" ColumnName="RoleID" />
+            </EndProperty>
+            <EndProperty Name="Personnel">
+              <ScalarProperty Name="ID" ColumnName="PersonnelID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="SP_Authenticate" FunctionName="HMS.Models.Store.SP_Authenticate" />
+          <FunctionImportMapping FunctionImportName="SP_GetRoles" FunctionName="HMS.Models.Store.SP_GetRoles" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

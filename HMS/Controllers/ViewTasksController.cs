@@ -12,6 +12,7 @@ namespace HMS.Controllers
     {
         //
         // GET: /ViewTasks/
+        [Authorize(Roles="Doctor")]
         public ActionResult Index()
         {
             var model = new ViewTasksList();

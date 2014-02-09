@@ -23,9 +23,13 @@
                 <span id="items-status" class="navbar-text">@ViewBag.NumItems_Text @ViewBag.NumItems</span>
             </div>
             <div class="navbar-collapse collapse">
+                <!-- Very simple authorization mechanism, that allows us to specify what kind of actions a particular role is authorized to do-->
+                @if (User.IsInRole("Doctor"))
+                {   
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="@Url.Action("Index", "CreateToDo")"><span class="glyphicon glyphicon-plus-sign"></span>@ViewBag.AddBtn</a></li> 
                 </ul>
+                }
             </div>
         </div>
     </div>

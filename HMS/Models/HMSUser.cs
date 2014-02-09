@@ -8,6 +8,8 @@ namespace HMS.Models
     public class HMSUser
     {
         public Int32 ID { get; set; }
+        public string Username{ get; set; }
+        public string Password { get; set; }
 
         public static Int32 GetUserID()
         {

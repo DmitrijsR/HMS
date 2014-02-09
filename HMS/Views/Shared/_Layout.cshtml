@@ -3,6 +3,8 @@
     ViewBag.LogIn = ViewData.Model.Dictionary["%Login_Lbl"];
     ViewBag.LogOut = ViewData.Model.Dictionary["%Logout_Lbl"];
     ViewBag.AddBtn = ViewData.Model.Dictionary["%NavBar_Add"];
+    ViewBag.FollowBtn = ViewData.Model.Dictionary["%NavBar_Follow"];
+    ViewBag.SearchBtn = ViewData.Model.Dictionary["%NavBar_Search"];
     ViewBag.NumItems_Text = ViewData.Model.Dictionary["%NavBar_NumItems_Msg"];
 }
 
@@ -37,17 +39,24 @@
             <div class="navbar-collapse collapse">
                 <!-- Very simple authorization mechanism, that allows us to specify what kind of actions a particular role is authorized to do-->           
                 <ul class="nav navbar-nav navbar-right">
-                @if (User.IsInRole("Doctor"))
-                {   
-                    <li><a href="@Url.Action("Index", "CreateToDo")"><span class="glyphicon glyphicon-plus-sign"></span>@ViewBag.AddBtn</a></li> 
-                }
-                @if (Request.IsAuthenticated)
-                {  
-                    <li><a href="@Url.Action("Logout","Account")"><span class="glyphicon glyphicon-user"></span>@ViewBag.LogOut (<b>@User.Identity.Name</b>)</a></li> 
-                }
+                    
+                @if(Request.IsAuthenticated)
+                {
+                    <li><a href="@Url.Action("Index", "CreateToDo")"><span class="glyphicon glyphicon-search"></span> @ViewBag.SearchBtn</a></li>
+                    if (User.IsInRole("Doctor"))
+                    {   
+                        <li><a href="@Url.Action("Index", "CreateToDo")"><span class="glyphicon glyphicon-eye-open"></span> @ViewBag.FollowBtn</a></li>
+                        <li><a href="@Url.Action("Index", "CreateToDo")"><span class="glyphicon glyphicon-plus-sign"></span> @ViewBag.AddBtn</a></li> 
+                    }
+                    else if (User.IsInRole("Headnurse"))
+                    {   
+                        <li><a href="@Url.Action("Index", "CreateToDo")"><span class="glyphicon glyphicon-eye-open"></span> @ViewBag.FollowBtn</a></li>
+                    }                   
+                    <li><a href="@Url.Action("Logout","Account")"><span class="glyphicon glyphicon-user"></span> @ViewBag.LogOut (<b>@User.Identity.Name</b>)</a></li> 
+                }             
                 else
                 {   
-                    <li><a href="@Url.Action("Login", "Account")"><span class="glyphicon glyphicon-user"></span>@ViewBag.LogIn</a></li> 
+                    <li><a href="@Url.Action("Login", "Account")"><span class="glyphicon glyphicon-user"></span> @ViewBag.LogIn</a></li> 
                 }
                 </ul>
               

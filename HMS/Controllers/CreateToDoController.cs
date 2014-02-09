@@ -8,6 +8,7 @@ using System.Data.Entity.Core.Objects;
 
 namespace HMS
 {
+    [Authorize (Roles="Doctor")]
     public class CreateToDoController : Controller
     {
         //

@@ -7,16 +7,23 @@
 
     ViewBag.UserNamePlaceHolder = ViewData.Model.Dictionary["%UserName_PlHold"];
     ViewBag.PasswordPlaceHolder = ViewData.Model.Dictionary["%Password_PlHold"];
+
+    string retUrl = "";
+
+    if (ViewContext.HttpContext.Request.UrlReferrer != null)
+    {
+      retUrl = ViewContext.HttpContext.Request.UrlReferrer.PathAndQuery;
+    } 
+
 }
-@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
+@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { returnUrl = Request.QueryString["ReturnUrl"] }))
 {
 
 <div class="container">
     <div class="row">
-        <div class="span12">
-        <form class="form-horizontal" role="form">
+        <div class="span12">       
           <div class="form-group">
-            <label  class="control-label"for="exampleInputUserName1">@ViewBag.UserName</label>       
+            <label  class="control-label" for="exampleInputUserName1">@ViewBag.UserName</label>       
             <input name="UserName" type="username" class="form-control" placeholder="@ViewBag.UserNamePlaceHolder">
           </div>
           <div class="form-group">
@@ -26,7 +33,6 @@
           <div class="form-group">
             <button type="submit" class="btn btn-default">@ViewBag.Submit</button>
           </div>
-        </form>
         </div>
     </div>
 </div>

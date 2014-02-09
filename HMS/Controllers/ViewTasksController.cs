@@ -8,11 +8,12 @@ using System.Web.Mvc;
 
 namespace HMS.Controllers
 {
+    [Authorize]
     public class ViewTasksController : Controller
     {
         //
         // GET: /ViewTasks/
-        [Authorize(Roles="Doctor")]
+        
         public ActionResult Index()
         {
             var model = new ViewTasksList();

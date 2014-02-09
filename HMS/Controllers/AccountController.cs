@@ -38,7 +38,7 @@ namespace HMS.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult Login(HMSUser model, string returnUrl)
+        public ActionResult Login(HMSUser model, string ReturnUrl)
         {
             
             if (ModelState.IsValid)
@@ -46,7 +46,7 @@ namespace HMS.Controllers
                 if (MembershipService.ValidateUser(model.Username, model.Password))
                 {
                     FormsAuthentication.SetAuthCookie(model.Username, false);
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToLocal(ReturnUrl);
                 }
 
             }

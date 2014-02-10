@@ -176,6 +176,9 @@
     <Content Include="Views\CreateToDo\Create.cshtml" />
     <Content Include="Views\Report\Index.cshtml" />
     <Content Include="Views\Report\Error.cshtml" />
+    <Content Include="Views\TaskDetails\Error.cshtml" />
+    <Content Include="Views\TaskDetails\Index.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
     <EntityDeploy Include="Models\DB.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>DB.Designer.cs</LastGenOutput>
@@ -193,9 +196,6 @@
       <DependentUpon>DB.edmx</DependentUpon>
       <LastGenOutput>DB.cs</LastGenOutput>
     </Content>
-    <Content Include="Views\TaskDetails\Error.cshtml" />
-    <Content Include="Views\TaskDetails\Index.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -262,12 +262,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DB.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\Departments.cs">
-      <DependentUpon>DB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Dictionaries.cs">
-      <DependentUpon>DB.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Dictionary.cs" />
     <Compile Include="Models\F_Dictionary_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
@@ -295,44 +289,8 @@
     </Compile>
     <Compile Include="Models\HMSUser.cs" />
     <Compile Include="Models\ItemID.cs" />
-    <Compile Include="Models\NotificationTypes.cs">
-      <DependentUpon>DB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\PatientAdmission.cs">
-      <DependentUpon>DB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Patients.cs">
-      <DependentUpon>DB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Personnel.cs">
-      <DependentUpon>DB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Positions.cs">
-      <DependentUpon>DB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\PriorityTypes.cs">
-      <DependentUpon>DB.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\ReportReq.cs" />
-    <Compile Include="Models\Reports.cs">
-      <DependentUpon>DB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Roles.cs">
-      <DependentUpon>DB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Statuses.cs">
-      <DependentUpon>DB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SupportedLanguages.cs">
-      <DependentUpon>DB.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\TaskDetails.cs" />
-    <Compile Include="Models\Tasks.cs">
-      <DependentUpon>DB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TaskTypes.cs">
-      <DependentUpon>DB.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\ToDoList.cs" />
     <Compile Include="Models\ViewTasksList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

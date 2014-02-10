@@ -25,7 +25,7 @@ namespace HMS.Controllers
 
             base.Initialize(requestContext);
         }
-
+        [AllowAnonymous]
         public ActionResult Login()
         {
             var model = new HMSUser();
@@ -54,7 +54,7 @@ namespace HMS.Controllers
             ModelState.AddModelError("", "The user name or password provided is incorrect.");
             return RedirectToAction("Login", "Account");
         }
-
+        [Authorize]
         public ActionResult Logout()
         {          
             FormsAuthentication.SignOut();

@@ -27,20 +27,6 @@ namespace HMS.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Departments> Departments { get; set; }
-        public virtual DbSet<Dictionaries> Dictionaries { get; set; }
-        public virtual DbSet<NotificationTypes> NotificationTypes { get; set; }
-        public virtual DbSet<PatientAdmission> PatientAdmission { get; set; }
-        public virtual DbSet<Patients> Patients { get; set; }
-        public virtual DbSet<Personnel> Personnel { get; set; }
-        public virtual DbSet<Positions> Positions { get; set; }
-        public virtual DbSet<PriorityTypes> PriorityTypes { get; set; }
-        public virtual DbSet<Reports> Reports { get; set; }
-        public virtual DbSet<Roles> Roles { get; set; }
-        public virtual DbSet<Statuses> Statuses { get; set; }
-        public virtual DbSet<SupportedLanguages> SupportedLanguages { get; set; }
-        public virtual DbSet<Tasks> Tasks { get; set; }
-        public virtual DbSet<TaskTypes> TaskTypes { get; set; }
     
         [DbFunction("DBDataContext", "F_Dictionary")]
         public virtual IQueryable<F_Dictionary_Result> F_Dictionary(string language)
@@ -122,6 +108,28 @@ namespace HMS.Models
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_ViewTasks_Result>("[DBDataContext].[F_ViewTasks](@Language)", languageParameter);
         }
     
+        public virtual ObjectResult<Nullable<int>> SP_Authenticate(string userName, string password, ObjectParameter isAuthenticated)
+        {
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("Password", password) :
+                new ObjectParameter("Password", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Authenticate", userNameParameter, passwordParameter, isAuthenticated);
+        }
+    
+        public virtual ObjectResult<string> SP_GetRoles(string userName)
+        {
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SP_GetRoles", userNameParameter);
+        }
+    
         public virtual ObjectResult<Nullable<int>> SP_Tasks_Add(Nullable<int> typeID, Nullable<int> patientID, Nullable<int> priorityID, string instr, Nullable<int> creator_ID, ObjectParameter newTaskID)
         {
             var typeIDParameter = typeID.HasValue ?
@@ -175,28 +183,6 @@ namespace HMS.Models
                 new ObjectParameter("Comment", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Tasks_Report", taskIDParameter, statusIDParameter, attachmentParameter, commentParameter);
-        }
-    
-        public virtual ObjectResult<Nullable<int>> SP_Authenticate(string userName, string password, ObjectParameter isAuthenticated)
-        {
-            var userNameParameter = userName != null ?
-                new ObjectParameter("UserName", userName) :
-                new ObjectParameter("UserName", typeof(string));
-    
-            var passwordParameter = password != null ?
-                new ObjectParameter("Password", password) :
-                new ObjectParameter("Password", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Authenticate", userNameParameter, passwordParameter, isAuthenticated);
-        }
-    
-        public virtual ObjectResult<string> SP_GetRoles(string userName)
-        {
-            var userNameParameter = userName != null ?
-                new ObjectParameter("UserName", userName) :
-                new ObjectParameter("UserName", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SP_GetRoles", userNameParameter);
         }
     }
 }

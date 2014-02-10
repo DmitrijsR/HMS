@@ -4,35 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="2d4b93435128408583b4fb9a3168da30" Name="Diagram1" >
-        <EntityTypeShape EntityType="HMS.Models.Departments" Width="1.5" PointX="0.75" PointY="5.125" />
-        <EntityTypeShape EntityType="HMS.Models.Dictionaries" Width="1.5" PointX="13" PointY="0.875" />
-        <EntityTypeShape EntityType="HMS.Models.NotificationTypes" Width="1.5" PointX="0.75" PointY="8.75" />
-        <EntityTypeShape EntityType="HMS.Models.PatientAdmission" Width="1.5" PointX="3" PointY="4.875" />
-        <EntityTypeShape EntityType="HMS.Models.Patients" Width="1.5" PointX="0.75" PointY="2" />
-        <EntityTypeShape EntityType="HMS.Models.Personnel" Width="1.5" PointX="6" PointY="4.375" />
-        <EntityTypeShape EntityType="HMS.Models.Positions" Width="1.5" PointX="3.75" PointY="2.125" />
-        <EntityTypeShape EntityType="HMS.Models.PriorityTypes" Width="1.5" PointX="6" PointY="9.125" />
-        <EntityTypeShape EntityType="HMS.Models.Reports" Width="1.5" PointX="8.25" PointY="12.5" />
-        <EntityTypeShape EntityType="HMS.Models.Roles" Width="1.5" PointX="8.25" PointY="10.125" />
-        <EntityTypeShape EntityType="HMS.Models.Statuses" Width="1.5" PointX="6" PointY="11.75" />
-        <EntityTypeShape EntityType="HMS.Models.SupportedLanguages" Width="1.5" PointX="10.75" PointY="1.25" />
-        <EntityTypeShape EntityType="HMS.Models.Tasks" Width="1.5" PointX="8.25" PointY="4" />
-        <EntityTypeShape EntityType="HMS.Models.TaskTypes" Width="1.5" PointX="6" PointY="1.5" />
-        <AssociationConnector Association="HMS.Models.FK_PatientAdmission_Departments" />
-        <AssociationConnector Association="HMS.Models.FK_Personnel_Departments" />
-        <AssociationConnector Association="HMS.Models.FK_Dictionaries_SupportedLanguages" />
-        <AssociationConnector Association="HMS.Models.FK_PatientAdmission_Patients" />
-        <AssociationConnector Association="HMS.Models.FK_Tasks_Patients" />
-        <AssociationConnector Association="HMS.Models.FK_Personnel_Positions" />
-        <AssociationConnector Association="HMS.Models.FK_Tasks_Personnel_Creator" />
-        <AssociationConnector Association="HMS.Models.FK_Tasks_Personnel_Responsible" />
-        <AssociationConnector Association="HMS.Models.FK_Tasks_PriorityTypes" />
-        <AssociationConnector Association="HMS.Models.FK_Reports_Tasks" />
-        <AssociationConnector Association="HMS.Models.FK_Tasks_Statuses" />
-        <AssociationConnector Association="HMS.Models.FK_Tasks_TaskTypes" />
-        <AssociationConnector Association="HMS.Models.PersonnelRole" />
-      </Diagram>
+      <Diagram DiagramId="dca2938f81d4496caa5d71f7cbfbd84a" Name="Diagram1" />
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

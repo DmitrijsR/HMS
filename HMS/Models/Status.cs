@@ -12,16 +12,19 @@ namespace HMS.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Roles
+    public partial class Status
     {
-        public Roles()
+        public Status()
         {
-            this.Personnel = new HashSet<Personnel>();
+            this.Reports = new HashSet<Report>();
+            this.Tasks = new HashSet<Task>();
         }
     
-        public byte Id { get; set; }
+        public int ID { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
     
-        public virtual ICollection<Personnel> Personnel { get; set; }
+        public virtual ICollection<Report> Reports { get; set; }
+        public virtual ICollection<Task> Tasks { get; set; }
     }
 }

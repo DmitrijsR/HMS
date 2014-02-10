@@ -12,17 +12,20 @@ namespace HMS.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Positions
+    public partial class Patient
     {
-        public Positions()
+        public Patient()
         {
-            this.Personnel = new HashSet<Personnel>();
+            this.PatientAdmissions = new HashSet<PatientAdmission>();
+            this.Tasks = new HashSet<Task>();
         }
     
         public int ID { get; set; }
-        public string Position { get; set; }
-        public string Description { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string SocialNr { get; set; }
     
-        public virtual ICollection<Personnel> Personnel { get; set; }
+        public virtual ICollection<PatientAdmission> PatientAdmissions { get; set; }
+        public virtual ICollection<Task> Tasks { get; set; }
     }
 }

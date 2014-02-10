@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using HMS.Models;
 using System.Data.Entity.Core.Objects;
+using System.Web.Security;
 
 namespace HMS
 {
@@ -49,19 +50,24 @@ namespace HMS
 
             return View("Index", model);
         }
-
+        [Authorize(Roles = "Doctor")]
         public ActionResult Create(ToDoList model)
         {
+            // Get username from the cookie
+            string username = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).Name;
+
             if (ModelState.IsValid)
             {
+
                 //The model is OK. We can do whatever we want to do with the model
                 using (var DB = new DBDataContext())
                 {
+
                     foreach (ToDoList.TaskItem ti in model.Tasks)
                     {
                         var output = new ObjectParameter("NewTaskID", typeof(int));
                         //change 1 to insert current user id
-                        int? result = DB.SP_Tasks_Add(ti.TaskID, model.PatientID, ti.Importance, ti.Value, HMSUser.GetUserID(), output).First();
+                        int? result = DB.SP_Tasks_Add(ti.TaskID, model.PatientID, ti.Importance, ti.Value,  HMSUser.GetUserID(username), output).First();
 
                         if (result.HasValue && result == 0)
                         {

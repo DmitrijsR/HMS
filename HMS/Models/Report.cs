@@ -12,14 +12,15 @@ namespace HMS.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Dictionaries
+    public partial class Report
     {
         public int ID { get; set; }
-        public string Tag { get; set; }
-        public int Language_ID { get; set; }
-        public string Text { get; set; }
-        public string Type { get; set; }
+        public int Task_ID { get; set; }
+        public int Status_ID { get; set; }
+        public System.DateTime TimeAdded { get; set; }
+        public string Attachment { get; set; }
+        public string Comment { get; set; }
     
-        public virtual SupportedLanguages SupportedLanguages { get; set; }
+        public virtual Status Status { get; set; }
     }
 }

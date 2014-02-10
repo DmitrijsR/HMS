@@ -12,7 +12,7 @@ namespace HMS.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Tasks
+    public partial class Task
     {
         public int ID { get; set; }
         public int Type_ID { get; set; }
@@ -25,11 +25,11 @@ namespace HMS.Models
         public Nullable<int> Responsible_ID { get; set; }
         public System.DateTime TimeUpdated { get; set; }
     
-        public virtual Patients Patients { get; set; }
+        public virtual Patient Patient { get; set; }
         public virtual Personnel Personnel { get; set; }
         public virtual Personnel Personnel1 { get; set; }
-        public virtual PriorityTypes PriorityTypes { get; set; }
-        public virtual Statuses Statuses { get; set; }
-        public virtual TaskTypes TaskTypes { get; set; }
+        public virtual PriorityType PriorityType { get; set; }
+        public virtual Status Status { get; set; }
+        public virtual TaskType TaskType { get; set; }
     }
 }

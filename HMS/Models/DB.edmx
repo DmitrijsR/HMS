@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="HMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="HMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <Function Name="F_Authenticate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
           <Parameter Name="UserName" Type="varchar" Mode="In" />
           <Parameter Name="Password" Type="varchar" Mode="In" />
@@ -145,6 +145,9 @@
         <Function Name="SP_GetRoles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserName" Type="nvarchar(max)" Mode="In" />
         </Function>
+        <Function Name="SP_GetUserID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserName" Type="nvarchar(max)" Mode="In" />
+        </Function>
         <Function Name="SP_Tasks_Add" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TypeID" Type="int" Mode="In" />
           <Parameter Name="PatientID" Type="int" Mode="In" />
@@ -163,8 +166,7 @@
           <Parameter Name="Comment" Type="nvarchar(max)" Mode="In" />
         </Function>
         <EntityContainer Name="HMSModelStoreContainer" />
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="HMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -235,27 +237,27 @@
         </ComplexType>
         <EntityContainer Name="DBDataContext" annotation:LazyLoadingEnabled="true">
           <FunctionImport Name="F_Dictionary" ReturnType="Collection(HMSModel.F_Dictionary_Result)" IsComposable="true">
-            <Parameter Name="Language" Mode="In" Type="String" />
+          <Parameter Name="Language" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="F_NotificationTypes" ReturnType="Collection(HMSModel.F_NotificationTypes_Result)" IsComposable="true">
-            <Parameter Name="Language" Mode="In" Type="String" />
+          <Parameter Name="Language" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="F_Patients" ReturnType="Collection(HMSModel.F_Patients_Result)" IsComposable="true" />
           <FunctionImport Name="F_PriorityTypes" ReturnType="Collection(HMSModel.F_PriorityTypes_Result)" IsComposable="true">
-            <Parameter Name="Language" Mode="In" Type="String" />
+          <Parameter Name="Language" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="F_StatusTypes" ReturnType="Collection(HMSModel.F_StatusTypes_Result)" IsComposable="true">
-            <Parameter Name="Language" Mode="In" Type="String" />
+          <Parameter Name="Language" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="F_TaskTypes" ReturnType="Collection(HMSModel.F_TaskTypes_Result)" IsComposable="true">
-            <Parameter Name="Language" Mode="In" Type="String" />
+          <Parameter Name="Language" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="F_ViewTaskDetails" ReturnType="Collection(HMSModel.F_ViewTaskDetails_Result)" IsComposable="true">
             <Parameter Name="TaskID" Mode="In" Type="Int32" />
             <Parameter Name="Language" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="F_ViewTasks" ReturnType="Collection(HMSModel.F_ViewTasks_Result)" IsComposable="true">
-            <Parameter Name="Language" Mode="In" Type="String" />
+          <Parameter Name="Language" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_Authenticate" ReturnType="Collection(Int32)">
             <Parameter Name="UserName" Mode="In" Type="String" />
@@ -263,7 +265,7 @@
             <Parameter Name="IsAuthenticated" Mode="InOut" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_GetRoles" ReturnType="Collection(String)">
-            <Parameter Name="UserName" Mode="In" Type="String" />
+          <Parameter Name="UserName" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_Tasks_Add" ReturnType="Collection(Int32)">
             <Parameter Name="TypeID" Mode="In" Type="Int32" />
@@ -274,13 +276,16 @@
             <Parameter Name="NewTaskID" Mode="InOut" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_Tasks_Delete" ReturnType="Collection(Int32)">
-            <Parameter Name="TaskID" Mode="In" Type="Int32" />
+          <Parameter Name="TaskID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_Tasks_Report" ReturnType="Collection(Int32)">
             <Parameter Name="TaskID" Mode="In" Type="Int32" />
             <Parameter Name="StatusID" Mode="In" Type="Int32" />
             <Parameter Name="Attachment" Mode="In" Type="String" />
             <Parameter Name="Comment" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GetUserID" ReturnType="Collection(Int32)">
+            <Parameter Name="UserName" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
       </Schema>
@@ -391,6 +396,7 @@
           <FunctionImportMapping FunctionImportName="SP_Tasks_Add" FunctionName="HMSModel.Store.SP_Tasks_Add" />
           <FunctionImportMapping FunctionImportName="SP_Tasks_Delete" FunctionName="HMSModel.Store.SP_Tasks_Delete" />
           <FunctionImportMapping FunctionImportName="SP_Tasks_Report" FunctionName="HMSModel.Store.SP_Tasks_Report" />
+          <FunctionImportMapping FunctionImportName="SP_GetUserID" FunctionName="HMSModel.Store.SP_GetUserID" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

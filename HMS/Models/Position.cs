@@ -12,15 +12,17 @@ namespace HMS.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Reports
+    public partial class Position
     {
-        public int ID { get; set; }
-        public int Task_ID { get; set; }
-        public int Status_ID { get; set; }
-        public System.DateTime TimeAdded { get; set; }
-        public string Attachment { get; set; }
-        public string Comment { get; set; }
+        public Position()
+        {
+            this.Personnels = new HashSet<Personnel>();
+        }
     
-        public virtual Statuses Statuses { get; set; }
+        public int ID { get; set; }
+        public string Position1 { get; set; }
+        public string Description { get; set; }
+    
+        public virtual ICollection<Personnel> Personnels { get; set; }
     }
 }

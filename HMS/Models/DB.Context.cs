@@ -184,5 +184,14 @@ namespace HMS.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Tasks_Report", taskIDParameter, statusIDParameter, attachmentParameter, commentParameter);
         }
+    
+        public virtual ObjectResult<Nullable<int>> SP_GetUserID(string userName)
+        {
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_GetUserID", userNameParameter);
+        }
     }
 }

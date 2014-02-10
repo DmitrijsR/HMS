@@ -12,16 +12,16 @@ namespace HMS.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class SupportedLanguages
+    public partial class Role
     {
-        public SupportedLanguages()
+        public Role()
         {
-            this.Dictionaries = new HashSet<Dictionaries>();
+            this.Accounts = new HashSet<Account>();
         }
     
-        public int ID { get; set; }
-        public string Language { get; set; }
+        public byte Id { get; set; }
+        public string Name { get; set; }
     
-        public virtual ICollection<Dictionaries> Dictionaries { get; set; }
+        public virtual ICollection<Account> Accounts { get; set; }
     }
 }

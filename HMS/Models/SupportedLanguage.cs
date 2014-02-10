@@ -12,10 +12,16 @@ namespace HMS.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class NotificationTypes
+    public partial class SupportedLanguage
     {
+        public SupportedLanguage()
+        {
+            this.Dictionaries = new HashSet<Dictionary>();
+        }
+    
         public int ID { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public string Language { get; set; }
+    
+        public virtual ICollection<Dictionary> Dictionaries { get; set; }
     }
 }

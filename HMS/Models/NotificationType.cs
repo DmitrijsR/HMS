@@ -12,17 +12,10 @@ namespace HMS.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class PriorityTypes
+    public partial class NotificationType
     {
-        public PriorityTypes()
-        {
-            this.Tasks = new HashSet<Tasks>();
-        }
-    
         public int ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-    
-        public virtual ICollection<Tasks> Tasks { get; set; }
     }
 }

@@ -12,19 +12,17 @@ namespace HMS.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Statuses
+    public partial class PriorityType
     {
-        public Statuses()
+        public PriorityType()
         {
-            this.Reports = new HashSet<Reports>();
-            this.Tasks = new HashSet<Tasks>();
+            this.Tasks = new HashSet<Task>();
         }
     
         public int ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
     
-        public virtual ICollection<Reports> Reports { get; set; }
-        public virtual ICollection<Tasks> Tasks { get; set; }
+        public virtual ICollection<Task> Tasks { get; set; }
     }
 }

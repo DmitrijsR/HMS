@@ -12,11 +12,11 @@ namespace HMS.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class TaskTypes
+    public partial class TaskType
     {
-        public TaskTypes()
+        public TaskType()
         {
-            this.Tasks = new HashSet<Tasks>();
+            this.Tasks = new HashSet<Task>();
         }
     
         public int ID { get; set; }
@@ -24,6 +24,6 @@ namespace HMS.Models
         public string Description { get; set; }
         public bool HasInstr { get; set; }
     
-        public virtual ICollection<Tasks> Tasks { get; set; }
+        public virtual ICollection<Task> Tasks { get; set; }
     }
 }

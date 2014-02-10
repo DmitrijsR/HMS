@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
@@ -153,14 +154,16 @@ namespace HMS
         {
             if (string.IsNullOrEmpty(password) || string.IsNullOrEmpty(username))
                 return false;
-
+            ObjectParameter outParam = new ObjectParameter("IsAuthenticated", typeof(int));
             string hash = FormsAuthentication.HashPasswordForStoringInConfigFile(password.Trim(), "md5");
-            bool IsValid = false;
+            ObjectResult<Nullable<int>> outResult;
+
             using (var DB = new DBDataContext())
             {
-                IsValid = DB.Personnel.Any(user => (user.Username == username.Trim()) && (user.Password == hash));
+                outResult = DB.SP_Authenticate(username.Trim(), hash, outParam);               
             }
-            return IsValid;
+            int isValid = outResult.Single().Value;
+            return isValid == 1;
         }
     }
 }

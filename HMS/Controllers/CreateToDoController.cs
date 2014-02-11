@@ -50,7 +50,7 @@ namespace HMS
 
             return View("Index", model);
         }
-        [Authorize(Roles = "Doctor")]
+
         public ActionResult Create(ToDoList model)
         {
             // Get username from the cookie

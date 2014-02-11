@@ -115,7 +115,12 @@
         <td class="clickable">@tt.TimeCreated</td>
         <td class="clickable">@tt.TimeUpdated </td>
         <td class="clickable">@Responsible</td>
-        <td><button class="btn-default btn btn-report" style="padding: 2px 8px;"><span class="glyphicon glyphicon-comment"></span></button> <button class="btn-default btn btn-delete" style="padding: 2px 8px;"><span class="glyphicon glyphicon-remove-circle"></span></button></td>
+        <td>
+            <!-- delete button (based on role) -->
+            <button class="btn-default btn btn-report" style="padding: 2px 8px;"><span class="glyphicon glyphicon-comment"></span></button> 
+            @if(User.IsInRole("Doctor") || User.IsInRole("Headnurse") ){<button class="btn-default btn btn-delete" style="padding: 2px 8px;"><span class="glyphicon glyphicon-remove-circle"></span></button>}
+
+        </td>
     </tr>
 }
     </tbody>

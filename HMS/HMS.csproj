@@ -196,6 +196,7 @@
       <DependentUpon>DB.edmx</DependentUpon>
       <LastGenOutput>DB.cs</LastGenOutput>
     </Content>
+    <Content Include="Views\TaskAssignment\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -270,6 +271,9 @@
     <Compile Include="Models\F_NotificationTypes_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\F_NurseWorkLoad_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\F_Patients_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
@@ -290,7 +294,9 @@
     </Compile>
     <Compile Include="Models\HMSUser.cs" />
     <Compile Include="Models\ItemID.cs" />
+    <Compile Include="Models\NurseAssign.cs" />
     <Compile Include="Models\ReportReq.cs" />
+    <Compile Include="Models\TaskAssignment.cs" />
     <Compile Include="Models\TaskDetails.cs" />
     <Compile Include="Models\ToDoList.cs" />
     <Compile Include="Models\ViewTasksList.cs" />

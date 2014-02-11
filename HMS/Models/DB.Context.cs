@@ -193,5 +193,28 @@ namespace HMS.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_GetUserID", userNameParameter);
         }
+    
+        [DbFunction("DBDataContext", "F_NurseWorkLoad")]
+        public virtual IQueryable<F_NurseWorkLoad_Result> F_NurseWorkLoad(Nullable<int> taskID)
+        {
+            var taskIDParameter = taskID.HasValue ?
+                new ObjectParameter("TaskID", taskID) :
+                new ObjectParameter("TaskID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_NurseWorkLoad_Result>("[DBDataContext].[F_NurseWorkLoad](@TaskID)", taskIDParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> SP_Task_Assign(Nullable<int> taskID, Nullable<int> nurseID)
+        {
+            var taskIDParameter = taskID.HasValue ?
+                new ObjectParameter("TaskID", taskID) :
+                new ObjectParameter("TaskID", typeof(int));
+    
+            var nurseIDParameter = nurseID.HasValue ?
+                new ObjectParameter("NurseID", nurseID) :
+                new ObjectParameter("NurseID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Task_Assign", taskIDParameter, nurseIDParameter);
+        }
     }
 }

@@ -1,0 +1,28 @@
+﻿@using HMS.Models;
+@model TaskAssignment
+@using (Html.BeginForm("Assign", "TaskAssignment", FormMethod.Post))
+{
+<div class="container">
+    <table class="table .table-hover"> 
+        <tbody>
+            @foreach (TaskAssignment.Nurse n in ViewData.Model.NurseList)
+            {
+                var Nurse = n.Nurse_Surname + " " + n.Nurse_Name;
+                <tr>
+                    <td>@Nurse</td>
+                    <td>@n.Active_Tasks</td>
+                    <td>@n.All_Tasks</td>
+                    <td>@Html.RadioButtonFor(model => model.ResponsibleCurrent, @n.ID, n.IsResponsible == true ? new { Checked = "checked" } : null)</td>
+                </tr>         
+            }      
+        </tbody>
+    </table>
+     @Html.HiddenFor(model => model.ResponsiblePrev)
+     @Html.HiddenFor(model => model.TaskID)
+    <div class="col-xs-6"><button type="submit" class="btn pull-right">Submit</button></div>
+</div>
+
+
+    
+
+}

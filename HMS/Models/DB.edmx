@@ -31,6 +31,21 @@
             </CollectionType>
           </ReturnType>
         </Function>
+        <Function Name="F_NurseWorkLoad" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TaskID" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="ID" Type="int" />
+                <Property Name="Nurse_Name" Type="nvarchar(max)" />
+                <Property Name="Nurse_Surname" Type="nvarchar(max)" />
+                <Property Name="All_Tasks" Type="int" />
+                <Property Name="Active_Tasks" Type="int" />
+                <Property Name="IsResponsible" Type="bit" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
         <Function Name="F_Patients" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <ReturnType>
             <CollectionType>
@@ -147,6 +162,10 @@
         </Function>
         <Function Name="SP_GetUserID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserName" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="SP_Task_Assign" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TaskID" Type="int" Mode="In" />
+          <Parameter Name="NurseID" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_Tasks_Add" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TypeID" Type="int" Mode="In" />
@@ -285,9 +304,24 @@
             <Parameter Name="Comment" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_GetUserID" ReturnType="Collection(Int32)">
-            <Parameter Name="UserName" Mode="In" Type="String" />
+          <Parameter Name="UserName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="F_NurseWorkLoad" IsComposable="true" ReturnType="Collection(HMSModel.F_NurseWorkLoad_Result)">
+          <Parameter Name="TaskID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Task_Assign" ReturnType="Collection(Int32)">
+            <Parameter Name="TaskID" Mode="In" Type="Int32" />
+            <Parameter Name="NurseID" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="F_NurseWorkLoad_Result">
+          <Property Type="Int32" Name="ID" Nullable="true" />
+          <Property Type="String" Name="Nurse_Name" Nullable="true" />
+          <Property Type="String" Name="Nurse_Surname" Nullable="true" />
+          <Property Type="Int32" Name="All_Tasks" Nullable="true" />
+          <Property Type="Int32" Name="Active_Tasks" Nullable="true" />
+          <Property Type="Boolean" Name="IsResponsible" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -397,6 +431,19 @@
           <FunctionImportMapping FunctionImportName="SP_Tasks_Delete" FunctionName="HMSModel.Store.SP_Tasks_Delete" />
           <FunctionImportMapping FunctionImportName="SP_Tasks_Report" FunctionName="HMSModel.Store.SP_Tasks_Report" />
           <FunctionImportMapping FunctionImportName="SP_GetUserID" FunctionName="HMSModel.Store.SP_GetUserID" />
+          <FunctionImportMapping FunctionImportName="F_NurseWorkLoad" FunctionName="HMSModel.Store.F_NurseWorkLoad">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HMSModel.F_NurseWorkLoad_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nurse_Name" ColumnName="Nurse_Name" />
+                <ScalarProperty Name="Nurse_Surname" ColumnName="Nurse_Surname" />
+                <ScalarProperty Name="All_Tasks" ColumnName="All_Tasks" />
+                <ScalarProperty Name="Active_Tasks" ColumnName="Active_Tasks" />
+                <ScalarProperty Name="IsResponsible" ColumnName="IsResponsible" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Task_Assign" FunctionName="HMSModel.Store.SP_Task_Assign" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

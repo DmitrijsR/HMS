@@ -6,7 +6,7 @@
     var Responsible = "";
 }
 
-@using (Html.BeginForm("Index", "TaskEditor", FormMethod.Post, new { @class = "form-horizontal" }))
+@using (Html.BeginForm("Index", "TaskAssignment", FormMethod.Post))
 {
     if (@ViewData.Model.Details.Responsible_Surname == null) { Responsible = "None"; } else { Responsible = @ViewData.Model.Details.Responsible_Surname + " " + @ViewData.Model.Details.Responsible_Name + " (" + @ViewData.Model.Details.Responsible_Department + ")"; }
     <fieldset>
@@ -91,10 +91,7 @@
         $('div#instruction').html('<input type="text" name="Instructions" />');
     });
 
-    $('.btn-assign').click(function (event) {
-        event.preventDefault();
-
-        $(event.target).remove();
-        //$('div#instruction').html('<input type="text" name="Instructions" />');
-    });
+  
 </script>
+
+

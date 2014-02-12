@@ -62,17 +62,19 @@ namespace HMS
                 //The model is OK. We can do whatever we want to do with the model
                 using (var DB = new DBDataContext())
                 {
-
-                    foreach (ToDoList.TaskItem ti in model.Tasks)
+                    if (model.Tasks != null)
                     {
-                        var output = new ObjectParameter("NewTaskID", typeof(int));
-                        //change 1 to insert current user id
-                        int? result = DB.SP_Tasks_Add(ti.TaskID, model.PatientID, ti.Importance, ti.Value,  HMSUser.GetUserID(username), output).First();
-
-                        if (result.HasValue && result == 0)
+                        foreach (ToDoList.TaskItem ti in model.Tasks)
                         {
-                            // Insert successful => Add notification rules using output.Value
+                            var output = new ObjectParameter("NewTaskID", typeof(int));
+                            //change 1 to insert current user id
+                            int? result = DB.SP_Tasks_Add(ti.TaskID, model.PatientID, ti.Importance, ti.Value, HMSUser.GetUserID(username), output).First();
 
+                            if (result.HasValue && result == 0)
+                            {
+                                // Insert successful => Add notification rules using output.Value
+
+                            }
                         }
                     }
                 }

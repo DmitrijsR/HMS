@@ -8,6 +8,9 @@
     
     // Dictionary variables
     ViewBag.Title = ViewData.Model.Dictionary["%ViewTasks_Title"];
+    ViewBag.Assignment = @ViewData.Model.Dictionary["%TaskAssignment_Title"];
+    ViewBag.Detail = @ViewData.Model.Dictionary["%TaskDetails_Title"];
+    ViewBag.Report = @ViewData.Model.Dictionary["%Report_Title"];
     
 
     //NavBar Items
@@ -17,7 +20,11 @@
 }
 
 @section Scripts {
-    <script>
+   
+<script>
+      
+
+
         $('.btn-delete').click(function (event) {
             var td = $(event.target).parent();
             var row = td.parent();
@@ -47,6 +54,8 @@
                         }
                     });
                     dialog.dialog("option", "minWidth", 400);
+                    dialog.dialog("option", "title", "@ViewBag.Report #: " + row.attr('data-id'));
+                    
                 }
             );
         });
@@ -55,7 +64,7 @@
             var td = $(event.target).parent();
             var row = td.parent();
 
-            var url = "/TaskAssignment";
+            var url = "/TaskAssignment/Index";
             var dialog = $('<div style="display:none"></div>').appendTo('body');
 
             dialog.load(url, { Task_ID: row.attr('data-id') },
@@ -65,7 +74,9 @@
                             dialog.remove();
                         }
                     });
-                    dialog.dialog("option", "minWidth", 400);
+                    dialog.dialog("option", "minWidth", 500);
+                    dialog.dialog("option", "title", "@ViewBag.Assignment #: " + row.attr('data-id'));
+                    
                 }
             );
         });
@@ -87,13 +98,10 @@
                         }
                     });
                     dialog.dialog("option", "minWidth", 600);
+                    dialog.dialog("option", "title", "@ViewBag.Detail #: " + id);
                 }
             );
-
         });
-
-        $('.glyphicon-remove-circle').css('cursor', 'pointer');
-        $('.glyphicon-remove-circle').css('font-size', '1.2em');
 
         $('.btn-delete').each(function () {
             var td = $(this).parent();
@@ -109,12 +117,11 @@
         });
 
         $('.glyphicon-comment').click(function (event) { $($(event.target).parent()).remove(); });
-        $('.glyphicon-comment').css('cursor', 'pointer');
-        $('.glyphicon-comment').css('font-size', '1.2em');
 
-        $('.glyphicon-user').css('cursor', 'pointer');
-        $('.glyphicon-user').css('font-size', '1.2em');
     </script>
+<!-- UI dialog was not showing closing icon: download it from:-->
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 }
 
 <table class="table table-hover">

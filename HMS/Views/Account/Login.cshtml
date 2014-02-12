@@ -16,24 +16,24 @@
     } 
 
 }
-@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { returnUrl = Request.QueryString["ReturnUrl"] }))
-{
-
+<html>
+<body style="padding-top: 100px;">
 <div class="container">
-    <div class="row">
-        <div class="span12">       
-          <div class="form-group">
-            <label  class="control-label">@ViewBag.UserName</label>       
-            <input name="UserName" type="username" class="form-control" placeholder="@ViewBag.UserNamePlaceHolder">
-          </div>
-          <div class="form-group">
-            <label class="control-label">@ViewBag.Password</label>
-            <input name="Password" type="password" class="form-control" placeholder="@ViewBag.PasswordPlaceHolder">
-          </div>
-          <div class="form-group">
-            <button type="submit" class="btn btn-default">@ViewBag.Submit</button>
-          </div>
-        </div>
+@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { returnUrl = Request.QueryString["ReturnUrl"] }))
+{     
+    <div class="form-group">
+        <label  class="control-label">@ViewBag.UserName</label>       
+        <input name="UserName" type="username" class="form-control" placeholder="@ViewBag.UserNamePlaceHolder">
     </div>
-</div>
+    <div class="form-group">
+        <label class="control-label">@ViewBag.Password</label>
+        <input name="Password" type="password" class="form-control" placeholder="@ViewBag.PasswordPlaceHolder">
+    </div>
+    <div class="form-group">
+            <button type="submit" class="btn btn-default">@ViewBag.Submit</button>
+    </div>
 }
+</div>
+</body>
+</html>
+

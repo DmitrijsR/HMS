@@ -1,28 +1,55 @@
 ﻿@using HMS.Models;
 @model TaskAssignment
-@using (Html.BeginForm("Assign", "TaskAssignment", FormMethod.Post))
-{
-<div class="container">
-    <table class="table .table-hover"> 
-        <tbody>
-            @foreach (TaskAssignment.Nurse n in ViewData.Model.NurseList)
-            {
-                var Nurse = n.Nurse_Surname + " " + n.Nurse_Name;
-                <tr>
-                    <td>@Nurse</td>
-                    <td>@n.Active_Tasks</td>
-                    <td>@n.All_Tasks</td>
-                    <td>@Html.RadioButtonFor(model => model.ResponsibleCurrent, @n.ID, n.IsResponsible == true ? new { Checked = "checked" } : null)</td>
-                </tr>         
-            }      
-        </tbody>
-    </table>
-     @Html.HiddenFor(model => model.ResponsiblePrev)
-     @Html.HiddenFor(model => model.TaskID)
-    <div class="col-xs-6"><button type="submit" class="btn pull-right">Submit</button></div>
-</div>
+@{
 
+    ViewBag.Title = @ViewData.Model.Dictionary["%TaskAssignment_Title"];
+    ViewBag.Nurse = ViewData.Model.Dictionary["%Nurse_Lbl"];
+    ViewBag.Workload = ViewData.Model.Dictionary["%Workload_Lbl"];
+    ViewBag.Assigned = ViewData.Model.Dictionary["%AssignRadio_Btn"];
+    ViewBag.Assign = ViewData.Model.Dictionary["%Assign_Btn"];
 
-    
+    ViewBag.UserNamePlaceHolder = ViewData.Model.Dictionary["%UserName_PlHold"];
+    ViewBag.PasswordPlaceHolder = ViewData.Model.Dictionary["%Password_PlHold"];
 
 }
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - Hospital Management System</title> 
+</head>
+<body>
+<div class="container">
+@using (Html.BeginForm("Assign", "TaskAssignment", FormMethod.Post))
+{
+   if(ViewData.Model.NurseList != null)
+    {
+        <table class="table .table-hover"> 
+            <thead>
+            <tr>
+                <th>@ViewBag.Nurse</th>
+                <th>@ViewBag.Workload</th>
+                <th>@ViewBag.Assigned</th>          
+            </tr>
+        </thead>
+            <tbody>
+          
+
+                @foreach (TaskAssignment.Nurse n in ViewData.Model.NurseList)
+                {
+                    var Nurse = n.Nurse_Surname + " " + n.Nurse_Name;
+                    <tr>
+                        <td>@Nurse</td>
+                        <td>@n.Active_Tasks/@n.All_Tasks</td>
+                        <td>@Html.RadioButtonFor(model => model.ResponsibleCurrent, @n.ID, n.IsResponsible == true ? new { Checked = "checked" } : null)</td>
+                    </tr>         
+                }      
+            </tbody>
+        </table>
+         @Html.HiddenFor(model => model.ResponsiblePrev)
+         @Html.HiddenFor(model => model.TaskID)
+        <div class="span7 text-center"><button type="submit" class="btn pull-right">@ViewBag.Assign</button></div>
+    }
+}
+</div>
+</body>
+</html>

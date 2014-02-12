@@ -10,7 +10,7 @@ namespace HMS.Controllers
     [Authorize (Roles="Headnurse")]
     public class TaskAssignmentController : Controller
     {
-        public ActionResult Index(Int32 Task_ID)
+        public ActionResult Index(Int32? Task_ID)
         {
             var model = new TaskAssignment();
             using (var DB = new DBDataContext())
@@ -26,14 +26,14 @@ namespace HMS.Controllers
                         All_Tasks = x.All_Tasks,
                         IsResponsible = x.IsResponsible                          
                     });
-                }
-                model.ResponsibleCurrent = model.ResponsiblePrev = model.NurseList.Where(u => u.IsResponsible == true).Select(u => u.ID).FirstOrDefault();
-                model.TaskID = Task_ID;      
-                model.Dictionary = DB.F_Dictionary("En").ToDictionary(k => k.Tag, v => v.Text);   
+                    model.ResponsibleCurrent = model.ResponsiblePrev = model.NurseList.Where(u => u.IsResponsible == true).Select(u => u.ID).FirstOrDefault();
+                    model.TaskID = Task_ID;
+                }               
+                model.Dictionary = DB.F_Dictionary("En").ToDictionary(k => k.Tag, v => v.Text); 
             }
             return View("Index", model);
         }
-
+    
         [HttpPost]
         public ActionResult Assign(TaskAssignment AssignedNurse)
         {

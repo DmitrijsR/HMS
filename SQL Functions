@@ -1,0 +1,63 @@
+-- Stored PRocedure
+
+USE [HMS]
+ALTER PROCEDURE [dbo].[SP_Task_Assign](
+	@TaskID int,
+	@NurseID int
+)
+AS
+BEGIN
+	declare @err int
+	begin transaction
+
+	update dbo.Tasks set Responsible_ID = @NurseID,Status_ID=2 where ID = @TaskID;
+	select @err = @@Error
+	
+	if @err <> 0
+		rollback transaction 
+	commit transaction 
+	if @err = 0
+		select @err = @@Error
+	else
+		select @err  
+
+	select @err;
+END
+
+
+-- Table-valued Function
+
+USE [HMS]
+
+ALTER FUNCTION [dbo].[F_NurseWorkLoad](@TaskID int)
+RETURNS @NurseWorkLoad TABLE (
+	ID						int, 
+	Nurse_Name				nvarchar(max),
+	Nurse_Surname			nvarchar(max),
+	All_Tasks				int,
+	Active_Tasks			int,
+	IsResponsible			bit
+)
+AS
+BEGIN
+	INSERT @NurseWorkLoad
+	select n.ID, n.Name, n.Surname, 	
+			Sum(Case When s.Description != 'Complete' Then 1 else 0 End) All_Tasks,
+			Sum(Case When s.Description = 'In process' OR s.Description = 'Waiting' Then 1 else 0 End) Active_Tasks,
+			Sum(case when n.ID = t.Responsible_ID AND @TaskID=t.ID then 1 else 0 end)
+from dbo.Personnel n
+Left Join Tasks t on n.ID = t.Responsible_ID
+Left Join Statuses s on t.Status_ID = s.ID 
+Left Join dbo.PersonnelRole pr on pr.PersonnelID = n.ID
+Left Join dbo.Roles r on pr.RoleID = r.ID
+
+where n.Department_ID = (select p.Department_ID from dbo.Personnel p
+						 where p.ID = (select c.Creator_ID from dbo.Tasks c
+									   where c.ID = @TaskID))
+and n.ID = pr.PersonnelID 
+and r.Name = 'Nurse'
+Group By n.ID, n.Name, n.Surname
+	RETURN 
+END
+
+

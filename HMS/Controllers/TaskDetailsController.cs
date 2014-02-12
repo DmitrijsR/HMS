@@ -7,12 +7,11 @@ using System.Web.Mvc;
 
 namespace HMS.Controllers
 {
-    [Authorize]
+    [HMSAuthorize]
     public class TaskDetailsController : Controller
     {
         //
         // GET: /TaskDetails/
-        [Authorize]
         public ActionResult Index(ItemID RecordID)
         {
             if (ModelState.IsValid)

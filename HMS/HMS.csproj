@@ -247,6 +247,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="App_Code\DefaultModelBinderWithHtmlValidation.cs" />
+    <Compile Include="HMSAuthorizeAttribute.cs" />
     <Compile Include="HMSMempershipProvider.cs" />
     <Compile Include="HMSRoleProvider.cs" />
     <Compile Include="Models\DB.Context.cs">

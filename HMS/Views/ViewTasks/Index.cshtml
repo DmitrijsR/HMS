@@ -43,7 +43,7 @@
             var td = $(event.target).parent();
             var row = td.parent();
 
-            var url = "/Report";
+            var url = "/Report/Index";
             var dialog = $('<div style="display:none"></div>').appendTo('body');
             
             dialog.load(url, { ID: row.attr('data-id') },
@@ -87,7 +87,7 @@
 
             var id = row.attr('data-id') || row.parent().attr('data-id');
 
-            var url = "/TaskDetails";
+            var url = "/TaskDetails/Index";
             var dialog = $('<div style="display:none"></div>').appendTo('body');
 
             dialog.load(url, { ID: id },

@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace HMS.Controllers
 {
-    [Authorize (Roles="Headnurse")]
+    [HMSAuthorize(Roles = "Headnurse")]
     public class TaskAssignmentController : Controller
     {
         public ActionResult Index(Int32? Task_ID)
@@ -41,7 +41,7 @@ namespace HMS.Controllers
             {
                 using (var DB = new DBDataContext())
                 {
-
+                    // a control might be added, whether the correct headnurse is assigning
                     int? result = DB.SP_Task_Assign(AssignedNurse.TaskID,AssignedNurse.ResponsibleCurrent).First();
                     return RedirectToAction("Index", "ViewTasks");
                 }

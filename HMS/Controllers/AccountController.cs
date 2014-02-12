@@ -10,6 +10,7 @@ using HMS.Models;
 
 namespace HMS.Controllers
 {
+
     public class AccountController : Controller
     {
 
@@ -27,7 +28,18 @@ namespace HMS.Controllers
         }
         [AllowAnonymous]
         public ActionResult Login()
-        {
+        {          
+            //Check if authorization check has been called
+            if (TempData["Auth_Error"] == null)
+            {
+                if (User.Identity.IsAuthenticated)
+                    return RedirectToAction("Index", "ViewTasks");
+            }
+            else
+            {
+                ViewBag.Error = TempData["Auth_Error"];
+            }
+
             var model = new HMSUser();
             using (var DB = new DBDataContext())
             {
@@ -50,11 +62,16 @@ namespace HMS.Controllers
                 }
 
             }
+            using (var DB = new DBDataContext())
+            {
+                model.Dictionary = DB.F_Dictionary("En").ToDictionary(k => k.Tag, v => v.Text);
+            }
+            ViewBag.Error = "The user name or password provided is incorrect.";
             // If we got this far, something failed, redisplay form
-            ModelState.AddModelError("", "The user name or password provided is incorrect.");
-            return RedirectToAction("Login", "Account");
+            //ModelState.AddModelError("login", "The user name or password provided is incorrect."); 
+            return View(model);
         }
-        [Authorize]
+        [HMSAuthorize]
         public ActionResult Logout()
         {          
             FormsAuthentication.SignOut();

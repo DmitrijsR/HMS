@@ -9,7 +9,7 @@ using System.Web.Security;
 
 namespace HMS
 {
-    [Authorize (Roles="Doctor")]
+    [HMSAuthorize(Roles = "Doctor")]
     public class CreateToDoController : Controller
     {
         //

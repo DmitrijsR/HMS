@@ -51,6 +51,25 @@
             );
         });
 
+        $('.btn-assign').click(function (event) {
+            var td = $(event.target).parent();
+            var row = td.parent();
+
+            var url = "/TaskAssignment";
+            var dialog = $('<div style="display:none"></div>').appendTo('body');
+
+            dialog.load(url, { Task_ID: row.attr('data-id') },
+                function (responseText, textStatus, XMLHttpRequest) {
+                    dialog.dialog({
+                        close: function (event, ui) {
+                            dialog.remove();
+                        }
+                    });
+                    dialog.dialog("option", "minWidth", 400);
+                }
+            );
+        });
+
         $('td.clickable').click(function (event) {
             var td = $(event.target);
             var row = td.parent();
@@ -75,7 +94,14 @@
 
         $('.glyphicon-remove-circle').css('cursor', 'pointer');
         $('.glyphicon-remove-circle').css('font-size', '1.2em');
+
         $('.btn-delete').each(function () {
+            var td = $(this).parent();
+            var row = td.parent();
+
+            if (row.attr('data-deletable') == "False") { $(this).prop('disabled', true); }
+        });
+        $('.btn-assign').each(function () {
             var td = $(this).parent();
             var row = td.parent();
 
@@ -85,6 +111,9 @@
         $('.glyphicon-comment').click(function (event) { $($(event.target).parent()).remove(); });
         $('.glyphicon-comment').css('cursor', 'pointer');
         $('.glyphicon-comment').css('font-size', '1.2em');
+
+        $('.glyphicon-user').css('cursor', 'pointer');
+        $('.glyphicon-user').css('font-size', '1.2em');
     </script>
 }
 
@@ -119,6 +148,7 @@
             <!-- delete button (based on role) -->
             <button class="btn-default btn btn-report" style="padding: 2px 8px;"><span class="glyphicon glyphicon-comment"></span></button> 
             @if(User.IsInRole("Doctor") || User.IsInRole("Headnurse") ){<button class="btn-default btn btn-delete" style="padding: 2px 8px;"><span class="glyphicon glyphicon-remove-circle"></span></button>}
+            @if(User.IsInRole("Headnurse") ){<button class="btn-default btn btn-assign" style="padding: 2px 8px;"><span class="action glyphicon glyphicon-user"></span></button>}
 
         </td>
     </tr>

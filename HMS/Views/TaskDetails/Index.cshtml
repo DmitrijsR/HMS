@@ -6,7 +6,7 @@
     var Responsible = "";
 }
 
-@using (Html.BeginForm("Index", "TaskAssignment", FormMethod.Post))
+@using (Html.BeginForm("Index", "TaskEditor", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     if (@ViewData.Model.Details.Responsible_Surname == null) { Responsible = "None"; } else { Responsible = @ViewData.Model.Details.Responsible_Surname + " " + @ViewData.Model.Details.Responsible_Name + " (" + @ViewData.Model.Details.Responsible_Department + ")"; }
     <fieldset>
@@ -72,12 +72,7 @@
 
         <div class="row">
             <div class="col-xs-3 text-right"><label><small>@ViewData.Model.Dictionary["%TaskDetails_Responsible"]</small></label></div>
-            <div class="col-xs-9">@Responsible
-            <!-- assign button (based on role) -->
-            @if(User.IsInRole("Headnurse"))
-            {
-                <button class="btn btn-default btn-assign" style="padding: 2px 8px;"><span class="glyphicon glyphicon-user"></span></button>
-            }
+            <div class="col-xs-9">@Responsible           
             </div>
         </div>
     </fieldset>
@@ -90,8 +85,6 @@
         $(event.target).remove();
         $('div#instruction').html('<input type="text" name="Instructions" />');
     });
-
-  
 </script>
 
 

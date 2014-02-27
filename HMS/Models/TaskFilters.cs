@@ -19,6 +19,17 @@ namespace HMS.Models
         public DateTime Till { get; set; }
         public Dictionary<string, string> Dictionary { get; set; }
 
+        // Sorting-related properties
+        public string SortBy { get; set; }
+        public bool SortAscending { get; set; }
+        public string SortExpression
+        {
+            get
+            {
+                return this.SortAscending ? this.SortBy + " asc" : this.SortBy + " desc";
+            }
+        }
+
         public class FilteredTaskType
         {
             public int? id { get; set; }
@@ -36,7 +47,6 @@ namespace HMS.Models
                 }
             }
         }
-
         public class FilteredTaskItem
         {
             public int? ID { get; set; }
@@ -57,7 +67,6 @@ namespace HMS.Models
             public String Responsible_Department { get; set; }
             public bool? Deletable { get; set; }
         }
-
         public class Nurse
         {
             public int? ID { get; set; }

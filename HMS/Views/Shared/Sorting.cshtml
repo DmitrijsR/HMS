@@ -1,0 +1,28 @@
+﻿@model HMS.Models.TaskFilters
+@{
+   var isDescending = string.CompareOrdinal(Model.SortBy, ViewData["ColumnName"].ToString()) == 0 && Model.SortAscending;
+
+   var routeData = new RouteValueDictionary { { "sortBy", ViewData["ColumnName"].ToString() }, { "ascending", !isDescending } };
+
+   var htmlAttributes = new Dictionary<string, object>();
+   if (string.CompareOrdinal(Model.SortBy, ViewData["ColumnName"].ToString()) == 0)
+   {
+      if (Model.SortAscending)
+      {
+            htmlAttributes.Add("class", "sortAsc");
+      }
+      else
+      {
+         htmlAttributes.Add("class", "sortDesc");
+      }
+   }
+
+}
+
+@Html.ActionLink(
+      ViewData["DisplayName"].ToString(),                         // Link Text
+      "Sortable",     // Action
+      Html.ViewContext.RouteData.Values["controller"].ToString(), // Controller
+      routeData,                                                  // Route data
+      htmlAttributes                                              // HTML attributes to apply to hyperlink
+   )

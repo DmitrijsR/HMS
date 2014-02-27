@@ -236,5 +236,15 @@ namespace HMS.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_Nurses_Result>("[DBDataContext].[F_Nurses](@PersonnelUserName)", personnelUserNameParameter);
         }
+    
+        [DbFunction("DBDataContext", "F_HistoryTasks")]
+        public virtual IQueryable<F_HistoryTasks_Result> F_HistoryTasks(string language)
+        {
+            var languageParameter = language != null ?
+                new ObjectParameter("Language", language) :
+                new ObjectParameter("Language", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_HistoryTasks_Result>("[DBDataContext].[F_HistoryTasks](@Language)", languageParameter);
+        }
     }
 }

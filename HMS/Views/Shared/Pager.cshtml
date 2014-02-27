@@ -1,0 +1,36 @@
+﻿@model HMS.Models.TaskFilters
+@{
+    if(ViewData["PageIndex"] != null)
+    {
+
+                var routeData = new RouteValueDictionary { { "page", ViewData["PageIndex"].ToString() }, { "pageSize", Model.PageSize } };
+
+                string[] ArgList = new string[] { "Importance", "Status", "TaskType", "Patient", "Responsible", "From", "Till","page","pageSize"  };
+                foreach (string arg in ArgList)
+                {
+                    if (!string.IsNullOrEmpty(Request.QueryString[arg]))
+                    {
+                        routeData.Add(arg, Request.QueryString[arg]);
+                    }
+                }                
+
+                var htmlAttributes = new Dictionary<string, object>();
+                if ((bool)ViewData["Selected"])
+                {
+                        htmlAttributes.Add("class", "pagerButtonCurrentPage");
+                }
+                else
+                {
+                        htmlAttributes.Add("class", "pagerButton");
+                        
+                }
+                 @Html.ActionLink(
+                    ViewData["Text"].ToString(),                                // Link Text
+                    Html.ViewContext.RouteData.Values["action"].ToString(),     // Action
+                    Html.ViewContext.RouteData.Values["controller"].ToString(), // Controller
+                    routeData,                                                  // Route data
+                    htmlAttributes                                              // HTML attributes to apply to hyperlink
+                )
+    }
+
+}

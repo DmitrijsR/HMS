@@ -9,6 +9,7 @@ namespace HMS.Models
     public class TaskFilters
     {
         public IEnumerable<FilteredTaskItem> Tasks { get; set; }
+        public IEnumerable<FilteredTaskItem> HistoryTasks { get; set; }
         public IEnumerable<FilteredTaskType> TaskTypes { get; set; }
         public IEnumerable<SelectListItem> StatusTypes { get; set; }
         public IEnumerable<SelectListItem> Patients { get; set; }
@@ -17,7 +18,28 @@ namespace HMS.Models
         public IEnumerable<SelectListItem> Responsibles { get; set; }
         public DateTime From { get; set; }
         public DateTime Till { get; set; }
+        public DateTime HistoryFrom { get; set; }
+        public DateTime HistoryTill { get; set; }
         public Dictionary<string, string> Dictionary { get; set; }
+
+        public TaskFilters()
+        {
+            this.PageSize = 10;
+            this.NumericPageCount = 10;
+        }
+
+        // Paging-related properties
+        public int CurrentPageIndex { get; set; }
+        public int PageSize { get; set; }
+        public int TotalRecordCount { get; set; }
+        public int PageCount
+        {
+            get
+            {
+                return this.TotalRecordCount / this.PageSize;
+            }
+        }
+        public int NumericPageCount;
 
         // Sorting-related properties
         public string SortBy { get; set; }

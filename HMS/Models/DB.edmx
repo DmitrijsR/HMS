@@ -30,6 +30,31 @@
             </CollectionType>
           </ReturnType>
         </Function>
+        <Function Name="F_HistoryTasks" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Language" Type="nchar" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="ID" Type="int" />
+                <Property Name="Title" Type="nvarchar(max)" />
+                <Property Name="Patient_Name" Type="nvarchar(max)" />
+                <Property Name="Patient_Surname" Type="nvarchar(max)" />
+                <Property Name="Patient_Department" Type="nvarchar(max)" />
+                <Property Name="Priority" Type="nvarchar(max)" />
+                <Property Name="Instructions" Type="nvarchar(max)" />
+                <Property Name="Status" Type="nvarchar(max)" />
+                <Property Name="Creator_Name" Type="nvarchar(max)" />
+                <Property Name="Creator_Surname" Type="nvarchar(max)" />
+                <Property Name="Creator_Department" Type="nvarchar(max)" />
+                <Property Name="TimeCreated" Type="datetime2" Precision="7" />
+                <Property Name="TimeUpdated" Type="datetime2" Precision="7" />
+                <Property Name="Responsible_Name" Type="nvarchar(max)" />
+                <Property Name="Responsible_Surname" Type="nvarchar(max)" />
+                <Property Name="Responsible_Department" Type="nvarchar(max)" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
         <Function Name="F_NotificationTypes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Language" Type="nchar" Mode="In" />
           <ReturnType>
@@ -300,7 +325,7 @@
             <Parameter Name="Language" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="F_ViewTasks" ReturnType="Collection(HMSModel.F_ViewTasks_Result)" IsComposable="true">
-            <Parameter Name="Language" Mode="In" Type="String" />
+          <Parameter Name="Language" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_Authenticate" ReturnType="Collection(Int32)">
             <Parameter Name="UserName" Mode="In" Type="String" />
@@ -343,6 +368,9 @@
           <FunctionImport Name="F_Nurses" IsComposable="true" ReturnType="Collection(HMSModel.F_Nurses_Result)">
           <Parameter Name="PersonnelUserName" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="F_HistoryTasks" IsComposable="true" ReturnType="Collection(HMSModel.F_HistoryTasks_Result)">
+          <Parameter Name="Language" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="F_NurseWorkLoad_Result">
           <Property Type="Int32" Name="ID" Nullable="true" />
@@ -364,6 +392,24 @@
           <Property Type="String" Name="Nurse_Name" Nullable="true" />
           <Property Type="String" Name="Nurse_Surname" Nullable="true" />
           <Property Type="String" Name="Department" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="F_HistoryTasks_Result">
+          <Property Type="Int32" Name="ID" Nullable="true" />
+          <Property Type="String" Name="Title" Nullable="true" />
+          <Property Type="String" Name="Patient_Name" Nullable="true" />
+          <Property Type="String" Name="Patient_Surname" Nullable="true" />
+          <Property Type="String" Name="Patient_Department" Nullable="true" />
+          <Property Type="String" Name="Priority" Nullable="true" />
+          <Property Type="String" Name="Instructions" Nullable="true" />
+          <Property Type="String" Name="Status" Nullable="true" />
+          <Property Type="String" Name="Creator_Name" Nullable="true" />
+          <Property Type="String" Name="Creator_Surname" Nullable="true" />
+          <Property Type="String" Name="Creator_Department" Nullable="true" />
+          <Property Type="DateTime" Name="TimeCreated" Nullable="true" Precision="27" />
+          <Property Type="DateTime" Name="TimeUpdated" Nullable="true" Precision="27" />
+          <Property Type="String" Name="Responsible_Name" Nullable="true" />
+          <Property Type="String" Name="Responsible_Surname" Nullable="true" />
+          <Property Type="String" Name="Responsible_Department" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -505,6 +551,28 @@
                 <ScalarProperty Name="Nurse_Name" ColumnName="Nurse_Name" />
                 <ScalarProperty Name="Nurse_Surname" ColumnName="Nurse_Surname" />
                 <ScalarProperty Name="Department" ColumnName="Department" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="F_HistoryTasks" FunctionName="HMSModel.Store.F_HistoryTasks">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HMSModel.F_HistoryTasks_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Patient_Name" ColumnName="Patient_Name" />
+                <ScalarProperty Name="Patient_Surname" ColumnName="Patient_Surname" />
+                <ScalarProperty Name="Patient_Department" ColumnName="Patient_Department" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="Instructions" ColumnName="Instructions" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Creator_Name" ColumnName="Creator_Name" />
+                <ScalarProperty Name="Creator_Surname" ColumnName="Creator_Surname" />
+                <ScalarProperty Name="Creator_Department" ColumnName="Creator_Department" />
+                <ScalarProperty Name="TimeCreated" ColumnName="TimeCreated" />
+                <ScalarProperty Name="TimeUpdated" ColumnName="TimeUpdated" />
+                <ScalarProperty Name="Responsible_Name" ColumnName="Responsible_Name" />
+                <ScalarProperty Name="Responsible_Surname" ColumnName="Responsible_Surname" />
+                <ScalarProperty Name="Responsible_Department" ColumnName="Responsible_Department" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

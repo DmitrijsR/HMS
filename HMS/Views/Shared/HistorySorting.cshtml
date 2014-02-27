@@ -1,8 +1,16 @@
 ﻿@model HMS.Models.TaskFilters
 @{
-   var isDescending = string.CompareOrdinal(Model.SortBy, ViewData["ColumnName"].ToString()) == 0 && Model.SortAscending;
+    var isDescending = string.CompareOrdinal(Model.SortBy, ViewData["ColumnName"].ToString()) == 0 && Model.SortAscending;
+    var routeData = new RouteValueDictionary { { "sortBy", ViewData["ColumnName"].ToString() }, { "ascending", !isDescending } };
 
-   var routeData = new RouteValueDictionary { { "sortBy", ViewData["ColumnName"].ToString() }, { "ascending", !isDescending } };
+    string[] ArgList = new string[] {"HistoryPatient", "HistoryFrom", "HistoryTill"};
+    foreach (string arg in ArgList)
+    {
+        if (!string.IsNullOrEmpty(Request.QueryString[arg]))
+        {
+            routeData.Add(arg, Request.QueryString[arg]);
+        }
+    }
 
    var htmlAttributes = new Dictionary<string, object>();
    if (string.CompareOrdinal(Model.SortBy, ViewData["ColumnName"].ToString()) == 0)
@@ -21,7 +29,7 @@
 
 @Html.ActionLink(
       ViewData["DisplayName"].ToString(),                         // Link Text
-      "Sortable",     // Action
+      "HistorySortFilter",                                        // Action
       Html.ViewContext.RouteData.Values["controller"].ToString(), // Controller
       routeData,                                                  // Route data
       htmlAttributes                                              // HTML attributes to apply to hyperlink

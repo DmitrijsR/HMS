@@ -206,7 +206,9 @@
     </Content>
     <Content Include="Views\TaskAssignment\Index.cshtml" />
     <Content Include="Views\Filters\Index.cshtml" />
-    <Content Include="Views\Shared\Sorting.cshtml" />
+    <Content Include="Views\Shared\ActiveSorting.cshtml" />
+    <Content Include="Views\Shared\Pager.cshtml" />
+    <Content Include="Views\Shared\HistorySorting.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -281,6 +283,9 @@
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\F_Dictionary_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\F_HistoryTasks_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\F_NotificationTypes_Result.cs">

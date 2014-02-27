@@ -108,6 +108,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\date-picker.css" />
+    <Content Include="Content\date-picker.js" />
+    <Content Include="Content\main.css" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -197,6 +200,7 @@
       <LastGenOutput>DB.cs</LastGenOutput>
     </Content>
     <Content Include="Views\TaskAssignment\Index.cshtml" />
+    <Content Include="Views\Filters\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -239,6 +243,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CreateToDoController.cs" />
+    <Compile Include="Controllers\FiltersController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\TaskAssignmentController.cs" />
     <Compile Include="Controllers\TaskDetailsController.cs" />
@@ -266,10 +271,16 @@
       <DependentUpon>DB.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Dictionary.cs" />
+    <Compile Include="Models\F_AllPatients_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\F_Dictionary_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\F_NotificationTypes_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\F_Nurses_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\F_NurseWorkLoad_Result.cs">
@@ -295,10 +306,10 @@
     </Compile>
     <Compile Include="Models\HMSUser.cs" />
     <Compile Include="Models\ItemID.cs" />
-    <Compile Include="Models\NurseAssign.cs" />
     <Compile Include="Models\ReportReq.cs" />
     <Compile Include="Models\TaskAssignment.cs" />
     <Compile Include="Models\TaskDetails.cs" />
+    <Compile Include="Models\TaskFilters.cs" />
     <Compile Include="Models\ToDoList.cs" />
     <Compile Include="Models\ViewTasksList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

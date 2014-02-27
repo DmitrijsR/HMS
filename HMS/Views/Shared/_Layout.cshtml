@@ -13,23 +13,11 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-    .table td 
-    {
-        text-align: center;
-    } 
-    .table th
-    {
-        text-align: center;
-    } 
-    .glyphicon-remove-circle .glyphicon-comment .glyphicon-user
-    {
-        cursor:pointer;
-        font-size: 1.2em;
-    }
-</style>
     <title>@ViewBag.Title - Hospital Management System</title>
     @Styles.Render("~/Content/css")
+    @Scripts.Render("~/Content/date-picker.js")
+    @Styles.Render("~/Content/date-picker.css")
+    @Styles.Render("~/Content/main.css")
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/themes/base/css")
 </head>
@@ -57,7 +45,7 @@
                     
                 @if(Request.IsAuthenticated)
                 {
-                    <li><a href="@Url.Action("Index", "CreateToDo")"><span class="glyphicon glyphicon-search"></span> @ViewBag.SearchBtn</a></li>
+                    <li><a href="@Url.Action("Index", "Filters")"><span class="glyphicon glyphicon-search"></span> @ViewBag.SearchBtn</a></li>
                     if (User.IsInRole("Doctor"))
                     {   
                         <li><a href="@Url.Action("Index", "CreateToDo")"><span class="glyphicon glyphicon-eye-open"></span> @ViewBag.FollowBtn</a></li>

@@ -1,0 +1,13 @@
+﻿.table td 
+    {
+        text-align: center;
+    } 
+    .table th
+    {
+        text-align: center;
+    } 
+    .glyphicon-remove-circle .glyphicon-comment .glyphicon-user
+    {
+        cursor:pointer;
+        font-size: 1.2em;
+    }

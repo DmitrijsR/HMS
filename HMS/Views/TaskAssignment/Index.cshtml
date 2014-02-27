@@ -25,15 +25,13 @@
     {
         <table class="table .table-hover"> 
             <thead>
-            <tr>
-                <th>@ViewBag.Nurse</th>
-                <th>@ViewBag.Workload</th>
-                <th>@ViewBag.Assigned</th>          
-            </tr>
-        </thead>
+                <tr>
+                    <th>@ViewBag.Nurse</th>
+                    <th>@ViewBag.Workload</th>
+                    <th>@ViewBag.Assigned</th>          
+                </tr>
+            </thead>
             <tbody>
-          
-
                 @foreach (TaskAssignment.Nurse n in ViewData.Model.NurseList)
                 {
                     var Nurse = n.Nurse_Surname + " " + n.Nurse_Name;

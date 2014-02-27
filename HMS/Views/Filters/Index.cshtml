@@ -1,0 +1,143 @@
+﻿@using HMS.Models;
+@model TaskFilters
+
+@{
+    ViewBag.HistoryTaskTab =  ViewData.Model.Dictionary["%HistoryTask_Tab"];
+    ViewBag.ActiveTaskTab =  ViewData.Model.Dictionary["%ActiveTask_Tab"];
+    //local variables
+    var Responsible = "";
+    var Patient = "";
+}
+@section Scripts {
+
+    <script type="text/javascript">
+        $('#datepicker-from').datepicker();
+        $('#datepicker-till').datepicker();
+    </script>
+}
+
+<br />
+<br />
+<ul class="nav nav-tabs">
+    <li><a href="#tabs-history" data-toggle="tab"><b>@ViewBag.HistoryTaskTab</b></a></li>
+    <li class="active"><a href="#tabs-actual" data-toggle="tab"><b>@ViewBag.ActiveTaskTab</b></a></li>
+</ul>
+<br />
+<br />
+<div class="tab-content">
+    <div class="tab-pane" id="tabs-history">
+    <p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>
+    <p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>  
+</div>
+
+<div class="tab-pane active" id="tabs-actual">
+        <fieldset class="filtering">
+            <legend>Search Active Tasks</legend>
+            <div class="row">
+                <div class="col-md-offset-1">
+                    <label>Priority: </label>
+                    <select  name="Tasks[-1].Importance" data-val="true" data-val-number="The field Priority must be a number." data-val-required="The Priority field is required.">
+                        <option value="">Any</option>
+                        @foreach (SelectListItem pt in ViewData.Model.PriorityTypes)
+                        {
+                            <option value="@pt.Value">@pt.Text</option>
+                        }
+                    </select>
+                    <label>Status: </label>
+                    <select name="Tasks[-1].Status" data-val="true" data-val-number="The field Priority must be a number." data-val-required="The Priority field is required.">
+                        <option value="">Any</option>
+                        @foreach (SelectListItem pt in ViewData.Model.StatusTypes)
+                        {
+                            <option value="@pt.Value">@pt.Text</option>
+                        }
+                    </select> 
+                    <label>Task Type: </label>
+                    <select name="Tasks[-1].TaskType" data-val="true" data-val-number="The field Priority must be a number." data-val-required="The Priority field is required.">
+                        <option value="">Any</option>
+                        @foreach (TaskFilters.FilteredTaskType pt in ViewData.Model.TaskTypes)
+                        {
+                            <option value="@pt.id">@pt.Text</option>
+                        }
+                    </select> 
+                    <label>Patient: </label>
+                    <select  name="Tasks[-1].Patient" data-val="true" data-val-number="The field Priority must be a number." data-val-required="The Priority field is required.">
+                        <option value="">Any</option>
+                        @foreach (SelectListItem pt in ViewData.Model.Patients)
+                        {
+                            <option value="@pt.Value">@pt.Text</option>
+                        }
+                    </select>
+                </div>
+            </div> 
+            <div class="row">
+                <div class="col-md-offset-1">
+                    <label>Responsible: </label>
+                    <select name="Tasks[-1].Responsible" data-val="true" data-val-number="The field Priority must be a number." data-val-required="The Priority field is required.">
+                        <option value="">Any</option>
+                        @foreach (SelectListItem pt in ViewData.Model.Responsibles)
+                        {
+                            <option value="@pt.Value">@pt.Text</option>
+                        }
+                    </select>   
+                    <label>Date From: </label>
+                    @Html.TextBoxFor(model => model.From, new { @Value = Model.From.ToString("MM/dd/yyyy"), @id="datepicker-from", data_date_format = "mm/dd/yyyy" })
+                    <label>Date Till: </label>
+                    @Html.TextBoxFor(model => model.Till, new {  @Value = Model.Till.ToString("MM/dd/yyyy"), @id = "datepicker-till",  data_date_format = "dd/mm/yyyy"})
+                </div>
+            </br>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-6"><button type="submit" class="btn" style="text-align:center"><b>Search</b></button></div>
+            </div>
+                
+            
+        
+        </fieldset>
+    <br />
+    <br />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @ViewData.Model.Dictionary["%ViewTasks_Table_Priority"]
+                      
+                </th>
+                <th>
+                    @ViewData.Model.Dictionary["%ViewTasks_Table_Title"]
+                </th>
+                <th>@ViewData.Model.Dictionary["%ViewTasks_Table_Instructions"]</th>
+                <th>@ViewData.Model.Dictionary["%ViewTasks_Table_Status"]</th>
+                <th>@ViewData.Model.Dictionary["%ViewTasks_Table_Responsible"]</th>
+                <th>@ViewData.Model.Dictionary["%ViewTasks_Table_Created"]</th>
+                <th>@ViewData.Model.Dictionary["%ViewTasks_Table_LstUpdated"]</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (TaskFilters.FilteredTaskItem tt in ViewData.Model.Tasks)
+            {
+                Responsible = tt.Responsible_Surname + " " + tt.Responsible_Name + " (" + tt.Responsible_Department + ")";
+                Patient = tt.Patient_Surname + " " + tt.Patient_Name + " (" + tt.Patient_Department + ")";
+                <tr data-id="@tt.ID">
+                    <td >@tt.Priority</td>
+                    <td ><b>@tt.Title</b><br /><small>@Patient</small></td>
+                    <td >@tt.Instructions</td>
+                    <td >@tt.Status</td>
+                    <td >@Responsible</td>
+                    <td >@tt.TimeCreated</td>
+                    <td >@tt.TimeUpdated </td>
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="pagination pagination-centered" >
+        <ul>
+            <li class="disabled"><a href="#">&laquo;</a></li>
+            <li class="active"><a href="#">1</a></li>
+        </ul>
+    </div>
+    
+</div>
+

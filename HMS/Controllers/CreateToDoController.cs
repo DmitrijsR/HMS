@@ -17,7 +17,6 @@ namespace HMS
         public ActionResult Index()
         {
             var model = new ToDoList();
-
             using (var DB = new DBDataContext())
             {
                 model.TaskTypes = DB.F_TaskTypes("En").ToList().Select(x => new ToDoList.TaskType
@@ -26,7 +25,7 @@ namespace HMS
                     Text = x.Text,
                     HasInstr = x.HasInstr
                 });
-                
+
                 model.Patients = DB.F_Patients().ToList().Select(x => new SelectListItem
                 {
                     Value = x.ID.ToString(),

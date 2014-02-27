@@ -216,5 +216,25 @@ namespace HMS.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Task_Assign", taskIDParameter, nurseIDParameter);
         }
+    
+        [DbFunction("DBDataContext", "F_AllPatients")]
+        public virtual IQueryable<F_AllPatients_Result> F_AllPatients(string personnelUserName)
+        {
+            var personnelUserNameParameter = personnelUserName != null ?
+                new ObjectParameter("PersonnelUserName", personnelUserName) :
+                new ObjectParameter("PersonnelUserName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_AllPatients_Result>("[DBDataContext].[F_AllPatients](@PersonnelUserName)", personnelUserNameParameter);
+        }
+    
+        [DbFunction("DBDataContext", "F_Nurses")]
+        public virtual IQueryable<F_Nurses_Result> F_Nurses(string personnelUserName)
+        {
+            var personnelUserNameParameter = personnelUserName != null ?
+                new ObjectParameter("PersonnelUserName", personnelUserName) :
+                new ObjectParameter("PersonnelUserName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_Nurses_Result>("[DBDataContext].[F_Nurses](@PersonnelUserName)", personnelUserNameParameter);
+        }
     }
 }

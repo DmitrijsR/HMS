@@ -5,9 +5,19 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="HMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <Function Name="F_Authenticate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
-          <Parameter Name="UserName" Type="varchar" Mode="In" />
-          <Parameter Name="Password" Type="varchar" Mode="In" />
+        <Function Name="F_AllPatients" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PersonnelUserName" Type="nvarchar(max)" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="ID" Type="int" />
+                <Property Name="Name" Type="nvarchar(max)" />
+                <Property Name="Surname" Type="nvarchar(max)" />
+                <Property Name="SocialNr" Type="nvarchar(max)" />
+                <Property Name="Department" Type="nvarchar(max)" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
         </Function>
         <Function Name="F_Dictionary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Language" Type="nchar" Mode="In" />
@@ -27,6 +37,19 @@
               <RowType>
                 <Property Name="ID" Type="int" />
                 <Property Name="Text" Type="nvarchar(max)" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="F_Nurses" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PersonnelUserName" Type="nvarchar(max)" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="ID" Type="int" />
+                <Property Name="Nurse_Name" Type="nvarchar(max)" />
+                <Property Name="Nurse_Surname" Type="nvarchar(max)" />
+                <Property Name="Department" Type="nvarchar(max)" />
               </RowType>
             </CollectionType>
           </ReturnType>
@@ -261,7 +284,8 @@
           <FunctionImport Name="F_NotificationTypes" ReturnType="Collection(HMSModel.F_NotificationTypes_Result)" IsComposable="true">
           <Parameter Name="Language" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="F_Patients" ReturnType="Collection(HMSModel.F_Patients_Result)" IsComposable="true" />
+          <FunctionImport Name="F_Patients" ReturnType="Collection(HMSModel.F_Patients_Result)" IsComposable="true" >
+          </FunctionImport>
           <FunctionImport Name="F_PriorityTypes" ReturnType="Collection(HMSModel.F_PriorityTypes_Result)" IsComposable="true">
           <Parameter Name="Language" Mode="In" Type="String" />
           </FunctionImport>
@@ -276,7 +300,7 @@
             <Parameter Name="Language" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="F_ViewTasks" ReturnType="Collection(HMSModel.F_ViewTasks_Result)" IsComposable="true">
-          <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="Language" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_Authenticate" ReturnType="Collection(Int32)">
             <Parameter Name="UserName" Mode="In" Type="String" />
@@ -313,6 +337,12 @@
             <Parameter Name="TaskID" Mode="In" Type="Int32" />
             <Parameter Name="NurseID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="F_AllPatients" IsComposable="true" ReturnType="Collection(HMSModel.F_AllPatients_Result)">
+          <Parameter Name="PersonnelUserName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="F_Nurses" IsComposable="true" ReturnType="Collection(HMSModel.F_Nurses_Result)">
+          <Parameter Name="PersonnelUserName" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="F_NurseWorkLoad_Result">
           <Property Type="Int32" Name="ID" Nullable="true" />
@@ -321,6 +351,19 @@
           <Property Type="Int32" Name="All_Tasks" Nullable="true" />
           <Property Type="Int32" Name="Active_Tasks" Nullable="true" />
           <Property Type="Boolean" Name="IsResponsible" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="F_AllPatients_Result">
+          <Property Type="Int32" Name="ID" Nullable="true" />
+          <Property Type="String" Name="Name" Nullable="true" />
+          <Property Type="String" Name="Surname" Nullable="true" />
+          <Property Type="String" Name="SocialNr" Nullable="true" />
+          <Property Type="String" Name="Department" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="F_Nurses_Result">
+          <Property Type="Int32" Name="ID" Nullable="true" />
+          <Property Type="String" Name="Nurse_Name" Nullable="true" />
+          <Property Type="String" Name="Nurse_Surname" Nullable="true" />
+          <Property Type="String" Name="Department" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -444,6 +487,27 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_Task_Assign" FunctionName="HMSModel.Store.SP_Task_Assign" />
+          <FunctionImportMapping FunctionImportName="F_AllPatients" FunctionName="HMSModel.Store.F_AllPatients">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HMSModel.F_AllPatients_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="SocialNr" ColumnName="SocialNr" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="F_Nurses" FunctionName="HMSModel.Store.F_Nurses">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HMSModel.F_Nurses_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nurse_Name" ColumnName="Nurse_Name" />
+                <ScalarProperty Name="Nurse_Surname" ColumnName="Nurse_Surname" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

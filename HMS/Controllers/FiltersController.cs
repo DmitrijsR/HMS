@@ -11,6 +11,7 @@ using System.Linq.Dynamic;
 
 namespace HMS.Controllers
 {
+    [HMSAuthorize]
     public class FiltersController : Controller
     {
         public ActionResult Index()
@@ -255,6 +256,8 @@ namespace HMS.Controllers
  
             return View("Index", model);
         }
+        
+        [HMSAuthorize(Roles = "Doctor")]
         public ActionResult HistorySortFilter(int? HistoryPatient, string HistoryFrom, string HistoryTill, string sortBy = "Priority", bool ascending = true, int page = 1, int pageSize = 10)
         {
             ViewBag.HistoryTab = true;

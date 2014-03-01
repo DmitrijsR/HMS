@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -16,6 +17,7 @@ namespace HMS.Models
         public IEnumerable<SelectListItem> AllPatients { get; set; }
         public IEnumerable<SelectListItem> PriorityTypes { get; set; }
         public IEnumerable<SelectListItem> Responsibles { get; set; }
+        
         public DateTime From { get; set; }
         public DateTime Till { get; set; }
         public DateTime HistoryFrom { get; set; }

@@ -17,6 +17,7 @@
 
     <script type="text/javascript">
         $('#datepicker-from-active').datepicker();
+        $('#datepicker-from-active').datepicker();
         $('#datepicker-till-active').datepicker();
         $('#datepicker-from-history').datepicker();
         $('#datepicker-till-history').datepicker();
@@ -55,53 +56,60 @@
                         }
                     </select>
                     <label>Date From: </label>
-                    @Html.TextBoxFor(model => model.HistoryFrom, new {@Value="",@id="datepicker-from-history", data_date_format = "mm/dd/yyyy" })
+                    @Html.TextBoxFor(model => model.HistoryFrom, new {@Value=ViewBag.From, @id="datepicker-from-history", data_date_format = "mm/dd/yy" })
                     <label>Date Till: </label>
-                    @Html.TextBoxFor(model => model.HistoryTill, new {@Value="",@id = "datepicker-till-history",  data_date_format = "dd/mm/yyyy"})
+                    @Html.TextBoxFor(model => model.HistoryTill, new {@Value=ViewBag.Till, @id = "datepicker-till-history",  data_date_format = "mm/dd/yy"})
                     <button type="submit" class="btn" style="text-align:center"><b>View</b></button>
                 </div>
             </div>
         </fieldset>
         <br />
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>@{ Html.RenderPartial("HistorySorting", Model,new ViewDataDictionary { { "ColumnName", "Priority" }, { "DisplayName", @ViewData.Model.Dictionary["%ViewTasks_Table_Priority"] } });} </th>
-                    <th>@{ Html.RenderPartial("HistorySorting", Model,new ViewDataDictionary { { "ColumnName", "Title" }, { "DisplayName", @ViewData.Model.Dictionary["%ViewTasks_Table_Title"] } });}</th>
-                    <th>@{ Html.RenderPartial("HistorySorting", Model,new ViewDataDictionary { { "ColumnName", "Instructions" }, { "DisplayName", @ViewData.Model.Dictionary["%ViewTasks_Table_Instructions"] } });} </th>
-                    <th>@{ Html.RenderPartial("HistorySorting", Model,new ViewDataDictionary { { "ColumnName", "Status" }, { "DisplayName", @ViewData.Model.Dictionary["%ViewTasks_Table_Status"] } });}</th>
-                    <th>@{ Html.RenderPartial("HistorySorting", Model,new ViewDataDictionary { { "ColumnName", "Responsible_Name" }, { "DisplayName", @ViewData.Model.Dictionary["%ViewTasks_Table_Responsible"] } });} </th>
-                    <th>@{ Html.RenderPartial("HistorySorting", Model,new ViewDataDictionary { { "ColumnName", "TimeCreated" }, { "DisplayName", @ViewData.Model.Dictionary["%ViewTasks_Table_Created"] } });}</th>
-                    <th>@{ Html.RenderPartial("HistorySorting", Model,new ViewDataDictionary { { "ColumnName", "TimeUpdated" }, { "DisplayName", @ViewData.Model.Dictionary["%ViewTasks_Table_LstUpdated"] } });}</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if(ViewData.Model.HistoryTasks != null)
-                {
-                    foreach (var Task in ViewData.Model.HistoryTasks)
+        if(@ViewBag.Error == null)
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>@{ Html.RenderPartial("HistorySorting", Model,new ViewDataDictionary { { "ColumnName", "Priority" }, { "DisplayName", @ViewData.Model.Dictionary["%ViewTasks_Table_Priority"] } });} </th>
+                        <th>@{ Html.RenderPartial("HistorySorting", Model,new ViewDataDictionary { { "ColumnName", "Title" }, { "DisplayName", @ViewData.Model.Dictionary["%ViewTasks_Table_Title"] } });}</th>
+                        <th>@{ Html.RenderPartial("HistorySorting", Model,new ViewDataDictionary { { "ColumnName", "Instructions" }, { "DisplayName", @ViewData.Model.Dictionary["%ViewTasks_Table_Instructions"] } });} </th>
+                        <th>@{ Html.RenderPartial("HistorySorting", Model,new ViewDataDictionary { { "ColumnName", "Status" }, { "DisplayName", @ViewData.Model.Dictionary["%ViewTasks_Table_Status"] } });}</th>
+                        <th>@{ Html.RenderPartial("HistorySorting", Model,new ViewDataDictionary { { "ColumnName", "Responsible_Name" }, { "DisplayName", @ViewData.Model.Dictionary["%ViewTasks_Table_Responsible"] } });} </th>
+                        <th>@{ Html.RenderPartial("HistorySorting", Model,new ViewDataDictionary { { "ColumnName", "TimeCreated" }, { "DisplayName", @ViewData.Model.Dictionary["%ViewTasks_Table_Created"] } });}</th>
+                        <th>@{ Html.RenderPartial("HistorySorting", Model,new ViewDataDictionary { { "ColumnName", "TimeUpdated" }, { "DisplayName", @ViewData.Model.Dictionary["%ViewTasks_Table_LstUpdated"] } });}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if(ViewData.Model.HistoryTasks != null)
                     {
-                        if(Task.Responsible_Surname != null){ResponsibleHistory = Task.Responsible_Surname + " " + Task.Responsible_Name + " (" + Task.Responsible_Department + ")";} else {ResponsibleHistory="None";}
+                        foreach (var Task in ViewData.Model.HistoryTasks)
+                        {
+                            if(Task.Responsible_Surname != null){ResponsibleHistory = Task.Responsible_Surname + " " + Task.Responsible_Name + " (" + Task.Responsible_Department + ")";} else {ResponsibleHistory="None";}
                         
-                        PatientHistory = Task.Patient_Surname + " " + Task.Patient_Name + " (" + Task.Patient_Department + ")";
-                        <tr data-id="@Task.ID">
-                            <td >@Task.Priority</td>
-                            <td ><b>@Task.Title</b><br /><small>@PatientHistory</small></td>
-                            <td >@Task.Instructions</td>
-                            <td >@Task.Status</td>
-                            <td >@ResponsibleHistory</td>
-                            <td >@Task.TimeCreated</td>
-                            <td >@Task.TimeUpdated </td>
-                        </tr>
+                            PatientHistory = Task.Patient_Surname + " " + Task.Patient_Name + " (" + Task.Patient_Department + ")";
+                            <tr data-id="@Task.ID">
+                                <td >@Task.Priority</td>
+                                <td ><b>@Task.Title</b><br /><small>@PatientHistory</small></td>
+                                <td >@Task.Instructions</td>
+                                <td >@Task.Status</td>
+                                <td >@ResponsibleHistory</td>
+                                <td >@Task.TimeCreated</td>
+                                <td >@Task.TimeUpdated </td>
+                            </tr>
+                        }
                     }
-                }
-                <tr>
-                    <td class="pager" colspan="5">
-                        @{ Html.RenderPartial("Pager", Model); }
-                    </td>
-                </tr>
+                    <tr>
+                        <td class="pager" colspan="5">
+                            @{ Html.RenderPartial("Pager", Model); }
+                        </td>
+                    </tr>
            
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p style="color:red;"><b>@ViewBag.Error</b></p>
+        }
     }
     </div>
 }
@@ -162,9 +170,9 @@
                         }
                     </select>   
                     <label>Date From: </label>
-                    @Html.TextBoxFor(model => model.From, new { @Value="", @id="datepicker-from-active", data_date_format = "mm/dd/yyyy" })
+                    @Html.TextBoxFor(model => model.From, new { @Value=ViewBag.From, @id="datepicker-from-active", data_date_format = "mm/dd/yy" })
                     <label>Date Till: </label>
-                    @Html.TextBoxFor(model => model.Till, new {  @Value="", @id = "datepicker-till-active",  data_date_format = "dd/mm/yyyy"})
+                    @Html.TextBoxFor(model => model.Till, new {  @Value=ViewBag.Till, @id = "datepicker-till-active",  data_date_format = "mm/dd/yy"})
                 </div>
             </div>
         </fieldset>
@@ -173,46 +181,52 @@
             <div class="col-md-5 col-md-offset-5"><button type="submit" class="btn" style="text-align:center"><b>View</b></button></div>
         </div>          
 
-  
-        <br />
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>@{ Html.RenderPartial("ActiveSorting", Model,new ViewDataDictionary { { "ColumnName", "Priority" }, { "DisplayName", @ViewData.Model.Dictionary["%ViewTasks_Table_Priority"] } });} </th>
-                    <th>@{ Html.RenderPartial("ActiveSorting", Model,new ViewDataDictionary { { "ColumnName", "Title" }, { "DisplayName", @ViewData.Model.Dictionary["%ViewTasks_Table_Title"] } });}</th>
-                    <th>@{ Html.RenderPartial("ActiveSorting", Model,new ViewDataDictionary { { "ColumnName", "Instructions" }, { "DisplayName", @ViewData.Model.Dictionary["%ViewTasks_Table_Instructions"] } });} </th>
-                    <th>@{ Html.RenderPartial("ActiveSorting", Model,new ViewDataDictionary { { "ColumnName", "Status" }, { "DisplayName", @ViewData.Model.Dictionary["%ViewTasks_Table_Status"] } });}</th>
-                    <th>@{ Html.RenderPartial("ActiveSorting", Model,new ViewDataDictionary { { "ColumnName", "Responsible_Name" }, { "DisplayName", @ViewData.Model.Dictionary["%ViewTasks_Table_Responsible"] } });} </th>
-                    <th>@{ Html.RenderPartial("ActiveSorting", Model,new ViewDataDictionary { { "ColumnName", "TimeCreated" }, { "DisplayName", @ViewData.Model.Dictionary["%ViewTasks_Table_Created"] } });}</th>
-                    <th>@{ Html.RenderPartial("ActiveSorting", Model,new ViewDataDictionary { { "ColumnName", "TimeUpdated" }, { "DisplayName", @ViewData.Model.Dictionary["%ViewTasks_Table_LstUpdated"] } });}</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if(ViewData.Model.Tasks != null)
-                {
-                    foreach (var Task in ViewData.Model.Tasks)
+        if(@ViewBag.Error == null)
+        {
+            <br />
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>@{ Html.RenderPartial("ActiveSorting", Model,new ViewDataDictionary { { "ColumnName", "Priority" }, { "DisplayName", @ViewData.Model.Dictionary["%ViewTasks_Table_Priority"] } });} </th>
+                        <th>@{ Html.RenderPartial("ActiveSorting", Model,new ViewDataDictionary { { "ColumnName", "Title" }, { "DisplayName", @ViewData.Model.Dictionary["%ViewTasks_Table_Title"] } });}</th>
+                        <th>@{ Html.RenderPartial("ActiveSorting", Model,new ViewDataDictionary { { "ColumnName", "Instructions" }, { "DisplayName", @ViewData.Model.Dictionary["%ViewTasks_Table_Instructions"] } });} </th>
+                        <th>@{ Html.RenderPartial("ActiveSorting", Model,new ViewDataDictionary { { "ColumnName", "Status" }, { "DisplayName", @ViewData.Model.Dictionary["%ViewTasks_Table_Status"] } });}</th>
+                        <th>@{ Html.RenderPartial("ActiveSorting", Model,new ViewDataDictionary { { "ColumnName", "Responsible_Name" }, { "DisplayName", @ViewData.Model.Dictionary["%ViewTasks_Table_Responsible"] } });} </th>
+                        <th>@{ Html.RenderPartial("ActiveSorting", Model,new ViewDataDictionary { { "ColumnName", "TimeCreated" }, { "DisplayName", @ViewData.Model.Dictionary["%ViewTasks_Table_Created"] } });}</th>
+                        <th>@{ Html.RenderPartial("ActiveSorting", Model,new ViewDataDictionary { { "ColumnName", "TimeUpdated" }, { "DisplayName", @ViewData.Model.Dictionary["%ViewTasks_Table_LstUpdated"] } });}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if(ViewData.Model.Tasks != null)
                     {
-                        if(Task.Responsible_Surname != null){Responsible = Task.Responsible_Surname + " " + Task.Responsible_Name + " (" + Task.Responsible_Department + ")";} else {Responsible="None";}
-                        Patient = Task.Patient_Surname + " " + Task.Patient_Name + " (" + Task.Patient_Department + ")";
-                        <tr data-id="@Task.ID">
-                            <td >@Task.Priority</td>
-                            <td ><b>@Task.Title</b><br /><small>@Patient</small></td>
-                            <td >@Task.Instructions</td>
-                            <td >@Task.Status</td>
-                            <td >@Responsible</td>
-                            <td >@Task.TimeCreated</td>
-                            <td >@Task.TimeUpdated </td>
+                        foreach (var Task in ViewData.Model.Tasks)
+                        {
+                            if(Task.Responsible_Surname != null){Responsible = Task.Responsible_Surname + " " + Task.Responsible_Name + " (" + Task.Responsible_Department + ")";} else {Responsible="None";}
+                            Patient = Task.Patient_Surname + " " + Task.Patient_Name + " (" + Task.Patient_Department + ")";
+                            <tr data-id="@Task.ID">
+                                <td >@Task.Priority</td>
+                                <td ><b>@Task.Title</b><br /><small>@Patient</small></td>
+                                <td >@Task.Instructions</td>
+                                <td >@Task.Status</td>
+                                <td >@Responsible</td>
+                                <td >@Task.TimeCreated</td>
+                                <td >@Task.TimeUpdated </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td class="pager" colspan="5">
+                                @{ Html.RenderPartial("Pager", Model); }
+                            </td>
                         </tr>
                     }
-                    <tr>
-                        <td class="pager" colspan="5">
-                            @{ Html.RenderPartial("Pager", Model); }
-                        </td>
-                    </tr>
-                }
 
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p style="color:red;"><b>@ViewBag.Error</b></p>
+        }
   }
     </div>
 </div>

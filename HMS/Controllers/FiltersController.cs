@@ -21,7 +21,7 @@ namespace HMS.Controllers
             using (var DB = new DBDataContext())
             {
                 populateModel(model, DB);
-                model.Tasks = DB.F_ViewTasks("En").ToList().Select(x => new TaskFilters.FilteredTaskItem
+                model.Tasks = DB.F_ViewTasks("En", null, null, null).ToList().Select(x => new TaskFilters.FilteredTaskItem
                 {
                     ID = x.ID,
                     Title = x.Title,
@@ -92,7 +92,7 @@ namespace HMS.Controllers
                 using (var DB = new DBDataContext())
                 {
                     var tempmodel = new TaskFilters();
-                    tempmodel.Tasks = DB.F_ViewTasks("En").OrderBy(model.SortExpression).ToList().Select(x => new TaskFilters.FilteredTaskItem
+                    tempmodel.Tasks = DB.F_ViewTasks("En", null, null, null).OrderBy(model.SortExpression).ToList().Select(x => new TaskFilters.FilteredTaskItem
                     {
                         ID = x.ID,
                         Title = x.Title,
@@ -185,7 +185,7 @@ namespace HMS.Controllers
                     });
 
                     model.Tasks = tempmodel.Tasks;
-                    model.TotalRecordCount = DB.F_ViewTasks("En").ToList().Count;
+                    model.TotalRecordCount = DB.F_ViewTasks("En", null, null, null).ToList().Count;
 
                     model.From = DateTime.Today.AddYears(-1);
                     model.Till = DateTime.Now;
@@ -274,7 +274,7 @@ namespace HMS.Controllers
                         }
                     }
 
-                    model.TotalRecordCount = DB.F_ViewTasks("En").ToList().Count;
+                    model.TotalRecordCount = DB.F_ViewTasks("En", null, null, null).ToList().Count;
                 }
             }
             catch (Exception ex)

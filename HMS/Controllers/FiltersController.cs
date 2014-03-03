@@ -57,7 +57,7 @@ namespace HMS.Controllers
                     Text = x.Nurse_Name + " " + x.Nurse_Surname + " (" + x.Department + ")"
                 });
 
-                model.Tasks = DB.F_ViewTasks("En").ToList().Select(x => new TaskFilters.FilteredTaskItem
+                model.Tasks = DB.F_ViewTasks("En", null, null, null).ToList().Select(x => new TaskFilters.FilteredTaskItem
                 {
                     ID = x.ID,
                     Title = x.Title,
@@ -164,7 +164,7 @@ namespace HMS.Controllers
                 });
 
                 var tempmodel = new TaskFilters();
-                tempmodel.Tasks = DB.F_ViewTasks("En").OrderBy(model.SortExpression).ToList().Select(x => new TaskFilters.FilteredTaskItem
+                tempmodel.Tasks = DB.F_ViewTasks("En", null, null, null).OrderBy(model.SortExpression).ToList().Select(x => new TaskFilters.FilteredTaskItem
                 {
                     ID = x.ID,
                     Title = x.Title,
@@ -235,7 +235,7 @@ namespace HMS.Controllers
                 });
 
                 model.Tasks = tempmodel.Tasks;
-                model.TotalRecordCount = DB.F_ViewTasks("En").ToList().Count;
+                model.TotalRecordCount = DB.F_ViewTasks("En", null, null, null).ToList().Count;
 
                 model.Dictionary = DB.F_Dictionary("En").ToDictionary(k => k.Tag, v => v.Text);
                 model.From = DateTime.Today.AddYears(-1);
@@ -340,8 +340,8 @@ namespace HMS.Controllers
                 }
                 //From,Till
 
-              
-                model.TotalRecordCount = DB.F_ViewTasks("En").ToList().Count;
+
+                model.TotalRecordCount = DB.F_ViewTasks("En", null, null, null).ToList().Count;
 
                 model.Dictionary = DB.F_Dictionary("En").ToDictionary(k => k.Tag, v => v.Text);
                 

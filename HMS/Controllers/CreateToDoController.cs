@@ -52,9 +52,6 @@ namespace HMS
 
         public ActionResult Create(ToDoList model)
         {
-            // Get username from the cookie
-            string username = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).Name;
-
             if (ModelState.IsValid)
             {
 
@@ -67,7 +64,7 @@ namespace HMS
                         {
                             var output = new ObjectParameter("NewTaskID", typeof(int));
                             //change 1 to insert current user id
-                            int? result = DB.SP_Tasks_Add(ti.TaskID, model.PatientID, ti.Importance, ti.Value, HMSUser.GetUserID(username), output).First();
+                            int? result = DB.SP_Tasks_Add(ti.TaskID, model.PatientID, ti.Importance, ti.Value, User.Identity.Name, output).First();
 
                             if (result.HasValue && result == 0)
                             {

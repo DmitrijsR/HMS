@@ -17,10 +17,20 @@ namespace HMS.Controllers
         public ActionResult Index()
         {
             var model = new ViewTasksList();
+            String Doctor_UID = null;
+            String HNurse_UID = null;
+            String Nurse_UID = null;
 
             using (var DB = new DBDataContext())
             {
-                model.Tasks = DB.F_ViewTasks("En").ToList().Select(x => new ViewTasksList.TaskItem
+                if (User.IsInRole("Doctor"))
+                    Doctor_UID = User.Identity.Name;
+                else if (User.IsInRole("Nurse"))
+                    Nurse_UID = User.Identity.Name;
+                else if (User.IsInRole("Headnurse"))
+                    HNurse_UID = User.Identity.Name;
+                
+                model.Tasks = DB.F_ViewTasks("En", Doctor_UID, HNurse_UID, Nurse_UID).ToList().Select(x => new ViewTasksList.TaskItem
                 {
                     ID = x.ID,
 	                Title = x.Title,

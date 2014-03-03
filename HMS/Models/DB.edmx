@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="HMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="HMS.Models.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <Function Name="F_AllPatients" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="PersonnelUserName" Type="nvarchar(max)" Mode="In" />
           <ReturnType>
@@ -141,13 +141,6 @@
             </CollectionType>
           </ReturnType>
         </Function>
-        <Function Name="F_TranslateTo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar(max)">
-          <Parameter Name="Language" Type="nchar" Mode="In" />
-          <Parameter Name="Tag" Type="nvarchar(max)" Mode="In" />
-        </Function>
-        <Function Name="F_ValidateLanguage" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="bit">
-          <Parameter Name="Language" Type="nchar" Mode="In" />
-        </Function>
         <Function Name="F_ViewTaskDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TaskID" Type="int" Mode="In" />
           <Parameter Name="Language" Type="nchar" Mode="In" />
@@ -176,6 +169,9 @@
         </Function>
         <Function Name="F_ViewTasks" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Language" Type="nchar" Mode="In" />
+          <Parameter Name="Doctor_UID" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="HNurse_UID" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Nurse_UID" Type="nvarchar(max)" Mode="In" />
           <ReturnType>
             <CollectionType>
               <RowType>
@@ -220,7 +216,7 @@
           <Parameter Name="PatientID" Type="int" Mode="In" />
           <Parameter Name="PriorityID" Type="int" Mode="In" />
           <Parameter Name="Instr" Type="nvarchar(max)" Mode="In" />
-          <Parameter Name="Creator_ID" Type="int" Mode="In" />
+          <Parameter Name="Creator_Name" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="NewTaskID" Type="int" Mode="InOut" />
         </Function>
         <Function Name="SP_Tasks_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -232,18 +228,57 @@
           <Parameter Name="Attachment" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="Comment" Type="nvarchar(max)" Mode="In" />
         </Function>
-        <EntityContainer Name="HMSModelStoreContainer" />
+        <EntityContainer Name="HMSModelsStoreContainer" />
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="HMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="HMS.Models" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <ComplexType Name="F_AllPatients_Result">
+          <Property Name="ID" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SocialNr" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Department" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </ComplexType>
         <ComplexType Name="F_Dictionary_Result">
           <Property Name="Tag" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </ComplexType>
+        <ComplexType Name="F_HistoryTasks_Result">
+          <Property Name="ID" Type="Int32" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Patient_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Patient_Surname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Patient_Department" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Priority" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Instructions" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Creator_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Creator_Surname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Creator_Department" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TimeCreated" Type="DateTime" />
+          <Property Name="TimeUpdated" Type="DateTime" />
+          <Property Name="Responsible_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Responsible_Surname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Responsible_Department" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </ComplexType>
         <ComplexType Name="F_NotificationTypes_Result">
           <Property Name="ID" Type="Int32" />
           <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </ComplexType>
+        <ComplexType Name="F_Nurses_Result">
+          <Property Name="ID" Type="Int32" />
+          <Property Name="Nurse_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Nurse_Surname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Department" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </ComplexType>
+        <ComplexType Name="F_NurseWorkLoad_Result">
+          <Property Name="ID" Type="Int32" />
+          <Property Name="Nurse_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Nurse_Surname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="All_Tasks" Type="Int32" />
+          <Property Name="Active_Tasks" Type="Int32" />
+          <Property Name="IsResponsible" Type="Boolean" />
         </ComplexType>
         <ComplexType Name="F_Patients_Result">
           <Property Name="ID" Type="Int32" />
@@ -303,29 +338,43 @@
           <Property Name="Deletable" Type="Boolean" />
         </ComplexType>
         <EntityContainer Name="DBDataContext" annotation:LazyLoadingEnabled="true">
-          <FunctionImport Name="F_Dictionary" ReturnType="Collection(HMSModel.F_Dictionary_Result)" IsComposable="true">
+          <FunctionImport Name="F_AllPatients" ReturnType="Collection(HMS.Models.F_AllPatients_Result)" IsComposable="true">
+          <Parameter Name="PersonnelUserName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="F_Dictionary" ReturnType="Collection(HMS.Models.F_Dictionary_Result)" IsComposable="true">
           <Parameter Name="Language" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="F_NotificationTypes" ReturnType="Collection(HMSModel.F_NotificationTypes_Result)" IsComposable="true">
+          <FunctionImport Name="F_HistoryTasks" ReturnType="Collection(HMS.Models.F_HistoryTasks_Result)" IsComposable="true">
           <Parameter Name="Language" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="F_Patients" ReturnType="Collection(HMSModel.F_Patients_Result)" IsComposable="true" >
-          </FunctionImport>
-          <FunctionImport Name="F_PriorityTypes" ReturnType="Collection(HMSModel.F_PriorityTypes_Result)" IsComposable="true">
+          <FunctionImport Name="F_NotificationTypes" ReturnType="Collection(HMS.Models.F_NotificationTypes_Result)" IsComposable="true">
           <Parameter Name="Language" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="F_StatusTypes" ReturnType="Collection(HMSModel.F_StatusTypes_Result)" IsComposable="true">
+          <FunctionImport Name="F_Nurses" ReturnType="Collection(HMS.Models.F_Nurses_Result)" IsComposable="true">
+          <Parameter Name="PersonnelUserName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="F_NurseWorkLoad" ReturnType="Collection(HMS.Models.F_NurseWorkLoad_Result)" IsComposable="true">
+          <Parameter Name="TaskID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="F_Patients" ReturnType="Collection(HMS.Models.F_Patients_Result)" IsComposable="true" />
+          <FunctionImport Name="F_PriorityTypes" ReturnType="Collection(HMS.Models.F_PriorityTypes_Result)" IsComposable="true">
           <Parameter Name="Language" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="F_TaskTypes" ReturnType="Collection(HMSModel.F_TaskTypes_Result)" IsComposable="true">
+          <FunctionImport Name="F_StatusTypes" ReturnType="Collection(HMS.Models.F_StatusTypes_Result)" IsComposable="true">
           <Parameter Name="Language" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="F_ViewTaskDetails" ReturnType="Collection(HMSModel.F_ViewTaskDetails_Result)" IsComposable="true">
+          <FunctionImport Name="F_TaskTypes" ReturnType="Collection(HMS.Models.F_TaskTypes_Result)" IsComposable="true">
+          <Parameter Name="Language" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="F_ViewTaskDetails" ReturnType="Collection(HMS.Models.F_ViewTaskDetails_Result)" IsComposable="true">
             <Parameter Name="TaskID" Mode="In" Type="Int32" />
             <Parameter Name="Language" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="F_ViewTasks" ReturnType="Collection(HMSModel.F_ViewTasks_Result)" IsComposable="true">
+          <FunctionImport Name="F_ViewTasks" ReturnType="Collection(HMS.Models.F_ViewTasks_Result)" IsComposable="true">
           <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="Doctor_UID" Mode="In" Type="String" />
+            <Parameter Name="HNurse_UID" Mode="In" Type="String" />
+            <Parameter Name="Nurse_UID" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_Authenticate" ReturnType="Collection(Int32)">
             <Parameter Name="UserName" Mode="In" Type="String" />
@@ -335,12 +384,19 @@
           <FunctionImport Name="SP_GetRoles" ReturnType="Collection(String)">
           <Parameter Name="UserName" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="SP_GetUserID" ReturnType="Collection(Int32)">
+          <Parameter Name="UserName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Task_Assign" ReturnType="Collection(Int32)">
+            <Parameter Name="TaskID" Mode="In" Type="Int32" />
+            <Parameter Name="NurseID" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="SP_Tasks_Add" ReturnType="Collection(Int32)">
             <Parameter Name="TypeID" Mode="In" Type="Int32" />
             <Parameter Name="PatientID" Mode="In" Type="Int32" />
             <Parameter Name="PriorityID" Mode="In" Type="Int32" />
             <Parameter Name="Instr" Mode="In" Type="String" />
-            <Parameter Name="Creator_ID" Mode="In" Type="Int32" />
+            <Parameter Name="Creator_Name" Mode="In" Type="String" />
             <Parameter Name="NewTaskID" Mode="InOut" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_Tasks_Delete" ReturnType="Collection(Int32)">
@@ -352,90 +408,16 @@
             <Parameter Name="Attachment" Mode="In" Type="String" />
             <Parameter Name="Comment" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="SP_GetUserID" ReturnType="Collection(Int32)">
-          <Parameter Name="UserName" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="F_NurseWorkLoad" IsComposable="true" ReturnType="Collection(HMSModel.F_NurseWorkLoad_Result)">
-          <Parameter Name="TaskID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="SP_Task_Assign" ReturnType="Collection(Int32)">
-            <Parameter Name="TaskID" Mode="In" Type="Int32" />
-            <Parameter Name="NurseID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="F_AllPatients" IsComposable="true" ReturnType="Collection(HMSModel.F_AllPatients_Result)">
-          <Parameter Name="PersonnelUserName" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="F_Nurses" IsComposable="true" ReturnType="Collection(HMSModel.F_Nurses_Result)">
-          <Parameter Name="PersonnelUserName" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="F_HistoryTasks" IsComposable="true" ReturnType="Collection(HMSModel.F_HistoryTasks_Result)">
-          <Parameter Name="Language" Mode="In" Type="String" />
-          </FunctionImport>
         </EntityContainer>
-        <ComplexType Name="F_NurseWorkLoad_Result">
-          <Property Type="Int32" Name="ID" Nullable="true" />
-          <Property Type="String" Name="Nurse_Name" Nullable="true" />
-          <Property Type="String" Name="Nurse_Surname" Nullable="true" />
-          <Property Type="Int32" Name="All_Tasks" Nullable="true" />
-          <Property Type="Int32" Name="Active_Tasks" Nullable="true" />
-          <Property Type="Boolean" Name="IsResponsible" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="F_AllPatients_Result">
-          <Property Type="Int32" Name="ID" Nullable="true" />
-          <Property Type="String" Name="Name" Nullable="true" />
-          <Property Type="String" Name="Surname" Nullable="true" />
-          <Property Type="String" Name="SocialNr" Nullable="true" />
-          <Property Type="String" Name="Department" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="F_Nurses_Result">
-          <Property Type="Int32" Name="ID" Nullable="true" />
-          <Property Type="String" Name="Nurse_Name" Nullable="true" />
-          <Property Type="String" Name="Nurse_Surname" Nullable="true" />
-          <Property Type="String" Name="Department" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="F_HistoryTasks_Result">
-          <Property Type="Int32" Name="ID" Nullable="true" />
-          <Property Type="String" Name="Title" Nullable="true" />
-          <Property Type="String" Name="Patient_Name" Nullable="true" />
-          <Property Type="String" Name="Patient_Surname" Nullable="true" />
-          <Property Type="String" Name="Patient_Department" Nullable="true" />
-          <Property Type="String" Name="Priority" Nullable="true" />
-          <Property Type="String" Name="Instructions" Nullable="true" />
-          <Property Type="String" Name="Status" Nullable="true" />
-          <Property Type="String" Name="Creator_Name" Nullable="true" />
-          <Property Type="String" Name="Creator_Surname" Nullable="true" />
-          <Property Type="String" Name="Creator_Department" Nullable="true" />
-          <Property Type="DateTime" Name="TimeCreated" Nullable="true" Precision="27" />
-          <Property Type="DateTime" Name="TimeUpdated" Nullable="true" Precision="27" />
-          <Property Type="String" Name="Responsible_Name" Nullable="true" />
-          <Property Type="String" Name="Responsible_Surname" Nullable="true" />
-          <Property Type="String" Name="Responsible_Department" Nullable="true" />
-        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="HMSModelStoreContainer" CdmEntityContainer="DBDataContext">
-          <FunctionImportMapping FunctionName="HMSModel.Store.F_Dictionary" FunctionImportName="F_Dictionary">
+        <EntityContainerMapping StorageEntityContainer="HMSModelsStoreContainer" CdmEntityContainer="DBDataContext">
+          <FunctionImportMapping FunctionName="HMS.Models.Store.F_AllPatients" FunctionImportName="F_AllPatients">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="HMSModel.F_Dictionary_Result">
-                <ScalarProperty Name="Tag" ColumnName="Tag" />
-                <ScalarProperty Name="Text" ColumnName="Text" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionName="HMSModel.Store.F_NotificationTypes" FunctionImportName="F_NotificationTypes">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HMSModel.F_NotificationTypes_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Text" ColumnName="Text" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionName="HMSModel.Store.F_Patients" FunctionImportName="F_Patients">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HMSModel.F_Patients_Result">
+              <ComplexTypeMapping TypeName="HMS.Models.F_AllPatients_Result">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Surname" ColumnName="Surname" />
@@ -444,34 +426,105 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionName="HMSModel.Store.F_PriorityTypes" FunctionImportName="F_PriorityTypes">
+          <FunctionImportMapping FunctionName="HMS.Models.Store.F_Dictionary" FunctionImportName="F_Dictionary">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="HMSModel.F_PriorityTypes_Result">
+              <ComplexTypeMapping TypeName="HMS.Models.F_Dictionary_Result">
+                <ScalarProperty Name="Tag" ColumnName="Tag" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="HMS.Models.Store.F_HistoryTasks" FunctionImportName="F_HistoryTasks">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HMS.Models.F_HistoryTasks_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Patient_Name" ColumnName="Patient_Name" />
+                <ScalarProperty Name="Patient_Surname" ColumnName="Patient_Surname" />
+                <ScalarProperty Name="Patient_Department" ColumnName="Patient_Department" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="Instructions" ColumnName="Instructions" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Creator_Name" ColumnName="Creator_Name" />
+                <ScalarProperty Name="Creator_Surname" ColumnName="Creator_Surname" />
+                <ScalarProperty Name="Creator_Department" ColumnName="Creator_Department" />
+                <ScalarProperty Name="TimeCreated" ColumnName="TimeCreated" />
+                <ScalarProperty Name="TimeUpdated" ColumnName="TimeUpdated" />
+                <ScalarProperty Name="Responsible_Name" ColumnName="Responsible_Name" />
+                <ScalarProperty Name="Responsible_Surname" ColumnName="Responsible_Surname" />
+                <ScalarProperty Name="Responsible_Department" ColumnName="Responsible_Department" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="HMS.Models.Store.F_NotificationTypes" FunctionImportName="F_NotificationTypes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HMS.Models.F_NotificationTypes_Result">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Text" ColumnName="Text" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionName="HMSModel.Store.F_StatusTypes" FunctionImportName="F_StatusTypes">
+          <FunctionImportMapping FunctionName="HMS.Models.Store.F_Nurses" FunctionImportName="F_Nurses">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="HMSModel.F_StatusTypes_Result">
+              <ComplexTypeMapping TypeName="HMS.Models.F_Nurses_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nurse_Name" ColumnName="Nurse_Name" />
+                <ScalarProperty Name="Nurse_Surname" ColumnName="Nurse_Surname" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="HMS.Models.Store.F_NurseWorkLoad" FunctionImportName="F_NurseWorkLoad">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HMS.Models.F_NurseWorkLoad_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nurse_Name" ColumnName="Nurse_Name" />
+                <ScalarProperty Name="Nurse_Surname" ColumnName="Nurse_Surname" />
+                <ScalarProperty Name="All_Tasks" ColumnName="All_Tasks" />
+                <ScalarProperty Name="Active_Tasks" ColumnName="Active_Tasks" />
+                <ScalarProperty Name="IsResponsible" ColumnName="IsResponsible" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="HMS.Models.Store.F_Patients" FunctionImportName="F_Patients">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HMS.Models.F_Patients_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="SocialNr" ColumnName="SocialNr" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="HMS.Models.Store.F_PriorityTypes" FunctionImportName="F_PriorityTypes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HMS.Models.F_PriorityTypes_Result">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Text" ColumnName="Text" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionName="HMSModel.Store.F_TaskTypes" FunctionImportName="F_TaskTypes">
+          <FunctionImportMapping FunctionName="HMS.Models.Store.F_StatusTypes" FunctionImportName="F_StatusTypes">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="HMSModel.F_TaskTypes_Result">
+              <ComplexTypeMapping TypeName="HMS.Models.F_StatusTypes_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="HMS.Models.Store.F_TaskTypes" FunctionImportName="F_TaskTypes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HMS.Models.F_TaskTypes_Result">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Text" ColumnName="Text" />
                 <ScalarProperty Name="HasInstr" ColumnName="HasInstr" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionName="HMSModel.Store.F_ViewTaskDetails" FunctionImportName="F_ViewTaskDetails">
+          <FunctionImportMapping FunctionName="HMS.Models.Store.F_ViewTaskDetails" FunctionImportName="F_ViewTaskDetails">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="HMSModel.F_ViewTaskDetails_Result">
+              <ComplexTypeMapping TypeName="HMS.Models.F_ViewTaskDetails_Result">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Patient_Name" ColumnName="Patient_Name" />
@@ -491,9 +544,9 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionName="HMSModel.Store.F_ViewTasks" FunctionImportName="F_ViewTasks">
+          <FunctionImportMapping FunctionName="HMS.Models.Store.F_ViewTasks" FunctionImportName="F_ViewTasks">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="HMSModel.F_ViewTasks_Result">
+              <ComplexTypeMapping TypeName="HMS.Models.F_ViewTasks_Result">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Patient_Name" ColumnName="Patient_Name" />
@@ -514,68 +567,13 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_Authenticate" FunctionName="HMSModel.Store.SP_Authenticate" />
-          <FunctionImportMapping FunctionImportName="SP_GetRoles" FunctionName="HMSModel.Store.SP_GetRoles" />
-          <FunctionImportMapping FunctionImportName="SP_Tasks_Add" FunctionName="HMSModel.Store.SP_Tasks_Add" />
-          <FunctionImportMapping FunctionImportName="SP_Tasks_Delete" FunctionName="HMSModel.Store.SP_Tasks_Delete" />
-          <FunctionImportMapping FunctionImportName="SP_Tasks_Report" FunctionName="HMSModel.Store.SP_Tasks_Report" />
-          <FunctionImportMapping FunctionImportName="SP_GetUserID" FunctionName="HMSModel.Store.SP_GetUserID" />
-          <FunctionImportMapping FunctionImportName="F_NurseWorkLoad" FunctionName="HMSModel.Store.F_NurseWorkLoad">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HMSModel.F_NurseWorkLoad_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Nurse_Name" ColumnName="Nurse_Name" />
-                <ScalarProperty Name="Nurse_Surname" ColumnName="Nurse_Surname" />
-                <ScalarProperty Name="All_Tasks" ColumnName="All_Tasks" />
-                <ScalarProperty Name="Active_Tasks" ColumnName="Active_Tasks" />
-                <ScalarProperty Name="IsResponsible" ColumnName="IsResponsible" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_Task_Assign" FunctionName="HMSModel.Store.SP_Task_Assign" />
-          <FunctionImportMapping FunctionImportName="F_AllPatients" FunctionName="HMSModel.Store.F_AllPatients">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HMSModel.F_AllPatients_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Surname" ColumnName="Surname" />
-                <ScalarProperty Name="SocialNr" ColumnName="SocialNr" />
-                <ScalarProperty Name="Department" ColumnName="Department" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="F_Nurses" FunctionName="HMSModel.Store.F_Nurses">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HMSModel.F_Nurses_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Nurse_Name" ColumnName="Nurse_Name" />
-                <ScalarProperty Name="Nurse_Surname" ColumnName="Nurse_Surname" />
-                <ScalarProperty Name="Department" ColumnName="Department" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="F_HistoryTasks" FunctionName="HMSModel.Store.F_HistoryTasks">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HMSModel.F_HistoryTasks_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Patient_Name" ColumnName="Patient_Name" />
-                <ScalarProperty Name="Patient_Surname" ColumnName="Patient_Surname" />
-                <ScalarProperty Name="Patient_Department" ColumnName="Patient_Department" />
-                <ScalarProperty Name="Priority" ColumnName="Priority" />
-                <ScalarProperty Name="Instructions" ColumnName="Instructions" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Creator_Name" ColumnName="Creator_Name" />
-                <ScalarProperty Name="Creator_Surname" ColumnName="Creator_Surname" />
-                <ScalarProperty Name="Creator_Department" ColumnName="Creator_Department" />
-                <ScalarProperty Name="TimeCreated" ColumnName="TimeCreated" />
-                <ScalarProperty Name="TimeUpdated" ColumnName="TimeUpdated" />
-                <ScalarProperty Name="Responsible_Name" ColumnName="Responsible_Name" />
-                <ScalarProperty Name="Responsible_Surname" ColumnName="Responsible_Surname" />
-                <ScalarProperty Name="Responsible_Department" ColumnName="Responsible_Department" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Authenticate" FunctionName="HMS.Models.Store.SP_Authenticate" />
+          <FunctionImportMapping FunctionImportName="SP_GetRoles" FunctionName="HMS.Models.Store.SP_GetRoles" />
+          <FunctionImportMapping FunctionImportName="SP_GetUserID" FunctionName="HMS.Models.Store.SP_GetUserID" />
+          <FunctionImportMapping FunctionImportName="SP_Task_Assign" FunctionName="HMS.Models.Store.SP_Task_Assign" />
+          <FunctionImportMapping FunctionImportName="SP_Tasks_Add" FunctionName="HMS.Models.Store.SP_Tasks_Add" />
+          <FunctionImportMapping FunctionImportName="SP_Tasks_Delete" FunctionName="HMS.Models.Store.SP_Tasks_Delete" />
+          <FunctionImportMapping FunctionImportName="SP_Tasks_Report" FunctionName="HMS.Models.Store.SP_Tasks_Report" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

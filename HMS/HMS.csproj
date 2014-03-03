@@ -187,6 +187,11 @@
     <Content Include="Views\TaskDetails\Error.cshtml" />
     <Content Include="Views\TaskDetails\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\TaskAssignment\Index.cshtml" />
+    <Content Include="Views\Filters\Index.cshtml" />
+    <Content Include="Views\Shared\ActiveSorting.cshtml" />
+    <Content Include="Views\Shared\Pager.cshtml" />
+    <Content Include="Views\Shared\HistorySorting.cshtml" />
     <EntityDeploy Include="Models\DB.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>DB.Designer.cs</LastGenOutput>
@@ -204,11 +209,6 @@
       <DependentUpon>DB.edmx</DependentUpon>
       <LastGenOutput>DB.cs</LastGenOutput>
     </Content>
-    <Content Include="Views\TaskAssignment\Index.cshtml" />
-    <Content Include="Views\Filters\Index.cshtml" />
-    <Content Include="Views\Shared\ActiveSorting.cshtml" />
-    <Content Include="Views\Shared\Pager.cshtml" />
-    <Content Include="Views\Shared\HistorySorting.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

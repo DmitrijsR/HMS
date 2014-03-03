@@ -28,6 +28,16 @@ namespace HMS.Models
         }
     
     
+        [DbFunction("DBDataContext", "F_AllPatients")]
+        public virtual IQueryable<F_AllPatients_Result> F_AllPatients(string personnelUserName)
+        {
+            var personnelUserNameParameter = personnelUserName != null ?
+                new ObjectParameter("PersonnelUserName", personnelUserName) :
+                new ObjectParameter("PersonnelUserName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_AllPatients_Result>("[DBDataContext].[F_AllPatients](@PersonnelUserName)", personnelUserNameParameter);
+        }
+    
         [DbFunction("DBDataContext", "F_Dictionary")]
         public virtual IQueryable<F_Dictionary_Result> F_Dictionary(string language)
         {
@@ -38,6 +48,16 @@ namespace HMS.Models
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_Dictionary_Result>("[DBDataContext].[F_Dictionary](@Language)", languageParameter);
         }
     
+        [DbFunction("DBDataContext", "F_HistoryTasks")]
+        public virtual IQueryable<F_HistoryTasks_Result> F_HistoryTasks(string language)
+        {
+            var languageParameter = language != null ?
+                new ObjectParameter("Language", language) :
+                new ObjectParameter("Language", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_HistoryTasks_Result>("[DBDataContext].[F_HistoryTasks](@Language)", languageParameter);
+        }
+    
         [DbFunction("DBDataContext", "F_NotificationTypes")]
         public virtual IQueryable<F_NotificationTypes_Result> F_NotificationTypes(string language)
         {
@@ -46,6 +66,26 @@ namespace HMS.Models
                 new ObjectParameter("Language", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_NotificationTypes_Result>("[DBDataContext].[F_NotificationTypes](@Language)", languageParameter);
+        }
+    
+        [DbFunction("DBDataContext", "F_Nurses")]
+        public virtual IQueryable<F_Nurses_Result> F_Nurses(string personnelUserName)
+        {
+            var personnelUserNameParameter = personnelUserName != null ?
+                new ObjectParameter("PersonnelUserName", personnelUserName) :
+                new ObjectParameter("PersonnelUserName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_Nurses_Result>("[DBDataContext].[F_Nurses](@PersonnelUserName)", personnelUserNameParameter);
+        }
+    
+        [DbFunction("DBDataContext", "F_NurseWorkLoad")]
+        public virtual IQueryable<F_NurseWorkLoad_Result> F_NurseWorkLoad(Nullable<int> taskID)
+        {
+            var taskIDParameter = taskID.HasValue ?
+                new ObjectParameter("TaskID", taskID) :
+                new ObjectParameter("TaskID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_NurseWorkLoad_Result>("[DBDataContext].[F_NurseWorkLoad](@TaskID)", taskIDParameter);
         }
     
         [DbFunction("DBDataContext", "F_Patients")]
@@ -99,13 +139,25 @@ namespace HMS.Models
         }
     
         [DbFunction("DBDataContext", "F_ViewTasks")]
-        public virtual IQueryable<F_ViewTasks_Result> F_ViewTasks(string language)
+        public virtual IQueryable<F_ViewTasks_Result> F_ViewTasks(string language, string doctor_UID, string hNurse_UID, string nurse_UID)
         {
             var languageParameter = language != null ?
                 new ObjectParameter("Language", language) :
                 new ObjectParameter("Language", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_ViewTasks_Result>("[DBDataContext].[F_ViewTasks](@Language)", languageParameter);
+            var doctor_UIDParameter = doctor_UID != null ?
+                new ObjectParameter("Doctor_UID", doctor_UID) :
+                new ObjectParameter("Doctor_UID", typeof(string));
+    
+            var hNurse_UIDParameter = hNurse_UID != null ?
+                new ObjectParameter("HNurse_UID", hNurse_UID) :
+                new ObjectParameter("HNurse_UID", typeof(string));
+    
+            var nurse_UIDParameter = nurse_UID != null ?
+                new ObjectParameter("Nurse_UID", nurse_UID) :
+                new ObjectParameter("Nurse_UID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_ViewTasks_Result>("[DBDataContext].[F_ViewTasks](@Language, @Doctor_UID, @HNurse_UID, @Nurse_UID)", languageParameter, doctor_UIDParameter, hNurse_UIDParameter, nurse_UIDParameter);
         }
     
         public virtual ObjectResult<Nullable<int>> SP_Authenticate(string userName, string password, ObjectParameter isAuthenticated)
@@ -130,7 +182,29 @@ namespace HMS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SP_GetRoles", userNameParameter);
         }
     
-        public virtual ObjectResult<Nullable<int>> SP_Tasks_Add(Nullable<int> typeID, Nullable<int> patientID, Nullable<int> priorityID, string instr, Nullable<int> creator_ID, ObjectParameter newTaskID)
+        public virtual ObjectResult<Nullable<int>> SP_GetUserID(string userName)
+        {
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_GetUserID", userNameParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> SP_Task_Assign(Nullable<int> taskID, Nullable<int> nurseID)
+        {
+            var taskIDParameter = taskID.HasValue ?
+                new ObjectParameter("TaskID", taskID) :
+                new ObjectParameter("TaskID", typeof(int));
+    
+            var nurseIDParameter = nurseID.HasValue ?
+                new ObjectParameter("NurseID", nurseID) :
+                new ObjectParameter("NurseID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Task_Assign", taskIDParameter, nurseIDParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> SP_Tasks_Add(Nullable<int> typeID, Nullable<int> patientID, Nullable<int> priorityID, string instr, string creator_Name, ObjectParameter newTaskID)
         {
             var typeIDParameter = typeID.HasValue ?
                 new ObjectParameter("TypeID", typeID) :
@@ -148,11 +222,11 @@ namespace HMS.Models
                 new ObjectParameter("Instr", instr) :
                 new ObjectParameter("Instr", typeof(string));
     
-            var creator_IDParameter = creator_ID.HasValue ?
-                new ObjectParameter("Creator_ID", creator_ID) :
-                new ObjectParameter("Creator_ID", typeof(int));
+            var creator_NameParameter = creator_Name != null ?
+                new ObjectParameter("Creator_Name", creator_Name) :
+                new ObjectParameter("Creator_Name", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Tasks_Add", typeIDParameter, patientIDParameter, priorityIDParameter, instrParameter, creator_IDParameter, newTaskID);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Tasks_Add", typeIDParameter, patientIDParameter, priorityIDParameter, instrParameter, creator_NameParameter, newTaskID);
         }
     
         public virtual ObjectResult<Nullable<int>> SP_Tasks_Delete(Nullable<int> taskID)
@@ -183,68 +257,6 @@ namespace HMS.Models
                 new ObjectParameter("Comment", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Tasks_Report", taskIDParameter, statusIDParameter, attachmentParameter, commentParameter);
-        }
-    
-        public virtual ObjectResult<Nullable<int>> SP_GetUserID(string userName)
-        {
-            var userNameParameter = userName != null ?
-                new ObjectParameter("UserName", userName) :
-                new ObjectParameter("UserName", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_GetUserID", userNameParameter);
-        }
-    
-        [DbFunction("DBDataContext", "F_NurseWorkLoad")]
-        public virtual IQueryable<F_NurseWorkLoad_Result> F_NurseWorkLoad(Nullable<int> taskID)
-        {
-            var taskIDParameter = taskID.HasValue ?
-                new ObjectParameter("TaskID", taskID) :
-                new ObjectParameter("TaskID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_NurseWorkLoad_Result>("[DBDataContext].[F_NurseWorkLoad](@TaskID)", taskIDParameter);
-        }
-    
-        public virtual ObjectResult<Nullable<int>> SP_Task_Assign(Nullable<int> taskID, Nullable<int> nurseID)
-        {
-            var taskIDParameter = taskID.HasValue ?
-                new ObjectParameter("TaskID", taskID) :
-                new ObjectParameter("TaskID", typeof(int));
-    
-            var nurseIDParameter = nurseID.HasValue ?
-                new ObjectParameter("NurseID", nurseID) :
-                new ObjectParameter("NurseID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Task_Assign", taskIDParameter, nurseIDParameter);
-        }
-    
-        [DbFunction("DBDataContext", "F_AllPatients")]
-        public virtual IQueryable<F_AllPatients_Result> F_AllPatients(string personnelUserName)
-        {
-            var personnelUserNameParameter = personnelUserName != null ?
-                new ObjectParameter("PersonnelUserName", personnelUserName) :
-                new ObjectParameter("PersonnelUserName", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_AllPatients_Result>("[DBDataContext].[F_AllPatients](@PersonnelUserName)", personnelUserNameParameter);
-        }
-    
-        [DbFunction("DBDataContext", "F_Nurses")]
-        public virtual IQueryable<F_Nurses_Result> F_Nurses(string personnelUserName)
-        {
-            var personnelUserNameParameter = personnelUserName != null ?
-                new ObjectParameter("PersonnelUserName", personnelUserName) :
-                new ObjectParameter("PersonnelUserName", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_Nurses_Result>("[DBDataContext].[F_Nurses](@PersonnelUserName)", personnelUserNameParameter);
-        }
-    
-        [DbFunction("DBDataContext", "F_HistoryTasks")]
-        public virtual IQueryable<F_HistoryTasks_Result> F_HistoryTasks(string language)
-        {
-            var languageParameter = language != null ?
-                new ObjectParameter("Language", language) :
-                new ObjectParameter("Language", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_HistoryTasks_Result>("[DBDataContext].[F_HistoryTasks](@Language)", languageParameter);
         }
     }
 }

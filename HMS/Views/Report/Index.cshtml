@@ -26,7 +26,7 @@
     }
 </style>
 
-@using (Html.BeginForm("Add", "Report", FormMethod.Post, new { @class = "form-horizontal" }))
+@using (Html.BeginForm("Add", "Report", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <fieldset>
         <legend>@ViewData.Model.Dictionary["%Report_Label_Task"] @ViewData.Model.Details.ID</legend>
@@ -72,7 +72,7 @@
         </div>
 
         <div class="row">
-            <div class="col-xs-12"><span class="btn btn-default btn-file"><span class="glyphicon glyphicon-paperclip"></span><input type="file" name="attachment"></span>  <span id="file-path" style="color: #0000c9"></span></div>
+            <div class="col-xs-12"><span class="btn btn-default btn-file"><span class="glyphicon glyphicon-paperclip"></span><input type="file" id="file" name="file"></span>  <span id="file-path" style="color: #0000c9"></span></div>
         </div>
 
         <div class="row form-group">

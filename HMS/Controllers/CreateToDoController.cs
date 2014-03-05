@@ -64,12 +64,11 @@ namespace HMS
                         {
                             var output = new ObjectParameter("NewTaskID", typeof(int));
                             //change 1 to insert current user id
-                            int? result = DB.SP_Tasks_Add(ti.TaskID, model.PatientID, ti.Importance, ti.Value, User.Identity.Name, output).First();
+                            int? result = DB.SP_Tasks_Add(ti.TaskID, model.PatientID, ti.Importance, ti.Value, User.Identity.Name, ti.NotificationType, output).First();
 
                             if (result.HasValue && result == 0)
                             {
-                                // Insert successful => Add notification rules using output.Value
-
+                                // Insert successful 
                             }
                         }
                     }

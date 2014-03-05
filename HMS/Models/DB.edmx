@@ -248,6 +248,7 @@
           <Parameter Name="PriorityID" Type="int" Mode="In" />
           <Parameter Name="Instr" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="Creator_Name" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="NotificationType" Type="int" Mode="In" />
           <Parameter Name="NewTaskID" Type="int" Mode="InOut" />
         </Function>
         <Function Name="SP_Tasks_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -441,6 +442,7 @@
             <Parameter Name="PriorityID" Mode="In" Type="Int32" />
             <Parameter Name="Instr" Mode="In" Type="String" />
             <Parameter Name="Creator_Name" Mode="In" Type="String" />
+            <Parameter Name="NotificationType" Mode="In" Type="Int32" />
             <Parameter Name="NewTaskID" Mode="InOut" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_Tasks_Delete" ReturnType="Collection(Int32)">
@@ -474,6 +476,12 @@
           <FunctionImport Name="F_ViewNotifications" IsComposable="true" ReturnType="Collection(HMS.Models.F_ViewNotifications_Result)">
             <Parameter Name="Language" Mode="In" Type="String" />
             <Parameter Name="UID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_NotificationRules_Add" ReturnType="Collection(Int32)">
+            <Parameter Name="TaskID" Mode="In" Type="Int32" />
+            <Parameter Name="ReceiverUID" Mode="In" Type="String" />
+            <Parameter Name="NotificationType" Mode="In" Type="Int32" />
+            <Parameter Name="NewNotificationRuleID" Mode="InOut" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="F_FollowedPatients_Result">

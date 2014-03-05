@@ -208,7 +208,7 @@ namespace HMS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Task_Assign", taskIDParameter, nurseIDParameter, personnel_UIDParameter);
         }
     
-        public virtual ObjectResult<Nullable<int>> SP_Tasks_Add(Nullable<int> typeID, Nullable<int> patientID, Nullable<int> priorityID, string instr, string creator_Name, ObjectParameter newTaskID)
+        public virtual ObjectResult<Nullable<int>> SP_Tasks_Add(Nullable<int> typeID, Nullable<int> patientID, Nullable<int> priorityID, string instr, string creator_Name, Nullable<int> notificationType, ObjectParameter newTaskID)
         {
             var typeIDParameter = typeID.HasValue ?
                 new ObjectParameter("TypeID", typeID) :
@@ -230,7 +230,11 @@ namespace HMS.Models
                 new ObjectParameter("Creator_Name", creator_Name) :
                 new ObjectParameter("Creator_Name", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Tasks_Add", typeIDParameter, patientIDParameter, priorityIDParameter, instrParameter, creator_NameParameter, newTaskID);
+            var notificationTypeParameter = notificationType.HasValue ?
+                new ObjectParameter("NotificationType", notificationType) :
+                new ObjectParameter("NotificationType", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Tasks_Add", typeIDParameter, patientIDParameter, priorityIDParameter, instrParameter, creator_NameParameter, notificationTypeParameter, newTaskID);
         }
     
         public virtual ObjectResult<Nullable<int>> SP_Tasks_Delete(Nullable<int> taskID)
@@ -340,6 +344,23 @@ namespace HMS.Models
                 new ObjectParameter("UID", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_ViewNotifications_Result>("[DBDataContext].[F_ViewNotifications](@Language, @UID)", languageParameter, uIDParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> SP_NotificationRules_Add(Nullable<int> taskID, string receiverUID, Nullable<int> notificationType, ObjectParameter newNotificationRuleID)
+        {
+            var taskIDParameter = taskID.HasValue ?
+                new ObjectParameter("TaskID", taskID) :
+                new ObjectParameter("TaskID", typeof(int));
+    
+            var receiverUIDParameter = receiverUID != null ?
+                new ObjectParameter("ReceiverUID", receiverUID) :
+                new ObjectParameter("ReceiverUID", typeof(string));
+    
+            var notificationTypeParameter = notificationType.HasValue ?
+                new ObjectParameter("NotificationType", notificationType) :
+                new ObjectParameter("NotificationType", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_NotificationRules_Add", taskIDParameter, receiverUIDParameter, notificationTypeParameter, newNotificationRuleID);
         }
     }
 }

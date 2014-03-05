@@ -8,10 +8,24 @@
 
 <div class="row">
     <div class="col-sm-12">
-        @foreach (Notifications.NotifItem nt in ViewData.Model.Items)
-        {
-            <div class="notification-list" data-id="@nt.id">@nt.Notification</div>
-        }
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Notification</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Notifications.NotifItem nt in ViewData.Model.Items)
+                {
+
+                    <tr data-id="@nt.id">
+                        <td> @nt.id</td>
+                        <td>@nt.Notification</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
 

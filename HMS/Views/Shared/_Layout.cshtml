@@ -48,12 +48,12 @@
                     <li><a href="@Url.Action("Index", "Filters")"><span class="glyphicon glyphicon-search"></span> @ViewBag.SearchBtn</a></li>
                     if (User.IsInRole("Doctor"))
                     {   
-                        <li><a href="@Url.Action("Index", "CreateToDo")"><span class="glyphicon glyphicon-eye-open"></span> @ViewBag.FollowBtn</a></li>
+                        <li><a href="@Url.Action("Index", "FollowPatient")"><span class="glyphicon glyphicon-eye-open"></span> @ViewBag.FollowBtn</a></li>
                         <li><a href="@Url.Action("Index", "CreateToDo")"><span class="glyphicon glyphicon-plus-sign"></span> @ViewBag.AddBtn</a></li> 
                     }
                     else if (User.IsInRole("Headnurse"))
                     {   
-                        <li><a href="@Url.Action("Index", "CreateToDo")"><span class="glyphicon glyphicon-eye-open"></span> @ViewBag.FollowBtn</a></li>
+                        <li><a href="@Url.Action("Index", "FollowPatient")"><span class="glyphicon glyphicon-eye-open"></span> @ViewBag.FollowBtn</a></li>
                     }                   
                     <li><a href="@Url.Action("Logout","Account")"><span class="glyphicon glyphicon-user"></span> @ViewBag.LogOut (<b>@User.Identity.Name</b>)</a></li> 
                 }             

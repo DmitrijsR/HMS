@@ -13,6 +13,14 @@
 }
 
 @section Scripts {
+
+<style>
+.glyphicon-remove-circl 
+{
+    cursor: pointer;
+    font-size: 1.2em;
+}
+</style>
 <script>
     $('div.tasktype').click(function (event) {
         var disabled = (event.target.getAttribute("data-hasinstr") == "False") ? "disabled" : "";
@@ -29,8 +37,6 @@
         $('select.notificationType-template').clone().attr('class', 'notificationType').appendTo('div.taskitem:last');
         
         $('.glyphicon-remove-circle').click(function (event) { $($(event.target).parent()).remove(); });
-        $('.glyphicon-remove-circle').css('cursor', 'pointer');
-        $('.glyphicon-remove-circle').css('font-size', '1.2em');
     });
 
     $('div.tasktype').hover(function () { $(this).css({ fontWeight: "bold" }); }, function () { $(this).css({ fontWeight: "normal" }); });

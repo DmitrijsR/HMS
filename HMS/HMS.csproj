@@ -209,6 +209,7 @@
       <DependentUpon>DB.edmx</DependentUpon>
       <LastGenOutput>DB.cs</LastGenOutput>
     </Content>
+    <Content Include="Views\FollowPatient\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -250,6 +251,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\FollowPatientController.cs" />
     <Compile Include="Controllers\CreateToDoController.cs" />
     <Compile Include="Controllers\FiltersController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
@@ -263,6 +265,7 @@
     <Compile Include="HMSAuthorizeAttribute.cs" />
     <Compile Include="HMSMempershipProvider.cs" />
     <Compile Include="HMSRoleProvider.cs" />
+    <Compile Include="Models\FollowPatient.cs" />
     <Compile Include="Models\DB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -283,6 +286,9 @@
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\F_Dictionary_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\F_FollowedPatients_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\F_HistoryTasks_Result.cs">

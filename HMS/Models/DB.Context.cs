@@ -258,5 +258,41 @@ namespace HMS.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Tasks_Report", taskIDParameter, statusIDParameter, attachmentParameter, commentParameter);
         }
+    
+        [DbFunction("DBDataContext", "F_FollowedPatients")]
+        public virtual IQueryable<F_FollowedPatients_Result> F_FollowedPatients(string personnel_UID)
+        {
+            var personnel_UIDParameter = personnel_UID != null ?
+                new ObjectParameter("Personnel_UID", personnel_UID) :
+                new ObjectParameter("Personnel_UID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_FollowedPatients_Result>("[DBDataContext].[F_FollowedPatients](@Personnel_UID)", personnel_UIDParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> SP_Follow_Patient(string personnel_UID, Nullable<int> patientID)
+        {
+            var personnel_UIDParameter = personnel_UID != null ?
+                new ObjectParameter("Personnel_UID", personnel_UID) :
+                new ObjectParameter("Personnel_UID", typeof(string));
+    
+            var patientIDParameter = patientID.HasValue ?
+                new ObjectParameter("PatientID", patientID) :
+                new ObjectParameter("PatientID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Follow_Patient", personnel_UIDParameter, patientIDParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> SP_Unfollow_Patient(string personnel_UID, Nullable<int> patient_ID)
+        {
+            var personnel_UIDParameter = personnel_UID != null ?
+                new ObjectParameter("Personnel_UID", personnel_UID) :
+                new ObjectParameter("Personnel_UID", typeof(string));
+    
+            var patient_IDParameter = patient_ID.HasValue ?
+                new ObjectParameter("Patient_ID", patient_ID) :
+                new ObjectParameter("Patient_ID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Unfollow_Patient", personnel_UIDParameter, patient_IDParameter);
+        }
     }
 }

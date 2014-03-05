@@ -30,6 +30,20 @@
             </CollectionType>
           </ReturnType>
         </Function>
+        <Function Name="F_FollowedPatients" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Personnel_UID" Type="nvarchar(max)" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="ID" Type="int" />
+                <Property Name="Name" Type="nvarchar(max)" />
+                <Property Name="Surname" Type="nvarchar(max)" />
+                <Property Name="SocialNr" Type="nvarchar(max)" />
+                <Property Name="Department" Type="nvarchar(max)" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
         <Function Name="F_HistoryTasks" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Language" Type="nchar" Mode="In" />
           <ReturnType>
@@ -201,6 +215,10 @@
           <Parameter Name="Password" Type="varchar" Mode="In" />
           <Parameter Name="IsAuthenticated" Type="int" Mode="InOut" />
         </Function>
+        <Function Name="SP_Follow_Patient" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Personnel_UID" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="PatientID" Type="int" Mode="In" />
+        </Function>
         <Function Name="SP_GetRoles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserName" Type="nvarchar(max)" Mode="In" />
         </Function>
@@ -227,6 +245,10 @@
           <Parameter Name="StatusID" Type="int" Mode="In" />
           <Parameter Name="Attachment" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="Comment" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="SP_Unfollow_Patient" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Personnel_UID" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Patient_ID" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="HMSModelsStoreContainer" />
       </Schema></edmx:StorageModels>
@@ -371,7 +393,7 @@
             <Parameter Name="Language" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="F_ViewTasks" ReturnType="Collection(HMS.Models.F_ViewTasks_Result)" IsComposable="true">
-          <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="Language" Mode="In" Type="String" />
             <Parameter Name="Doctor_UID" Mode="In" Type="String" />
             <Parameter Name="HNurse_UID" Mode="In" Type="String" />
             <Parameter Name="Nurse_UID" Mode="In" Type="String" />
@@ -408,7 +430,25 @@
             <Parameter Name="Attachment" Mode="In" Type="String" />
             <Parameter Name="Comment" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="F_FollowedPatients" IsComposable="true" ReturnType="Collection(HMS.Models.F_FollowedPatients_Result)">
+          <Parameter Name="Personnel_UID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Follow_Patient" ReturnType="Collection(Int32)">
+            <Parameter Name="Personnel_UID" Mode="In" Type="String" />
+            <Parameter Name="PatientID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Unfollow_Patient" ReturnType="Collection(Int32)">
+            <Parameter Name="Personnel_UID" Mode="In" Type="String" />
+            <Parameter Name="Patient_ID" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="F_FollowedPatients_Result">
+          <Property Type="Int32" Name="ID" Nullable="true" />
+          <Property Type="String" Name="Name" Nullable="true" />
+          <Property Type="String" Name="Surname" Nullable="true" />
+          <Property Type="String" Name="SocialNr" Nullable="true" />
+          <Property Type="String" Name="Department" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -574,6 +614,19 @@
           <FunctionImportMapping FunctionImportName="SP_Tasks_Add" FunctionName="HMS.Models.Store.SP_Tasks_Add" />
           <FunctionImportMapping FunctionImportName="SP_Tasks_Delete" FunctionName="HMS.Models.Store.SP_Tasks_Delete" />
           <FunctionImportMapping FunctionImportName="SP_Tasks_Report" FunctionName="HMS.Models.Store.SP_Tasks_Report" />
+          <FunctionImportMapping FunctionImportName="F_FollowedPatients" FunctionName="HMS.Models.Store.F_FollowedPatients">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HMS.Models.F_FollowedPatients_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="SocialNr" ColumnName="SocialNr" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Follow_Patient" FunctionName="HMS.Models.Store.SP_Follow_Patient" />
+          <FunctionImportMapping FunctionImportName="SP_Unfollow_Patient" FunctionName="HMS.Models.Store.SP_Unfollow_Patient" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

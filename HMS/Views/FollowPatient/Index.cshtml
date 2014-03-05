@@ -1,0 +1,117 @@
+﻿@model  HMS.Models.FollowPatient
+@{
+    ViewBag.Title = "Follow Patient";
+    ViewBag.UserName = ViewData.Model.Dictionary["%UserName_Lbl"];
+    ViewBag.Password = ViewData.Model.Dictionary["%Password_Lbl"];
+    ViewBag.Submit = ViewData.Model.Dictionary["%Login_Btn"];
+
+    ViewBag.UserNamePlaceHolder = ViewData.Model.Dictionary["%UserName_PlHold"];
+    ViewBag.PasswordPlaceHolder = ViewData.Model.Dictionary["%Password_PlHold"];
+
+    string retUrl = "";
+
+    if (ViewContext.HttpContext.Request.UrlReferrer != null)
+    {
+      retUrl = ViewContext.HttpContext.Request.UrlReferrer.PathAndQuery;
+    }
+}
+
+@section Scripts
+{
+<style>
+.glyphicon-remove-circle
+{
+    cursor: pointer;
+    font-size: 1.2em;
+}
+</style>
+
+    <script>
+        $('.glyphicon-remove-circle').click(function (event) { $($(event.target).parent()).remove(); });
+        function followPatient()
+        {
+            var eSelect = document.getElementById("selectPatients");
+           
+            var exists = false;
+            $('.followedPatient').each(function ()
+            {
+                if ($(this).attr("data-id") == eSelect.options[eSelect.selectedIndex].value)
+                {
+                    exists = true;
+                }
+            });
+            if (!exists)
+            {
+                $('.CurrFollowedPatients').append
+                (
+                    "<div class=\"followedPatient\" data-id=\"" + eSelect.options[eSelect.selectedIndex].value + "\">" +
+                        "<span class=\"glyphicon glyphicon-remove-circle\"></span>&nbsp;" + 
+                        eSelect.options[eSelect.selectedIndex].text +
+                        "<input type=\"hidden\" value=\"" + eSelect.options[eSelect.selectedIndex].value +"\" name=\"CurrFollowedPatients[-1].ID\"></input>" +
+                    "</div>"
+                );
+            }
+        };
+        
+        function indexes() {
+            var counter = 0;
+            $('div.followedPatient').each(function () {
+                $(this).children().attr("name", function (i, attr) {
+                    var new_value = attr || '';
+                    return (new_value == '') ? undefined : attr.replace('-1', counter);
+                });
+                counter++;
+            });
+
+            var counterPrev = 0;
+            $('div.prevfollowedPatient').each(function () {
+                $(this).children().attr("name", function (i, attr) {
+                    var new_value = attr || '';
+                    return (new_value == '') ? undefined : attr.replace('-1', counterPrev);
+                });
+                counterPrev++;
+            });
+        };
+        $("#items-status").addClass("hidden");
+    </script>
+}
+
+<form action="/FollowPatient/Follow" method="post" class="form-horizontal" style="margin-top: 2em">
+    <div class="row">
+        <div class="col-sm-3 col-sm-offset-3">
+            <label>Followed Patients:</label>
+                <div class="CurrFollowedPatients" name="CurrFollowedPatients">
+                @foreach (var  tt in ViewData.Model.CurrFollowedPatients)
+                {
+                    <div class="followedPatient" name="CurrFollowedPatients[-1]" data-id="@tt.ID"><span class="glyphicon glyphicon-remove-circle"></span> @tt.Name<input type="hidden" value="@tt.ID" name="CurrFollowedPatients[-1].ID" ></input></div>
+                }
+                </div>
+           
+        </div>
+        <div class="col-sm-6 ">
+            <div class="form-group">
+                <label>Patients:</label>
+                <select id="selectPatients" name="Patients" data-val="true" data-val-number="The field Priority must be a number." data-val-required="The Priority field is required.">
+                @foreach (SelectListItem pt in ViewData.Model.Patients)
+                {
+                    <option id="selectPatient" class="selectPatient" value="@pt.Value" onclick="followPatient()">@pt.Text</option>
+                }
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-10 col-sm-offset-2">
+            <div class="form-group">
+                <button class="btn-default btn pull-right" type="submit" onclick="indexes()">@ViewData.Model.Dictionary["%FollowPatient_Btn"]</button>
+            </div>
+        </div> 
+        <div name="PrevFollowedPatients[-1].Value" class="hidden">
+            @foreach (var  tt in ViewData.Model.PrevFollowedPatients)
+            {
+               <div class="prevfollowedPatient"> <input type="hidden" name="PrevFollowedPatients[-1].ID" value="@tt.ID" data-id="@tt.ID"></input></div>
+            }
+        </div>
+    </div>
+</form>
+
+
+

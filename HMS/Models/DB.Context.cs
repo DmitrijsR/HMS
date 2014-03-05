@@ -327,5 +327,19 @@ namespace HMS.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Tasks_Edit", taskIDParameter, statusIDParameter, priorityIDParameter, instructionsParameter, personnel_UIDParameter);
         }
+    
+        [DbFunction("DBDataContext", "F_ViewNotifications")]
+        public virtual IQueryable<F_ViewNotifications_Result> F_ViewNotifications(string language, string uID)
+        {
+            var languageParameter = language != null ?
+                new ObjectParameter("Language", language) :
+                new ObjectParameter("Language", typeof(string));
+    
+            var uIDParameter = uID != null ?
+                new ObjectParameter("UID", uID) :
+                new ObjectParameter("UID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_ViewNotifications_Result>("[DBDataContext].[F_ViewNotifications](@Language, @UID)", languageParameter, uIDParameter);
+        }
     }
 }

@@ -51,12 +51,12 @@
                     {   
                         <li><a href="@Url.Action("Index", "FollowPatient")"><span class="glyphicon glyphicon-eye-open"></span> @ViewBag.FollowBtn</a></li>
                         <li><a href="@Url.Action("Index", "CreateToDo")"><span class="glyphicon glyphicon-plus-sign"></span> @ViewBag.AddBtn</a></li>
-                        <li><a href="@Url.Action("Index", "ViewNotifications")"><span class="glyphicon glyphicon-globe"></span> @ViewBag.NotifBtn</a></li>
+                        <li><a href="@Url.Action("Index", "Notifications")"><span class="glyphicon glyphicon-globe"></span> @ViewBag.NotifBtn</a></li>
                     }
                     else if (User.IsInRole("Headnurse"))
                     {   
                         <li><a href="@Url.Action("Index", "FollowPatient")"><span class="glyphicon glyphicon-eye-open"></span> @ViewBag.FollowBtn</a></li>
-                        <li><a href="@Url.Action("Index", "ViewNotifications")"><span class="glyphicon glyphicon-globe"></span> @ViewBag.NotifBtn</a></li>
+                        <li><a href="@Url.Action("Index", "Notifications")"><span class="glyphicon glyphicon-globe"></span> @ViewBag.NotifBtn</a></li>
                     }                   
                     <li><a href="@Url.Action("Logout","Account")"><span class="glyphicon glyphicon-user"></span> @ViewBag.LogOut (<b>@User.Identity.Name</b>)</a></li> 
                 }             

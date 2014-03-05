@@ -1,0 +1,17 @@
+﻿@using HMS.Models;
+@model Notifications
+
+@{
+    // Dictionary variables
+    ViewBag.Title = ViewData.Model.Dictionary["%Notifications_Title"];
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        @foreach (Notifications.NotifItem nt in ViewData.Model.Items)
+        {
+            <div class="notification-list" data-id="@nt.id">@nt.Notification</div>
+        }
+    </div>
+</div>
+

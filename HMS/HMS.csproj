@@ -210,6 +210,7 @@
       <LastGenOutput>DB.cs</LastGenOutput>
     </Content>
     <Content Include="Views\FollowPatient\Index.cshtml" />
+    <Content Include="Views\Notifications\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -254,6 +255,7 @@
     <Compile Include="Controllers\FollowPatientController.cs" />
     <Compile Include="Controllers\CreateToDoController.cs" />
     <Compile Include="Controllers\FiltersController.cs" />
+    <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\TaskAssignmentController.cs" />
     <Compile Include="Controllers\TaskDetailsController.cs" />
@@ -315,6 +317,9 @@
     <Compile Include="Models\F_TaskTypes_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\F_ViewNotifications_Result.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\F_ViewTaskDetails_Result.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
@@ -323,6 +328,7 @@
     </Compile>
     <Compile Include="Models\HMSUser.cs" />
     <Compile Include="Models\ItemID.cs" />
+    <Compile Include="Models\Notifications.cs" />
     <Compile Include="Models\ReportReq.cs" />
     <Compile Include="Models\TaskAssignment.cs" />
     <Compile Include="Models\TaskDetails.cs" />

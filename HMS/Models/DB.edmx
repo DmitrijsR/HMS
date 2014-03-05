@@ -155,6 +155,18 @@
             </CollectionType>
           </ReturnType>
         </Function>
+        <Function Name="F_ViewNotifications" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Language" Type="nchar" Mode="In" />
+          <Parameter Name="UID" Type="nvarchar(max)" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="ID" Type="int" />
+                <Property Name="Notification" Type="nvarchar(max)" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
         <Function Name="F_ViewTaskDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TaskID" Type="int" Mode="In" />
           <Parameter Name="Language" Type="nchar" Mode="In" />
@@ -459,6 +471,10 @@
             <Parameter Name="Instructions" Mode="In" Type="String" />
             <Parameter Name="Personnel_UID" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="F_ViewNotifications" IsComposable="true" ReturnType="Collection(HMS.Models.F_ViewNotifications_Result)">
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="UID" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="F_FollowedPatients_Result">
           <Property Type="Int32" Name="ID" Nullable="true" />
@@ -466,6 +482,10 @@
           <Property Type="String" Name="Surname" Nullable="true" />
           <Property Type="String" Name="SocialNr" Nullable="true" />
           <Property Type="String" Name="Department" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="F_ViewNotifications_Result">
+          <Property Type="Int32" Name="ID" Nullable="true" />
+          <Property Type="String" Name="Notification" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -646,6 +666,14 @@
           <FunctionImportMapping FunctionImportName="SP_Follow_Patient" FunctionName="HMS.Models.Store.SP_Follow_Patient" />
           <FunctionImportMapping FunctionImportName="SP_Unfollow_Patient" FunctionName="HMS.Models.Store.SP_Unfollow_Patient" />
           <FunctionImportMapping FunctionImportName="SP_Tasks_Edit" FunctionName="HMS.Models.Store.SP_Tasks_Edit" />
+          <FunctionImportMapping FunctionImportName="F_ViewNotifications" FunctionName="HMS.Models.Store.F_ViewNotifications">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HMS.Models.F_ViewNotifications_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Notification" ColumnName="Notification" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

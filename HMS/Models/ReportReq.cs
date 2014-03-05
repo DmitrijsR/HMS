@@ -10,7 +10,7 @@ namespace HMS.Models
         public int Task_ID { get; set; }
         public Status Details { get; set; }
         public string comment { get; set; }
-        public string attachment { get; set; }
+        public HttpPostedFileBase attachment { get; set; }
         public string IsEmergency { get; set; }
 
         public class Status

@@ -1,9 +1,11 @@
 ﻿using HMS.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+
 
 namespace HMS.Controllers
 {
@@ -74,14 +76,24 @@ namespace HMS.Controllers
 
             return View("Error", Error_model);
         }
-
-        public ActionResult Add(ReportReq Request)
+        [HttpPost]
+        public ActionResult Add(ReportReq Request, HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
             {
+
+                if (file != null && file.ContentLength > 0)
+                {
+                    // extract only the fielname
+                    var fileName = Path.GetFileName(file.FileName);
+                    // store the file inside ~/App_Data/uploads folder
+                    var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
+                    file.SaveAs(path);
+                }
+
                 using (var DB = new DBDataContext())
                 {
-                    int? result = DB.SP_Tasks_Report(Request.Task_ID, Request.Details.Status_ID, Request.attachment, Request.comment,User.Identity.Name).First();
+                    int? result = DB.SP_Tasks_Report(Request.Task_ID, Request.Details.Status_ID, Path.GetFileName(file.FileName), Request.comment, User.Identity.Name).First();
 
                     return RedirectToAction("Index", "ViewTasks");
                 }

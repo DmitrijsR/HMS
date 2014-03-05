@@ -101,7 +101,7 @@
             <select  name="Priority" data-val="true" data-val-number="The field Priority must be a number." data-val-required="The Priority field is required.">
             @foreach (SelectListItem pt in Model.PriorityTypes)
             {
-                if (@ViewData.Model.Details.Priority  == pt.Value) { selected = "selected"; } else { selected = ""; }
+                if (@ViewData.Model.Details.Priority  == pt.Text) { selected = "selected"; } else { selected = ""; }
                 <option value="@pt.Value" @selected>@pt.Text</option>
             }
             </select>
@@ -116,7 +116,7 @@
             <select  name="Status" data-val="true" data-val-number="The field Priority must be a number." data-val-required="The Priority field is required.">     
             @foreach (SelectListItem pt in Model.StatusTypes)
             {
-                if(@ViewData.Model.Details.Status  == pt.Value) { selected = "selected"; } else { selected = ""; }
+                if(@ViewData.Model.Details.Status  == pt.Text) { selected = "selected"; } else { selected = ""; }
                 <option value="@pt.Value" @selected>@pt.Text</option>
             }
             </select>

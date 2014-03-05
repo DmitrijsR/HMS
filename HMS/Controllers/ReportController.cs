@@ -81,7 +81,7 @@ namespace HMS.Controllers
             {
                 using (var DB = new DBDataContext())
                 {
-                    int? result = DB.SP_Tasks_Report(Request.Task_ID, Request.Details.Status_ID, Request.attachment, Request.comment).First();
+                    int? result = DB.SP_Tasks_Report(Request.Task_ID, Request.Details.Status_ID, Request.attachment, Request.comment,User.Identity.Name).First();
 
                     return RedirectToAction("Index", "ViewTasks");
                 }

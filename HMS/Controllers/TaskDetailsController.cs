@@ -73,5 +73,18 @@ namespace HMS.Controllers
 
             return View("Error", Error_model);
         }
+
+
+        public ActionResult Edit(int Task_ID, string Instructions, int Priority, int Status)
+        {
+            if (ModelState.IsValid)
+            {
+                using (var DB = new DBDataContext())
+                {
+                    DB.SP_Tasks_Edit(Task_ID, Status, Priority, Instructions, User.Identity.Name);
+                }
+            }
+            return RedirectToAction("Index", "ViewTasks");
+        }
 	}
 }

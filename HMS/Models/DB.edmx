@@ -228,6 +228,7 @@
         <Function Name="SP_Task_Assign" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TaskID" Type="int" Mode="In" />
           <Parameter Name="NurseID" Type="int" Mode="In" />
+          <Parameter Name="Personnel_UID" Type="nvarchar(max)" Mode="In" />
         </Function>
         <Function Name="SP_Tasks_Add" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TypeID" Type="int" Mode="In" />
@@ -240,11 +241,19 @@
         <Function Name="SP_Tasks_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TaskID" Type="int" Mode="In" />
         </Function>
+        <Function Name="SP_Tasks_Edit" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TaskID" Type="int" Mode="In" />
+          <Parameter Name="StatusID" Type="int" Mode="In" />
+          <Parameter Name="PriorityID" Type="int" Mode="In" />
+          <Parameter Name="Instructions" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Personnel_UID" Type="nvarchar(max)" Mode="In" />
+        </Function>
         <Function Name="SP_Tasks_Report" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TaskID" Type="int" Mode="In" />
           <Parameter Name="StatusID" Type="int" Mode="In" />
           <Parameter Name="Attachment" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="Comment" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Personnel_UID" Type="nvarchar(max)" Mode="In" />
         </Function>
         <Function Name="SP_Unfollow_Patient" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Personnel_UID" Type="nvarchar(max)" Mode="In" />
@@ -412,6 +421,7 @@
           <FunctionImport Name="SP_Task_Assign" ReturnType="Collection(Int32)">
             <Parameter Name="TaskID" Mode="In" Type="Int32" />
             <Parameter Name="NurseID" Mode="In" Type="Int32" />
+            <Parameter Name="Personnel_UID" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_Tasks_Add" ReturnType="Collection(Int32)">
             <Parameter Name="TypeID" Mode="In" Type="Int32" />
@@ -429,6 +439,7 @@
             <Parameter Name="StatusID" Mode="In" Type="Int32" />
             <Parameter Name="Attachment" Mode="In" Type="String" />
             <Parameter Name="Comment" Mode="In" Type="String" />
+            <Parameter Name="Personnel_UID" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="F_FollowedPatients" IsComposable="true" ReturnType="Collection(HMS.Models.F_FollowedPatients_Result)">
           <Parameter Name="Personnel_UID" Mode="In" Type="String" />
@@ -440,6 +451,13 @@
           <FunctionImport Name="SP_Unfollow_Patient" ReturnType="Collection(Int32)">
             <Parameter Name="Personnel_UID" Mode="In" Type="String" />
             <Parameter Name="Patient_ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Tasks_Edit" ReturnType="Collection(Int32)">
+            <Parameter Name="TaskID" Mode="In" Type="Int32" />
+            <Parameter Name="StatusID" Mode="In" Type="Int32" />
+            <Parameter Name="PriorityID" Mode="In" Type="Int32" />
+            <Parameter Name="Instructions" Mode="In" Type="String" />
+            <Parameter Name="Personnel_UID" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="F_FollowedPatients_Result">
@@ -627,6 +645,7 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_Follow_Patient" FunctionName="HMS.Models.Store.SP_Follow_Patient" />
           <FunctionImportMapping FunctionImportName="SP_Unfollow_Patient" FunctionName="HMS.Models.Store.SP_Unfollow_Patient" />
+          <FunctionImportMapping FunctionImportName="SP_Tasks_Edit" FunctionName="HMS.Models.Store.SP_Tasks_Edit" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

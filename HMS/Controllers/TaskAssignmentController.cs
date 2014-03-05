@@ -42,7 +42,7 @@ namespace HMS.Controllers
                 using (var DB = new DBDataContext())
                 {
                     // a control might be added, whether the correct headnurse is assigning
-                    int? result = DB.SP_Task_Assign(AssignedNurse.TaskID,AssignedNurse.ResponsibleCurrent).First();
+                    int? result = DB.SP_Task_Assign(AssignedNurse.TaskID,AssignedNurse.ResponsibleCurrent,User.Identity.Name).First();
                     return RedirectToAction("Index", "ViewTasks");
                 }
             }

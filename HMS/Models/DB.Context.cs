@@ -191,7 +191,7 @@ namespace HMS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_GetUserID", userNameParameter);
         }
     
-        public virtual ObjectResult<Nullable<int>> SP_Task_Assign(Nullable<int> taskID, Nullable<int> nurseID)
+        public virtual ObjectResult<Nullable<int>> SP_Task_Assign(Nullable<int> taskID, Nullable<int> nurseID, string personnel_UID)
         {
             var taskIDParameter = taskID.HasValue ?
                 new ObjectParameter("TaskID", taskID) :
@@ -201,7 +201,11 @@ namespace HMS.Models
                 new ObjectParameter("NurseID", nurseID) :
                 new ObjectParameter("NurseID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Task_Assign", taskIDParameter, nurseIDParameter);
+            var personnel_UIDParameter = personnel_UID != null ?
+                new ObjectParameter("Personnel_UID", personnel_UID) :
+                new ObjectParameter("Personnel_UID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Task_Assign", taskIDParameter, nurseIDParameter, personnel_UIDParameter);
         }
     
         public virtual ObjectResult<Nullable<int>> SP_Tasks_Add(Nullable<int> typeID, Nullable<int> patientID, Nullable<int> priorityID, string instr, string creator_Name, ObjectParameter newTaskID)
@@ -238,7 +242,7 @@ namespace HMS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Tasks_Delete", taskIDParameter);
         }
     
-        public virtual ObjectResult<Nullable<int>> SP_Tasks_Report(Nullable<int> taskID, Nullable<int> statusID, string attachment, string comment)
+        public virtual ObjectResult<Nullable<int>> SP_Tasks_Report(Nullable<int> taskID, Nullable<int> statusID, string attachment, string comment, string personnel_UID)
         {
             var taskIDParameter = taskID.HasValue ?
                 new ObjectParameter("TaskID", taskID) :
@@ -256,7 +260,11 @@ namespace HMS.Models
                 new ObjectParameter("Comment", comment) :
                 new ObjectParameter("Comment", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Tasks_Report", taskIDParameter, statusIDParameter, attachmentParameter, commentParameter);
+            var personnel_UIDParameter = personnel_UID != null ?
+                new ObjectParameter("Personnel_UID", personnel_UID) :
+                new ObjectParameter("Personnel_UID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Tasks_Report", taskIDParameter, statusIDParameter, attachmentParameter, commentParameter, personnel_UIDParameter);
         }
     
         [DbFunction("DBDataContext", "F_FollowedPatients")]
@@ -293,6 +301,31 @@ namespace HMS.Models
                 new ObjectParameter("Patient_ID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Unfollow_Patient", personnel_UIDParameter, patient_IDParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> SP_Tasks_Edit(Nullable<int> taskID, Nullable<int> statusID, Nullable<int> priorityID, string instructions, string personnel_UID)
+        {
+            var taskIDParameter = taskID.HasValue ?
+                new ObjectParameter("TaskID", taskID) :
+                new ObjectParameter("TaskID", typeof(int));
+    
+            var statusIDParameter = statusID.HasValue ?
+                new ObjectParameter("StatusID", statusID) :
+                new ObjectParameter("StatusID", typeof(int));
+    
+            var priorityIDParameter = priorityID.HasValue ?
+                new ObjectParameter("PriorityID", priorityID) :
+                new ObjectParameter("PriorityID", typeof(int));
+    
+            var instructionsParameter = instructions != null ?
+                new ObjectParameter("Instructions", instructions) :
+                new ObjectParameter("Instructions", typeof(string));
+    
+            var personnel_UIDParameter = personnel_UID != null ?
+                new ObjectParameter("Personnel_UID", personnel_UID) :
+                new ObjectParameter("Personnel_UID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Tasks_Edit", taskIDParameter, statusIDParameter, priorityIDParameter, instructionsParameter, personnel_UIDParameter);
         }
     }
 }

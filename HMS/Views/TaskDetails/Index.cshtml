@@ -2,13 +2,49 @@
 @model TaskDetails
 @{
     Layout = null;
-
+    var selected="";
     var Responsible = "";
 }
 <!-- UI dialog was not showing closing icon: download it from:-->
     <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-@using (Html.BeginForm("Index", "TaskEditor", FormMethod.Post, new { @class = "form-horizontal" }))
+    <script>
+        function edit_task() {
+            
+            document.getElementById("editor").style.display = "none";
+
+            document.getElementById("instructionsl").style.display = "none";
+            document.getElementById("priorityl").style.display = "none";
+            document.getElementById("statusl").style.display = "none";
+
+            document.getElementById("instructions").style.display = "block";
+            document.getElementById("priority").style.display = "block";
+            document.getElementById("status").style.display = "block";
+
+            document.getElementById("edit").style.display = "block";
+            document.getElementById("cancel").style.display = "block";
+
+        }
+
+        function edit_cancel() {
+            
+            document.getElementById("editor").style.display = "block";
+
+            document.getElementById("instructions").style.display = "none";
+            document.getElementById("priority").style.display = "none";
+            document.getElementById("status").style.display = "none";
+
+            document.getElementById("instructionsl").style.display = "block";
+            document.getElementById("priorityl").style.display = "block";
+            document.getElementById("statusl").style.display = "block";
+
+            document.getElementById("edit").style.display = "none";
+            document.getElementById("cancel").style.display = "none";
+
+        }
+
+    </script>
+@using (Html.BeginForm("Edit", "TaskDetails", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     if (@ViewData.Model.Details.Responsible_Surname == null) { Responsible = "None"; } else { Responsible = @ViewData.Model.Details.Responsible_Surname + " " + @ViewData.Model.Details.Responsible_Name + " (" + @ViewData.Model.Details.Responsible_Department + ")"; }
     <fieldset>
@@ -43,7 +79,7 @@
             <!-- edit button (based on role) -->
             @if(User.IsInRole("Doctor") || User.IsInRole("Headnurse"))
             {
-                <div class="col-xs-9"><button class="btn-default btn btn-editor" style="padding: 2px 8px;"><span class="glyphicon glyphicon-cog"></span></button></div>
+                <div id="editor" class="col-xs-9"><button class="btn-default btn btn-editor" style="padding: 2px 8px;" onclick="edit_task()"><span class="glyphicon glyphicon-cog"></span></button></div>
             }
         </div>
 
@@ -54,12 +90,38 @@
 
         <div class="row">
             <div class="col-xs-3 text-right"><label><small>@ViewData.Model.Dictionary["%Report_Label_Instructions"]</small></label></div>
-            <div id="instructions" class="col-xs-9">@ViewData.Model.Details.Instructions</div>
+            <div id="instructionsl" class="col-xs-9">@ViewData.Model.Details.Instructions</div>
+            <input name="Instructions" id="instructions" class="col-xs-9" style="display:none" value="@ViewData.Model.Details.Instructions">
+        </div>
+
+         <div class="row">
+            <div class="col-xs-3 text-right"><label><small>@ViewData.Model.Dictionary["%Report_Label_Priority"]</small></label></div>
+            <div id="priorityl" class="col-xs-9">@ViewData.Model.Details.Priority</div>
+            <div id="priority" style="display:none">
+            <select  name="Priority" data-val="true" data-val-number="The field Priority must be a number." data-val-required="The Priority field is required.">
+            @foreach (SelectListItem pt in Model.PriorityTypes)
+            {
+                if (@ViewData.Model.Details.Priority  == pt.Value) { selected = "selected"; } else { selected = ""; }
+                <option value="@pt.Value" @selected>@pt.Text</option>
+            }
+            </select>
+            </div>
+           <!-- <input name="Priority" type="text" id="priority" class="col-xs-3" style="display:none" value="@ViewData.Model.Details.Priority">-->
         </div>
 
         <div class="row">
             <div class="col-xs-3 text-right"><label><small>@ViewData.Model.Dictionary["%Report_Label_Status"]</small></label></div>
-            <div class="col-xs-9">@ViewData.Model.Details.Status</div>
+            <div id="statusl" class="col-xs-9">@ViewData.Model.Details.Status</div>
+            <div id="status" style="display:none">
+            <select  name="Status" data-val="true" data-val-number="The field Priority must be a number." data-val-required="The Priority field is required.">     
+            @foreach (SelectListItem pt in Model.StatusTypes)
+            {
+                if(@ViewData.Model.Details.Status  == pt.Value) { selected = "selected"; } else { selected = ""; }
+                <option value="@pt.Value" @selected>@pt.Text</option>
+            }
+            </select>
+            </div>            
+           <!-- <input name="Status" id="status"type="text" class="col-xs-3" style="display:none" value="@ViewData.Model.Details.Status">-->
         </div>
 
         <div class="row">
@@ -77,15 +139,20 @@
             <div class="col-xs-9">@Responsible           
             </div>
         </div>
+        <div class="row">
+                <div id="edit" class="col-xs-9" style="display:none"><button  type="submit" class="btn pull-right ">Edit</button></div>
+                <div id="cancel" class="col-xs-2 btn-cancel" style="display:none"><button  class="btn pull-right" onclick="edit_cancel()">Cancel</button></div>
+        </div>
     </fieldset>
+    
 }
 
 <script>
     $('.btn-editor').click(function (event) {
         event.preventDefault();
-
-        $(event.target).remove();
-        $('div#instruction').html('<input type="text" name="Instructions" />');
+    });
+    $('.btn-cancel').click(function (event) {
+        event.preventDefault();
     });
 </script>
 
